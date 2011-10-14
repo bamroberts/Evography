@@ -1,0 +1,1 @@
+This will be a delete view, probably just a confirm box.
