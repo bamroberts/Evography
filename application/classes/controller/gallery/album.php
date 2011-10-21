@@ -2,35 +2,62 @@
 
 class Controller_Gallery_Album extends Controller_Gallery_Album_Master {
 
-  //function before(){
-  //  parent::before();
-  //  
-  //}
+	function action_photobook(){
+	  $_REQUEST['current']['type']='photobook';
+	  $_REQUEST['current']['limit']=Arr::get($_REQUEST['current'],'limit',0);
+	  $setting=array(
+	    'photobook'=>array('height'=>260,'width'=>850),
+	  );
+	  $this->template->script_options->merge($setting);
+	  
+	  return $this->action_view();
+	}
 
 	function action_big(){
-	  $_REQUEST['current']['type']='album-big';
+	  $_REQUEST['current']['type']='big';
+	  $_REQUEST['current']['limit']=Arr::get($_REQUEST['current'],'limit',3);
 	  return $this->action_view();
 	}
 	
+	function action_grid(){
+	  $_REQUEST['current']['type']='grid';
+	  
+	  $_REQUEST['current']['limit']=($this->request->param('format')=='.part')?21:Arr::get($_REQUEST['current'],'limit',42);
+	  $setting=array(
+	    'preload'=>true,
+	  );
+	  $this->template->script_options->merge($setting);
+	  
+	  return $this->action_view();
+	}
+	
+  function action_slideshow(){
+	  $_REQUEST['current']['type']='slideshow';
+	  return $this->action_view();
+	}
+
+	
   function action_wall(){
-	  $_REQUEST['current']['type']='blocks/album-wall';
+	  $_REQUEST['current']['type']='wall';
 	  return $this->action_view();
 	}
 	
   function action_polaroid(){
-	  $_REQUEST['current']['type']='blocks/album-polaroid';
-	  $_REQUEST['current']['limit']=Arr::get($_REQUEST['current'],'limit',100);
-	  $_REQUEST['current']['height']=Arr::get($_REQUEST['current'],'height',500);
+	  $_REQUEST['current']['type']='polaroid';
+	  $_REQUEST['current']['limit']=($this->request->param('format')=='.part')?40:Arr::get($_REQUEST['current'],'limit',80);
+	  $_REQUEST['current']['height']=($this->request->param('format')=='.part')?300:Arr::get($_REQUEST['current'],'height',500);
+	  $js=array('fade'=>array('speed'=>10000),'drag'=>array('rain'=>true), 'lightbox'=>false, 'lazyload', 'scrollload');
+	  $this->template->script_options->merge($js);
 	  return $this->action_view();
 	}
 	
-  function action_book(){
-	  $_REQUEST['current']['type']='blocks/album-book';
+  function action_magazine(){
+	  $_REQUEST['current']['type']='magazine';
 	  
 	  //if not overridden set this to a multiple of 3
-	  $_REQUEST['current']['limit']=Arr::get($_REQUEST['current'],'limit',15);
-	 // $this->template->scripts=array('preloader, lightbox, lazyload, scrollload')
-	  $js=array('preloader'=>array('fade'=>true,'async'=>false), 'lightbox', 'lazyload', 'scrollload');
+	  $_REQUEST['current']['limit']=($this->request->param('format')=='.part')?6:Arr::get($_REQUEST['current'],'limit',15);
+	  $this->template->script_options->merge(array('lightbox'=>false,));
+
 	  //$this->template->js_load($js);
 	 
 	  return $this->action_view();

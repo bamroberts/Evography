@@ -32,6 +32,11 @@
             $this->request->action('offline');
             return; //no point in doing the rest.
           }   
+           
+          if (!$this->node->published) {
+            $this->request->action('fof');
+            return;
+          }
           
           //does this album require a password?
           if ($this->node->password->active){
@@ -64,15 +69,21 @@
          
           
          //add theme css and js 
-
+        
+         $this->template->script_options   = Config::instance()->load('javascript');
+         
          if($this->auto_render)
           {
+            //echo $this->request->param('root');
+            //echo $this->request->param('node');
             // Initialize empty values
-            $this->template->node            = $this->node;
-            $this->template->title            = '';
-            $this->template->description      = '';
-            $this->template->titlepart        = array();
-            $this->template->slideshownumber   = '';
+            $this->template->site             = $this->root;
+            $this->template->node             = $this->node;
+            $this->template->title            = $this->node->name;
+            $this->template->description      = $this->node->desc;
+            //$this->template->meta_keywords  = $this->node->tags;
+            $this->template->title_part        = array();
+            $this->template->slideshownumber  = '';
             $this->template->meta_keywords    = '';
             $this->template->meta_description = '';
             $this->template->meta_copywrite   = '';
@@ -84,9 +95,22 @@
             $this->template->styles           = array();
             $this->template->scripts          = array();
             $this->template->page_link=$this->request->url();
+            $this->template->breadcrumbs      = '';
           }
           //$this->user=ORM::factory('user')->where('username','=',$this->request->param('account'))->find();
 	    //if (!$this->user->id) { echo 'Name='.$this->request->param('user'); throw new HTTP_Exception_404('File not found!');}
+      }
+      
+      
+      public function breadcrumbs(){
+        //$tree=$this->node->parents;
+        return Theme::factory(array("{$this->theme}/blocks/breadcrumbs","default/blocks/breadcrumbs"))
+        ->bind('node',$this->node)
+        ->bind('root',$this->root); 
+              
+       //get url path Ben's - Weddings - Bry and Lukes - Image
+       //get bread crumbs ^ with links
+       //site map:
       }
  		
      /**
@@ -118,11 +142,16 @@ $scripts =array();
              // Add defaults to template variables.
              $this->template->styles  = array_merge($styles,$this->template->styles);
              $this->template->scripts = array_merge($scripts,$this->template->scripts);
-            if ($this->template->title== ''){
-              $this->template->titlepart[]="EVOGRAPHY";
-              $this->template->title.= join(array_reverse($this->template->titlepart),' - ');
-             }
+           // if ($this->template->title== ''){
+           //   $this->template->titlepart[]="EVOGRAPHY";
+           //   $this->template->title.= join(array_reverse($this->template->titlepart),' - ');
+           //  }
              $this->template->page=join($this->request->param(),' ');
+             
+             if (!$this->template->breadcrumbs) $this->template->breadcrumbs = $this->breadcrumbs();
+             $this->template->title = strip_tags($this->template->breadcrumbs);
+            
+          //  if (isset($this->asset)$this->template->node)
              
            }
             //echo debug::vars($this);

@@ -34,14 +34,50 @@ class Controller_Gallery_Image extends Master_Gallery {
       return;
     }
 		
+		
 	    $next= $image->next();
 	    $previous= $image->previous();
+    
+    $count=$image
+      		 ->comments
+      		 ->where('approved','=',1)
+      		 ->count_all();
+    
+    //Set album pagination values
+    $pagination = Pagination::factory(array(
+      'total_items'    => $count,
+      'items_per_page' => Arr::get($_REQUEST['current'],'limit',20),
+    ));
+		
+		   
+    $comments=$image
+      		 ->comments
+      		 ->where('approved','=',1)
+      		 ->limit($pagination->items_per_page)
+      		 ->offset($pagination->offset)
+      		 ->order_by('add_date','DESC')
+           ->find_all();        
+    
+    //$type =($album->type)?''.$album->type:'album';
+   // $type=$album->style->name?$album->style->name:'grid';
+   // $type=Arr::get($_REQUEST['current'],'type',$type);
+    $comment_block=Theme::factory(array("{$this->theme}/blocks/comments","default/blocks/comments"))
+    ->bind('comments',$comments)
+    ->bind('pagination',$pagination)
+    ;
+
         
-		$this->template->content = View::factory('image')
+		$this->template->content = Theme::factory(array("{$this->theme}/image","default/image"))
+
 			->bind('album', $album)
 			->bind('image', $image)
+			->bind('comments', $comment_block)
 			->bind('next',$next)
 			->bind('previous', $previous);
+  
+//  $this->ass=$image;
     
   }
+  
+  
 }

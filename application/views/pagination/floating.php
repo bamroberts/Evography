@@ -55,42 +55,46 @@ for ($i = $n7; $i <= $n8; $i++)
 }
 
 ?>
-<p class="pagination">
-
+<ul class="pagination">
+<li>
 	<?php if ($first_page !== FALSE): ?>
 		<a class='first text button' href="<?php echo HTML::chars($page->url($first_page)) ?>" rel="first"><span><?php echo __('First') ?></span></a>
 	<?php else: ?>
-		<span class='first text'><?php echo __('First') ?></span>
+		<span class='first text disabled'><?php echo __('First') ?></span>
 	<?php endif ?>
-
+</li>
+<li>
 	<?php if ($previous_page !== FALSE): ?>
 		<a class='previous text button' href="<?php echo HTML::chars($page->url($previous_page)) ?>" rel="prev"><span><?php echo __('Previous') ?></span></a>
 	<?php else: ?>
-		<span class='previous text'><?php echo __('Previous') ?></span>
+		<span class='previous text disabled'><?php echo __('Previous') ?></span>
 	<?php endif ?>
+</li>
 
 	<?php foreach ($links as $number => $content): ?>
-
+<li>
 		<?php if ($number === $current_page): ?>
 			<a class="current button hover" href="#"><span><?php echo $content ?></span></a>
 		<?php elseif ($content=='&hellip;'): ?>
-			<span><?php echo $content ?></span>
+			<span class="text disabled"><?php echo $content ?></span>
 		<?php else : ?>
 			<a class="button" href="<?php echo HTML::chars($page->url($number)) ?>"><span><?php echo $content ?></span></a>
 		<?php endif ?>
-
+</li>
 	<?php endforeach ?>
 
+<li>
 	<?php if ($next_page !== FALSE): ?><a 
 		<a class="next text button" href="<?php echo HTML::chars($page->url($next_page)) ?>" rel="next"><span><?php echo __('Next') ?></span></a>
 	<?php else: ?>
-		<span class="next text"><?php echo __('Next') ?></span>
+		<span class="next text disabled"><?php echo __('Next') ?></span>
 	<?php endif ?>
-
+</li>
+<li>
 	<?php if ($last_page !== FALSE): ?>
 		<a class="last text button" href="<?php echo HTML::chars($page->url($last_page)) ?>" rel="last"><span><?php echo __('Last') ?></span></a>
 	<?php else: ?>
-		<span class="last text"><?php echo __('Last') ?></span>
+		<span class="last text disabled"><?php echo __('Last') ?></span>
 	<?php endif ?>
-
-</p><!-- .pagination -->
+</li>
+</ul><!-- .pagination -->

@@ -103,7 +103,7 @@ Kohana::$config->attach(new Config_File);
 Kohana::modules(array(
 	 'auth'       => MODPATH.'auth',       // Basic authentication
 	 'cache'      => MODPATH.'cache',      // Caching with multiple backends
-	  // 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
+   'codebench'  => MODPATH.'codebench',  // Benchmarking tool
 	 'database'   => MODPATH.'database',   // Database access
 	 'image'      => MODPATH.'image',      // Image manipulation
 	 'orm'        => MODPATH.'orm',        // Object Relationship Mapping
@@ -118,7 +118,7 @@ Kohana::modules(array(
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
  */
- 	$route_conditions = array('id'=>'[a-zA-Z0-9_-]+','width'=>'[0-9]+','height'=>'[0-9]+','mode'=>'crop|fit|stretch|width|height','pin'=>'-tl|-t|-tr|-r|-br|-b|-bl|-l|-c','format'=>'jpg|png|gif');
+ 	$route_conditions = array('id'=>'[a-zA-Z0-9_-]+','width'=>'[0-9]+','height'=>'[0-9]+','mode'=>'crop|fit|stretch|width|height|flex','pin'=>'-tl|-t|-tr|-r|-br|-b|-bl|-l|-c','format'=>'jpg|png|gif');
 	ROUTE::set('image', 'images/dynamic/(<id>)(/<width>x<height>(x<mode>(<pin>)).<format>)',$route_conditions)
   ->defaults(array(
     'directory'  => 'system',

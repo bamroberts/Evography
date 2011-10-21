@@ -1,6 +1,8 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 class Model_Album_Core extends ORM_Tree {
+  protected $_where=array(array('AND' => array('published', '=', '1')));
+
   protected $_table_name = 'album_tree';
   
   protected $_has_many = array(

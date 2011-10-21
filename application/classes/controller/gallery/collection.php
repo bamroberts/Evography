@@ -3,10 +3,21 @@
 Class Controller_Gallery_Collection extends Master_Gallery {
 
 	
-	function action_index(){
+
+	
+	function action_index(){  
 	  return $this->action_view();
   }
+  
+  function action_grid(){
+    $this->style="grid";
+	  return $this->action_view();
+	}
 	
+	 function action_list(){
+	   $this->style="list";
+	  return $this->action_view();
+	}
 	
 	function action_view(){
 	  //$id=$this->request->param('node',$this->masternode);
@@ -27,33 +38,7 @@ Class Controller_Gallery_Collection extends Master_Gallery {
 		$this->template->collection_desc=$collection->desc;
 		$this->template->cover=$collection->cover;
 		
-		if ($collection->type=='gallery'){
-		  $this->template->content = Theme::factory(array($this->theme.'/gallery','default/gallery'))
-		  ->bind('sections',$sections)->bind('collection',$collection);
-		  
-		  $this->template->title=$collection->name;
-		  $this->template->meta_description=$collection->desc;
-		  
-		  $sections=array();
-		  $albums=$collection->children; 
-		  foreach ($albums as $key=>$album){
-		    $sections[$key]['name']="{$album->name}";
-		    $sections[$key]['factory']=Route::url($album->id,array('format'=>'.part'));
-		    
-		    
-		    
-		   // "/".$this->request->param('user')."/{$album->type}/view/{$album->id}";
-		    
-		    
-		    $sections[$key]['data']['multi']=true;
-		    if ($album->type=='album'){
-		      $sections[$key]['data']['limit']=40;
- 		      //$sections[$key]['data']['type']='images-smallgrid';
-		    }
-		  }
-		  return;
-		}
-		
+				
 		/*
 if ($collection->children==0 && $collection->albums->count_all()==1){
 		    $album_page = Request::factory('gallery/album/view/'.$collection->albums->find())->execute()->body();
@@ -66,13 +51,12 @@ if ($collection->children==0 && $collection->albums->count_all()==1){
 		
 		$children=$collection->children;
 		$albums=array(); 						
-		$this->template->content = View::factory('themes/default/collections')
-            ->bind('collection', $collection)
+		$this->template->content = Theme::factory(array("{$this->theme}/blocks/collection/{$this->style}","default/blocks/collection/{$this->style}"))
+      ->bind('collection', $collection)
 			->bind('children', $children)
 			->bind('albums', $albums)
 			->bind('pagination', $pagination);
 	}
-	
 }
 	?>
 

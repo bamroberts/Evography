@@ -10,4 +10,8 @@
  */
 class Date extends Kohana_Date {
   const MONTHS_LONG  = '%m - %B';
+  
+  static function long($date){
+     return Date::formatted_time($date,'D jS F');
+  }
 }

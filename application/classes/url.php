@@ -17,4 +17,21 @@ class Url extends Kohana_url {
   
   	return $clean;
   }
+  
+  static function canonical(){
+    return trim(Request::current()->url(),'/');
+  }
+  
+  static function page_id()  {
+    return str_replace('/','_',self::canonical());
+  }
+    
+  static function page_class() {
+   return str_replace('/',' ',self::canonical());
+  }  
+  
+  static function image($ext,$filehash=null,$width=100,$height=100,$format='fit'){
+    return "/images/dynamic/$filehash/{$width}x{$height}x{$format}.{$ext}";
+  }
+      
 }
