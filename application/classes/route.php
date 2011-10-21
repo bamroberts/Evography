@@ -3,10 +3,13 @@ defined('SYSPATH') or die('No direct script access.');
 
 class Route extends Kohana_route {
 
+public static function exists($name){
+    return isset(Route::$_routes[$name]);
+}
+
 static function inject( $routes=array() ){
     Route::$_routes=Arr::merge(Route::$_routes,$routes);
 }
-
 
 //function to get and cache long nested slugs routes.
 static function domain($domain=null) {
@@ -59,19 +62,23 @@ static function domain($domain=null) {
       $query=DB::query(Database::SELECT,$sql)->as_object()->execute();
       while ($route=$query->current()) {
          
+                  
+         
          $routes[$route->id] = new Route("{$route->path}$route_options", $route_conditions);
          $routes[$route->id]
            ->defaults( $settings +
               array (
                 'node'       => $route->id,
         		    'controller' => $route->type,
-        		    'action'     => $route->style,	
+        		    'action'     => $route->style,
+        		    'root'       => false,	
     	        )
     	      );
     	      
     	  $query->next();    
         }
         
+        //echo $domain->node_id;
         //Add default path for domain
         $routes[$domain->node_id] = new Route("$route_options", $route_conditions);
         $routes[$domain->node_id]
@@ -80,15 +87,33 @@ static function domain($domain=null) {
                 'node'      => $domain->node_id,
                 'controller'=> $domain->node->type,
                 'action'    => $domain->node->style->name,
+                'root'      => true,	
     	        )
     	      );
+    	  
+    	  $routes['not-found'] = new Route("<path>",array('path' => '.*'));
+        $routes['not-found']
+          ->defaults( $settings +
+              array (
+                'node'      => $domain->node_id,
+                'controller'=> 'static',
+                'action'    => '404',
+    	        )
+    	      );
+    	  //    Route::set('static', '<path>', array('path' => '.*'))->defaults( $settings +
+        //      array (
+        //        'node'      => $domain->node_id,
+        //        'controller'=> 'static',
+        //        'action'    => '404',
+    	   //     )
+    	   //   );
      // Cashe::save($cache)  } 
      
      //inject routes
         Route::inject($routes);
   }
   
-  //Copy of normal revers route, but set to ignore defaults 
+  //Copy of normal reverse route, but set to ignore defaults 
   public function uri(array $params = NULL)
     {
     // Start with the routed URI
