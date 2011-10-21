@@ -110,8 +110,8 @@ Kohana::modules(array(
 	  // 'unittest'   => MODPATH.'unittest',   // Unit testing
 	  // 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 	  'hint' => MODPATH.'hint', // Light "flash" messages
-    'mailer' => MODPATH.'mailer', // Light "flash" messages
-    'orm-tree' => MODPATH.'orm-tree', // Light "flash" messages
+    'mailer' => MODPATH.'mailer', // Mail functions
+    'orm-tree' => MODPATH.'orm-tree', // Tree based ORM
 	));
 
 /**
@@ -143,17 +143,34 @@ Kohana::modules(array(
     'name'       => null,
   ));
     
-   $route_conditions = array('action'=>'[a-zA-Z_-]*[a-zA-Z_-]*','format'=>'html|xml|json|result','id'=>'[0-9]+','name'=>'[a-zA-Zs+-]+');
-  Route::set('site', 'site(/<action>)(/<id>(-<name>))(.<format>)',$route_conditions)
+  //get domain based routes  
+  Route::domain(); 
+    
+    
+  if ($_SERVER['HTTP_HOST']=='www.evography.com'||$_SERVER['HTTP_HOST']=='www.evography.dev')  {
+  //If we are on www.
+    $route_conditions = array('action'=>'[a-zA-Z_-]*[a-zA-Z_-]*','format'=>'html|xml|json|result','id'=>'[0-9]+','name'=>'[a-zA-Zs+-]+');
+    Route::set('site', '(<action>)(/<id>(-<name>))(.<format>)',$route_conditions)
+  	->defaults(array(
+  	  'user' => '',
+      'directory'  => 'site',
+  		'controller' => 'home',
+  		'action'     => 'index',	
+  	  'format'     => null,
+  	  'id'         => null,
+  	  'name'       => null,
+  	));
+  }
+  
+  //catch all - unknown domain 
+  Route::set('unknown-domain', '(<url>)')
 	->defaults(array(
 	  'user' => '',
     'directory'  => 'site',
 		'controller' => 'home',
-		'action'     => 'index',	
-	  'format'     => null,
-	  'id'         => null,
-	  'name'       => null,
+		'action'     => 'unknown',	
+	  'domain'     => $_SERVER['HTTP_HOST'],
 	));
   
-  Route::domain();
+
  // echo debug::vars(Route::all());
