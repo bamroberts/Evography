@@ -143,7 +143,9 @@ $(function () {
 </script>
 
 </head>
-<body id="<?php echo url::page_id(); ?>" class="<?php echo url::page_class(); ?>" style="background:url(<?php echo url::image($node->cover->ext,$node->cover->filehash,1000,1000,'fit'); ?>) no-repeat fixed center center; background-size:100%">
+<body id="<?php echo url::page_id(); ?>" class="<?php echo url::page_class(); ?>" style="<?php if($node->password->cover) : ?>
+background:url(<?php echo url::image($node->cover->ext,$node->cover->filehash,1000,1000,'fit'); ?>) no-repeat fixed center center; background-size:100%
+<?php endif; ?>">
   <a class="tabfocus hide" href="#main">jump to content (press enter)</a>
   <div class="container">
     <header>
@@ -153,7 +155,7 @@ $(function () {
   </div>
   <div class="container"> 
 	<div id="main" role="main">
-	   <?php if($node->parent->type=='gallery') : ?>
+	   <?php if(Route::exists($node->parent->id) && $node->parent->type=='gallery') : ?>
      <div class="well intro">
         <?php echo Request::factory(Request::current()->url(array('controller'=>'menu','action'=>'index','format'=>'.part')))->execute();?>
      </div>
