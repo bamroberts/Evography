@@ -6,7 +6,7 @@ class Controller_Gallery_Image extends Master_Gallery {
     //if requested method doesn't exist use default
     //we do this as default actions are set based on albums settings and don't always exist
     //This also comes before the parent::before as the action is overridden by accound suspention and password protection
-    if (!method_exists($this, $this->request->action('index'))){
+    if (!method_exists($this, $this->request->action())){
       $this->request->action('index');
     }
     
