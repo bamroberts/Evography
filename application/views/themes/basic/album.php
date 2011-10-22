@@ -4,10 +4,10 @@
 	position:relative; 
 	padding:8px 8px; 
 	margin:1em 0 3em;
-	border:3px solid blue; 
+	border:3px solid #0069D6; 
 	text-align:center; 
 	color:#333;
-	background:#fff; 
+	background:#C7EEFE; 
 	/* css3 */
 	-webkit-border-radius:8px;
 	-moz-border-radius:8px;
@@ -20,13 +20,13 @@
 	content:""; 
 	position:absolute; 
 	z-index:10; 
-	bottom:-12px; 
+	bottom:-14px; 
 	left:10px; 
 	width:20px; 
 	height:10px;
 	border-style:solid; 
 	border-width:0 3px 3px 0; 
-	border-color:blue; 
+	border-color:#0069D6; 
 	background:transparent;
 	/* css3 */
 	-webkit-border-bottom-right-radius:80px 50px;
@@ -41,13 +41,13 @@
 	content:""; 
 	position:absolute; 
 	z-index:10; 
-	bottom:-12px; 
+	bottom:-13px; 
 	left:10px; 
 	width:10px; 
-	height:20px; 
+	height:10px; 
 	border-style:solid; 
 	border-width:0 3px 3px 0; 
-	border-color:blue; 
+	border-color:#0069D6; 
 	background:transparent;
 	/* css3 */
 	-webkit-border-bottom-right-radius:40px 50px; 
@@ -61,26 +61,27 @@
 .rectangle-speech-border > :first-child:before {
 	content:""; 
 	position:absolute; 
-	bottom:-40px; 
-	left:45px; 
-	width:10px; 
+	bottom:-14px; 
+	left:7px; 
+	width:8px; 
 	height:10px;
-	background:#5a8f00;
+	background:black;
 	/* css3 */
 	-webkit-border-radius:10px;
 	-moz-border-radius:10px;
 	border-radius:10px;
+	z-index:20;
 }
 
 /* creates a white rectangle to cover part of the oval border*/
 .rectangle-speech-border > :first-child:after {
 	content:""; 
 	position:absolute; 
-	bottom:-10px; 
-	left:76px; 
-	width:24px; 
-	height:15px; 
-	background:#fff;
+	bottom:-9px; 
+	left:20px; 
+	width:9px; 
+	height:10px; 
+	background:#C7EEFE;
 }</style>
 
 <section id="node_<?php echo $album->id; ?>" class="well">
@@ -88,8 +89,10 @@
     <?php if (true) : ?>
       <?php echo facebook::like(Route::URL($album->id)); ?>
     <?php endif; ?>
-    
-      <a href="#" class="rectangle-speech-border"><span>113</span></a>
+    <?php if($comments) : ?>
+      <a href="#comments" class="rectangle-speech-border"><span><?php echo $comment_count; ?></span></a>  
+    <?php endif; ?>    
+      
     <?php echo $pagination->render(); ?>
   </header>
   <div class="media">
@@ -97,6 +100,9 @@
   </div>
   <footer>
     <?php echo $pagination->render(); ?>
+    <div id="comments">
+      <?php echo $comments; ?>
+    </div>
   </footer>
 </section>
 

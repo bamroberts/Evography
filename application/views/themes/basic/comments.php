@@ -1,4 +1,4 @@
-<?php if (Request::initial()->controller()!='gallery') echo $pagination->render(); ?>
+  <?php echo $page_control; ?>
   <?php echo $media; ?>
-<?php if (Request::initial()->controller()!='gallery') echo $pagination->render(); ?>
-<?php $_REQUEST['comment_count']=$pagination->details();?>  
+  <?php echo $page_details; ?>
+  <?php echo $page_control; ?>
