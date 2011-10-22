@@ -39,23 +39,11 @@
           }
           
           //does this album require a password?
-          if ($this->node->password->active){
-              $password=$this->node->password;
-              $pass=false;
-              //do we have a session password for this password file (remember if might be inherited not just for this album) 
-              if ($password->phrase!='' && md5($password->phrase) == $this->session->get("password_{$password->id}") ) {
-                $pass=true;
-              }
-              //if not are we logged in and have access
-              if ($pass || $password->user_ids!='' && Auth::instance()->get_user() && stristr(",{$this->account->user_id},{$password->user_ids},", ",".Auth::instance()->get_user()->id."," ) ) {
-                $pass=true;
-              }
-              //change action to login page
-              if (!$pass){
+          if (!Access::permission($this->node)){
+                //change action to login page
                 $this->request->action('login');
-              }
           }
-            
+                      
         //load and configure theme 
          $theme  = Orm::factory('theme',$this->request->param('theme'));
          if ($theme->name!=$this->theme) {
@@ -168,7 +156,28 @@ $scripts =array();
       $this->template = View::factory("templates/site");
       $this->template->content=View::factory('themes/default/offline')
         ->bind('site',$this->account);
-   }  
+   } 
+   
+   function permission($node) {
+          if (is_string($node) || is_numeric($node)) {
+            $node=Orm::factory('album',$node);
+          }
+          if ($node->password->active){
+              $password=$this->node->password;
+              //do we have a session password for this password file (remember if might be inherited not just for this album) 
+              if ($password->phrase!='' && md5($password->phrase) == $this->session->get("password_{$password->id}") ) {
+                return true;
+              }
+              //if not are we logged in and have access
+              if ($password->user_ids!='' 
+               && Auth::instance()->get_user() 
+               && stristr(",{$this->account->user_id},{$password->user_ids},", ",".Auth::instance()->get_user()->id."," ) 
+              ) {
+                return true;
+              }
+          return false;
+          }
+    }
    
    function action_login() {
        $password=$this->node->password;
@@ -186,7 +195,7 @@ $scripts =array();
        }
        
        //echo DEbug::vars($columns);
-       $this->template->content=View::factory('themes/default/login')
+       $this->template->content=Theme::factory(array("{$this->theme}/login","default/login"))
        ->set('node', $this->node)
        ->bind('columns', $columns)
        ->bind('data', $data)

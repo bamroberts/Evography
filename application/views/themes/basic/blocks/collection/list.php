@@ -2,7 +2,7 @@
 <div class="media-grid collection-list">
   <?php foreach ($collection->children as $key=>$child) : ?>
   <?php if (!$child->published) continue; ?>
-      <a href="<?php echo Route::url($child->id); ?>" class="<?php echo $p=($child->password->active)?'private':false; ?>">
+      <a href="<?php echo Route::url($child->id); ?>" class="<?php echo $p=(Access::permission($child))?false:'private'; ?>">
         <span>
           <large class="pull-right"><?php echo Date::long($child->add_date);?></large>
   	      <large class="title">
@@ -22,7 +22,7 @@
           </small>
         </span>
 	    
-	    <?php if(!$child->password->active || $child->password->cover) : ?>
+	    <?php if(!$p || $child->password->cover) : ?>
 	    <img src="/images/dynamic/<?php echo $child->cover->filehash?>/900x250xcrop.jpg" alt="image <?php echo $child->cover->name ?>" />
 	      <ul class="preview">
 	        <?php $preview=$child->images->limit(9)->find_all() ?>
