@@ -198,8 +198,8 @@ protected $_model = array(
       ->join("{$this->_table_name}",'inner')->on("{$table}.album_id",'=',"{$this->_table_name}.id")
 			->where("{$this->_table_name}.lft", '<=', $this->left())
 			->where("{$this->_table_name}.rgt", '>=', $this->right())
-			->order_by('level', 'DESC')
 			->order_by('category', 'ASC')
+			->order_by('level', 'DESC')
 			->find_all();			
     return $query;    
   }
