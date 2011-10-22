@@ -11,7 +11,7 @@ class Model_Image extends ORM
 								'albums' => array('model' => 'album', 'through' => 'album_image'),
 								'favorite' => array(),
 								'users' => array('model' => 'user', 'through' => 'user_images'),
-								'comments' => array()
+								'comment' => array()
 								);
 								
 	  protected $_belongs_to = array(

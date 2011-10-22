@@ -13,6 +13,10 @@ class Controller_Site_Home extends Master_Site {
 		$this->template->content=View::factory('/pages/site/pricing');
 	}
 	
+  function action_unknown(){
+    $this->response->status(404);
+		$this->template->content=View::factory('/pages/site/unknown');
+	}
 	
 	function action_features(){
 		echo 'list of features will go here!';

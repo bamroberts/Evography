@@ -129,7 +129,7 @@ defined('SYSPATH') or die('No direct script access.');
   	  		$error="error";
   	  		}
   	  $response.="
-  	    <div class=\"input $formtype input_{$formtype}_$col $error\">
+  	    <div class=\"group $formtype input_{$formtype}_$col $error\">
   	    	$label
   	    	$d
   	    	$h
@@ -138,5 +138,10 @@ defined('SYSPATH') or die('No direct script access.');
   	  }
   	  return $response;
   	  //return "<fieldset>$response</fieldset>";
+  	}
+  	
+  	static function render2($content) {
+
+  	
   	}
 }

@@ -32,17 +32,11 @@
 	        $this->session= isset($_POST['session']) ? Session::instance(NULL, $_POST['session']):Session::instance();
 	        
 	        
-	        if ($user=$this->user=Auth::instance()->get_user()) {
+	        if ($user=$this->user=$this->account=Auth::instance()->get_user()) {
 	         $this->user_id=$user->id;
 	         $this->start_node=Auth::instance()->get_user()->start_node;
 	        }
-	        if (!$this->request->is_initial()){
-	        $this->auto_render=FALSE;
 	        
-	        } else {
-	          $this->update_subscription_details();
-				    $this->check_subscription();
-	        }
 	            
 	        #Check user auth and role
 	        $action_name = $this->request->action();
@@ -52,6 +46,14 @@
 					  { 
 				  $this->auth();
 					
+					//check subscription status
+					if (!$this->request->is_initial()){
+	         $this->auto_render=FALSE;
+	         $this->internal=true;
+	        } else {
+	          $this->update_subscription_details();
+				    $this->check_subscription();
+	        }
 					
 					//this needs updating to reflect a full db-crud assess table     
 					    
