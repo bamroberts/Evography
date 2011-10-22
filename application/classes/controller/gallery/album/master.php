@@ -75,9 +75,21 @@ class Controller_Gallery_Album_Master extends Master_Gallery {
 		$this->template->content = Theme::factory(array("{$this->theme}/$controller","default/$controller"))
 			->set('album', $this->node)
 			->set('media',$this->part())
+			->bind('comments',$comments)
+			->bind('comment_count',$count)
 			->set('pagination', $this->pagination);
-			 
-	}
+		
+		
+		$comments=Request::factory( Route::url($this->node->id, array('controller'=>'comments','format'=>'.part')) )->execute();
+		
+//	if ($this->node->settings('cart')){	
+	//	foreach ($this->node->prices as $price) {
+//		  echo "Category:{$price->category}  Name: {$price->name} Price:{$price->price}<br />";
+//		
+//		}
+//}
+		
+		}
 	
 		
 	function action_upload(){

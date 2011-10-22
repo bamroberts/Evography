@@ -6,7 +6,7 @@ class Controller_Gallery_Image extends Master_Gallery {
     //if requested method doesn't exist use default
     //we do this as default actions are set based on albums settings and don't always exist
     //This also comes before the parent::before as the action is overridden by accound suspention and password protection
-    if (!method_exists($this, $this->request->action())){
+    if (!method_exists($this, "action_".$this->request->action())){
       $this->request->action('index');
     }
     
@@ -35,9 +35,10 @@ class Controller_Gallery_Image extends Master_Gallery {
     }
 		
 		
-	    $next= $image->next();
-	    $previous= $image->previous();
-    
+	  $next= $image->next();
+	  $previous= $image->previous();
+    /*
+
     $count=$image
       		 ->comments
       		 ->where('approved','=',1)
@@ -47,9 +48,11 @@ class Controller_Gallery_Image extends Master_Gallery {
     $pagination = Pagination::factory(array(
       'total_items'    => $count,
       'items_per_page' => Arr::get($_REQUEST['current'],'limit',20),
+      'source'=>'query',
+      'key'   =>'comment-page'
+      
     ));
-		
-		   
+			   
     $comments=$image
       		 ->comments
       		 ->where('approved','=',1)
@@ -65,13 +68,14 @@ class Controller_Gallery_Image extends Master_Gallery {
     ->bind('comments',$comments)
     ->bind('pagination',$pagination)
     ;
-
+*/
+    $comments=Request::factory( Route::url($this->node->id, array('controller'=>'comments','id'=>$image->id,'format'=>'.part')) )->execute();
         
 		$this->template->content = Theme::factory(array("{$this->theme}/image","default/image"))
 
 			->bind('album', $album)
 			->bind('image', $image)
-			->bind('comments', $comment_block)
+			->bind('comments', $comments)
 			->bind('next',$next)
 			->bind('previous', $previous);
   

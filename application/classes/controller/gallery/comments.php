@@ -2,34 +2,33 @@
 
 Class Controller_Gallery_Comments extends Controller_Gallery_Album_Master {
 	
-	function action_index(){
-	}
+  public function before(){
+    //if requested method doesn't exist use default
+    //we do this as default actions are set based on albums settings and don't always exist
+    //This also comes before the parent::before as the action is overridden by accound suspention and password protection
+    if (!method_exists($this, "action_".$this->request->action())){
+      $this->request->action('index');
+    }
+    parent::before();
+  }
+  
+  function action_index(){
+    if ($this->request->param('id')) return $this->action_image();
+    
+    return $this->action_album();
+  }
+  
 	
 	function action_album(){
-	  $album=ORM::factory('album',$this->request->param('node'));
-	  if (!$album->id){$this->h404();}
+	  $this->request->action('album');
+
+	  $node=$this->node;
+//	  if (!$album->id){$this->h404();}
 	  
-	  $pagination = Pagination::factory(array(
-        'total_items'    => $album->comment->where('approved','=',1)->count_all(),
-        'items_per_page' => Arr::get($_REQUEST['current'],'limit',5),
-        'current_page'   => array('source' => 'query_string', 'key' => 'comments'),
-        ));
-		        
-    $comments=$album
-        		 ->comment
-        		 ->where('approved','=',1)
-        		 ->limit($pagination->items_per_page)
-        		 ->offset($pagination->offset)
-        		 ->order_by('add_date','DESC')
-        		 ->find_all();
+	     
         		 
-	  
-	  
-	  $this->template->content=Theme::factory(array("{$this->theme}/comments",'default/comments'))
-	     ->bind('comments',$comments)
-	     ->bind('pagination',$pagination)
-	     ;
-	  
+	     $this->render($node);
+	  	  
 
 	  
 	  if($_POST && $user_id=Auth::instance()->get_user()){
@@ -50,8 +49,44 @@ Class Controller_Gallery_Comments extends Controller_Gallery_Album_Master {
 	  }    
 	}
 	
-	function action_image(){
+	function action_image(){ 
+	  $this->request->action('image');
+	  $node=Orm::factory('image',$this->request->param('id'));
+	  $this->render($node);
+	}
 	
+	function render($node){
+	   $pagination = Pagination::factory(array(
+        'total_items'    => $node->comment->where('approved','=',1)->count_all(),
+        'items_per_page' => Arr::get($_REQUEST['current'],'limit',5),
+       // 'current_page'   => array('source' => 'query_string', 'key' => 'comment-page'),
+        ));
+		        
+    $comments=$node
+        		 ->comment
+        		 ->where('approved','=',1)
+        		 ->limit($pagination->items_per_page)
+        		 ->offset($pagination->offset)
+        		 ->order_by('add_date','DESC')
+        		 ->find_all();
+	
+	  $comment_block=Theme::factory(array("{$this->theme}/blocks/comments",'default/blocks/comments'))
+	     ->bind('comments',$comments)
+	     .$this->draw_form();
+	     ;
+    
+    if ( $this->request->is_initial() ){
+      $control=$pagination->render();
+    }
+    $details=$pagination->details();
+	  
+	  $this->template->content=Theme::factory(array("{$this->theme}/comments",'default/comments'))
+	     ->bind('media',$comment_block)
+	     ->bind('page_control',$control)
+	     ->bind('page_details',$details)
+	     //.$this->action_draw()
+	     ;
+
 	}
 	
 	function action_view(){
@@ -66,8 +101,18 @@ Class Controller_Gallery_Comments extends Controller_Gallery_Album_Master {
 	 // set quantities 
 	}
 	
-	function action_draw(){
-	  $this->template->content=Theme::factory(array("{$this->theme}/blocks/form",'default/blocks/form'))
+		
+	function action_add(){
+	 // set quantities 
+	}
+	
+	
+	function action_form(){
+	 $this->template->content = $this->draw_form();
+	}
+	
+	function draw_form(){
+	  return Theme::factory(array("{$this->theme}/blocks/comments/form",'default/blocks/comments/form'))
 	     ->bind('columns',$columns)
 	     ->bind('data',$data)
 	     ->bind('errors',$errors)
@@ -85,7 +130,6 @@ Class Controller_Gallery_Comments extends Controller_Gallery_Album_Master {
 	    $user=Request::factory($this->request->url(array('controller'=>'user','action'=>'quick')))->execute();
 	  }
 	  //$this->template->content=$user.Form::render($columns,$data);
-	  	
 }	
 	
 }
