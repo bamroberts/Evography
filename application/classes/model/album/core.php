@@ -191,6 +191,19 @@ protected $_model = array(
 			->find();			
     return $query;    
   }
+  
+  function get_nested_price($table){
+  //Neat little function that inherits the first available joined record in a hirachy i.e. for inheriting a parents attributes
+    $query = self::factory("{$table}")
+      ->join("{$this->_table_name}",'inner')->on("{$table}.album_id",'=',"{$this->_table_name}.id")
+			->where("{$this->_table_name}.lft", '<=', $this->left())
+			->where("{$this->_table_name}.rgt", '>=', $this->right())
+			->order_by('level', 'DESC')
+			->order_by('category', 'ASC')
+			->find_all();			
+    return $query;    
+  }
+
 
 
  
@@ -202,6 +215,9 @@ protected $_model = array(
 				return $this->get_path();
 		 // case 'style':
 		 // case 'theme':
+		  case 'prices':
+		    if (isset($_store[$column])) return $_store[$column];
+				return $_store[$column]=$this->get_nested_price("album_{$column}");
 		  case 'password':
 		    $column='album_'.$column;
 		  case 'watermark':      
