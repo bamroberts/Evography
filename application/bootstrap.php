@@ -147,7 +147,7 @@ Kohana::modules(array(
   Route::domain(); 
     
     
-  if ($_SERVER['HTTP_HOST']=='www.evography.com'||$_SERVER['HTTP_HOST']=='www.evography.dev')  {
+  if ($_SERVER['HTTP_HOST']=='evography.com'||$_SERVER['HTTP_HOST']=='evography.dev')  {
   //If we are on www.
     $route_conditions = array('action'=>'[a-zA-Z_-]*[a-zA-Z_-]*','format'=>'html|xml|json|result','id'=>'[0-9]+','name'=>'[a-zA-Zs+-]+');
     Route::set('site', '(<action>)(/<id>(-<name>))(.<format>)',$route_conditions)
