@@ -40,3 +40,5 @@ modules/
 cart/
 images/
 assets/
+application/logs/
+application/cache/
