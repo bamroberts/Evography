@@ -46,15 +46,31 @@ if ($collection->children==0 && $collection->albums->count_all()==1){
             $this->auto_render = FALSE;
 		}
 */
+    $count=$collection->albums->count_all();
+    
+    //Set album pagination values
+    $pagination = Pagination::factory(array(
+      'total_items'    => $count,
+      'items_per_page' => Arr::get($_REQUEST['current'],'limit',20),
+      'item_type'      => 'child'
+    ));
+		
+		$children=$collection->albums
+		        ->where('published','=',1)
+		        ->limit($pagination->items_per_page)
+        		->offset($pagination->offset)
+        		->order_by('order','DESC')
+        		->find_all();
+  
+    $media=Theme::factory(array("{$this->theme}/blocks/collection/{$this->style}","default/blocks/collection/{$this->style}"))
+			->bind('children', $children);
 		
 		
-		
-		$children=$collection->children;
-		$albums=array(); 						
-		$this->template->content = Theme::factory(array("{$this->theme}/blocks/collection/{$this->style}","default/blocks/collection/{$this->style}"))
+		//$children=$collection->children;
+		//$albums=array(); 						
+		$this->template->content = Theme::factory(array("{$this->theme}/collection","default/collection"))
       ->bind('collection', $collection)
-			->bind('children', $children)
-			->bind('albums', $albums)
+			->bind('media', $media)
 			->bind('pagination', $pagination);
 	}
 }

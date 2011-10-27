@@ -18,6 +18,8 @@ Class Controller_Gallery_Comments extends Controller_Gallery_Album_Master {
     return $this->action_album();
   }
   
+
+  
 	
 	function action_album(){
 	  $this->request->action('album');
@@ -55,10 +57,13 @@ Class Controller_Gallery_Comments extends Controller_Gallery_Album_Master {
 	  $this->render($node);
 	}
 	
+
+	
 	function render($node){
 	   $pagination = Pagination::factory(array(
         'total_items'    => $node->comment->where('approved','=',1)->count_all(),
         'items_per_page' => Arr::get($_REQUEST['current'],'limit',5),
+        'item_type'      => 'comment'
        // 'current_page'   => array('source' => 'query_string', 'key' => 'comment-page'),
         ));
 		        

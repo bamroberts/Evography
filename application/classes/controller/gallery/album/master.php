@@ -25,6 +25,7 @@ class Controller_Gallery_Album_Master extends Master_Gallery {
   	           array(
                   'total_items'    => $count,
                   'items_per_page' => Arr::get($_REQUEST['current'],'limit',20),
+                  'item_type'      => 'image',
                   )
                 );	  
 	}
@@ -42,8 +43,6 @@ class Controller_Gallery_Album_Master extends Master_Gallery {
     $type=Arr::get($_REQUEST['current'],'type',$type);
     if (!$this->pagination()->total_items) $type="empty";
     
-   // $script='
-   //   <script>$'."settings.node_{$this->node->id}=" . json_encode($this->template->script_options) . "</script>";
    $view=Theme::factory(array("{$this->theme}/blocks/album/$type","default/blocks/album/$type"))
     ->set('images',$this->data())
     ->set('details',$this->pagination()->details())

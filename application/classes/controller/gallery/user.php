@@ -32,7 +32,7 @@ Class Controller_Gallery_User extends Master_Gallery {
 	   
 	   //if this is internal
 	  // if ($this->initial) {
-	     return $this->template->content=Hint::render().Form::render($columns,$_POST,$errors);
+	     //return $this->template->content=Hint::render().Form::render($columns,$_POST,$errors);
 	  // }
 	  
 	  
