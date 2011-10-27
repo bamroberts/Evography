@@ -108,8 +108,12 @@ a:hover, a.hover {
 
 .hide {display:none;}
 </style>
-
-<h4>Upload files from your computer:</h4>
+<h4>Upload images</h4>
+<nav><ul class="tabs">
+<li class="active"><a href="#">From your computer</li>
+<li><a href="#">From Facebook</li>
+</ul>
+</nav>
 <form id="uploader" action="<?php echo Request::initial()->url(); ?>" method="post" enctype="multipart/form-data">
   <div id="photoupload-fallback">
     <p>
@@ -134,7 +138,7 @@ a:hover, a.hover {
 	    $("#uploader").pluploadQueue({
 	        // General settings
 	        runtimes : 'gears,html5,flash,silverlight',
-	        url : $("#uploader").attr('action') + '?ajax=true',
+	        url : $("#uploader").attr('action') + '.ajax',
 	        max_file_size : '20mb',
 	        //chunk_size : '1mb',
 	 

@@ -290,26 +290,6 @@ Back to  <a href="<?php echo Request::current()->url(array('controller'=>'collec
       <li><a class="minibutton btn-warn" href="/<?php echo Request::current()->uri(array('action'=>'delete')); ?>"><span>Delete this Album</span></a></li>
     </ul>
   </div>
-  <ul id="collection" class="clearfix">
-    <?php $images=$album->images->order_by('order','asc')->find_all(); 
-          foreach ($images as $image):?>
-            <li id="image_<?php echo $image->id ?>"> 
-              <a class="main"  href="<?php echo URL::site(Request::current()->uri(array('controller'=>'images','id'=>$image->id,'action'=>'')));?>"> 
-                <img src="/images/dynamic/<?php echo $image->filehash;?>/130x130xcrop.<?php echo $image->ext;?>" />
-                <span class='b drag'>+<span>Drag to move</span></span>
-              </a>
-          <a class='edit b' href="<?php echo URL::site(Request::current()->uri(array('controller'=>'images','id'=>$image->id,'action'=>'')));?>">E<span>Edit details</span></a>
-          
-          <a class='cover b' href="<?php echo URL::site(Request::current()->uri(array('action'=>'set_cover')));?>?cover=<?php echo $image->id ;?>">C<span>Use as cover</span></a>
-          
-          <a class='delete b' href="<?php echo URL::site(Request::current()->uri(array('controller'=>'images','id'=>$image->id,'action'=>'delete')).URL::query(
-	       					 	array(
-	       					 		'return_path'=>Request::current()->uri()
-	       					 		)
-	       					 ));?>">X<span>Delete item</span></a>
-      </li>
-    <?php endforeach; ?>
-  </ul>
-</div>
+  </div>
 
 <a style="clear:both" class="minibutton" href="/<?php echo Request::current()->uri(array('id'=>'')); ?>"><span>Back to Albums</span></a>

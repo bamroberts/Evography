@@ -15,7 +15,7 @@
     
     <?php foreach($styles as $file => $type) { echo HTML::style($file, array('media' => $type)), "\n"; }?>
     <?php #foreach($scripts as $file) { echo HTML::script($file, NULL, TRUE), "\n"; }?>
-    
+    <link media="screen" rel="stylesheet" href="/assets/css/basic.css" type="text/css">
     <link media="screen" rel="stylesheet" href="/assets/css/style.css" type="text/css">
     <link media="screen" rel="stylesheet" href="/assets/css/admin.css" type="text/css">
     
@@ -190,13 +190,13 @@
             <a accesskey="h" class="active" href="/">HOME</a>
           </li>
           <li>
-            <a accesskey="2" href="/site/tour">TOUR</a>
+            <a accesskey="2" href="/tour">TOUR</a>
           </li>
           <li>
-            <a accesskey="3" href="/site/pricing">PRICES</a>
+            <a accesskey="3" href="/pricing">PRICES</a>
           </li>
           <li>
-            <a accesskey="4" href="/site/signup">SIGN UP</a>
+            <a accesskey="4" href="/signup">SIGN UP</a>
           </li>
         </ul>
         

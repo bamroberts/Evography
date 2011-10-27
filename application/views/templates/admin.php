@@ -42,7 +42,14 @@ google.load("jqueryui", "1.8.16");
             </a>
            <?php endif; ?> 
          </h5>
+         
      </div>
+     <ul class="nav">
+          <li>Manage Galleries</li>
+          <li>Options</li>
+          <li>Sales</li>
+          <li>Your Account</li>
+         </ul>
      <div class="grids" id="content">
        <div class="grid-15 pad-1">
          <h5><?php echo $breadcrumb; ?></h5>

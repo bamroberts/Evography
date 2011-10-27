@@ -5,8 +5,9 @@
   </fieldset>
   <div class="actions">
     <a type="submit" href="#">Cancel</a>
-    <button class="default" type="submit">Login</button>
+    <button class="btn default" type="submit">Login</button>
+    or <?php echo Facebook::login(); ?>
   </div>
 </form>
 
-<?php echo View::factory('pages/static/form'); ?>
+<?php //echo View::factory('pages/static/form'); ?>
