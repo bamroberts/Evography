@@ -9,7 +9,8 @@
  
  <div class="span6">
  
- <?php if (true || $image->album->cart) : ?>
+ <?php if (true || $facebook) : ?>
+     <?php //echo $facebook->like); ?>
     <?php echo facebook::like(array('action'=>false)); ?>
  <?php endif; ?>
  
