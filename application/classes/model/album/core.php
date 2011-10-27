@@ -1,20 +1,24 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 class Model_Album_Core extends ORM_Tree {
-  protected $_where=array(array('AND' => array('published', '=', '1')));
 
   protected $_table_name = 'album_tree';
   
   protected $_has_many = array(
-      'images' => array(
+       'images' => array(
           'model' => 'image', 
-          'through' => 'album_image',
+          //'through' => 'album_image',
           'foreign_key'=>'album_id',
        ),
       'comment' => array(
           'model' => 'comment',
           'foreign_key'=>'album_id',
        ),
+      'albums' => array(
+          'model' => 'album',
+          'foreign_key'=>'parent_id',
+       ),
+       
     );
     
   protected $_has_one = array(
