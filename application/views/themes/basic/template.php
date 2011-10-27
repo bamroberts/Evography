@@ -165,7 +165,7 @@ background:url(<?php echo url::image($node->cover->ext,$node->cover->filehash,10
 	       <?php echo $content; ?>
 	</div>
 	
-	<ul class="pallet">
+	<ul class="pallet hide">
     <li class="baseColor">baseColor</li>
     <li class="complement">complement</li>
     
@@ -181,7 +181,7 @@ background:url(<?php echo url::image($node->cover->ext,$node->cover->filehash,10
     <li class="analog1">analog1</li>
     <li class="analog2">analog2</li>
   </ul>
-	<?php echo debug::vars(Profiler::application()); ?>
+	<?php //echo debug::vars(Profiler::application()); ?>
   </div> <!--! end of #container -->
   <footer>   
 	  &copy;<?php echo Date('Y'); ?> <strong><?php echo $site->name; ?></strong> All rights reserved. 

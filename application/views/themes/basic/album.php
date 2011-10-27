@@ -84,7 +84,7 @@
 	background:#C7EEFE;
 }</style>
 
-<section id="node_<?php echo $album->id; ?>" class="well">
+<section id="node_<?php echo $album->id; ?>" class="album">
   <header>  
     <?php if (true) : ?>
       <?php echo facebook::like(Route::URL($album->id)); ?>
@@ -99,10 +99,21 @@
     <?php echo $media ?> 
   </div>
   <footer>
-    <?php echo $pagination->render(); ?>
-    <div id="comments">
-      <?php echo $comments; ?>
-    </div>
+    <?php echo $pagination->details(); ?>
   </footer>
 </section>
+
+<?php if($comments) : ?>
+  <section id="node_<?php echo $album->id; ?>_comments" class="comments">
+      <h4>Comments</h4>
+      <?php echo $comments; ?>
+  </section>
+<?php endif; ?>
+
+<?php if(false && $upload) : ?>
+  <section id="upload_<?php echo $album->id; ?>_comments" class="upload">
+      <h4>Upload</h4>
+      <?php echo $upload; ?>
+  </section>
+<?php endif; ?>
 

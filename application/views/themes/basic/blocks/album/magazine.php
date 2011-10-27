@@ -1,4 +1,4 @@
-<div class="media-grid magazine" <?php echo $data; ?>>
+<div class="media-grid magazine small" <?php echo $data; ?>>
 <?php 
 $matrix = array(
   'ppp' =>array('twothird','third','third'),
@@ -38,19 +38,19 @@ $pattern='';
 </div>
 
 <?php function draw($layout,$format,$output){ ?>
-    <section class="layout-<?php echo $layout; ?>">
+    <div class="layout layout-<?php echo $layout; ?>">
       <?php foreach ($output as $pos=>$image) : ?>
-        <article class="image image-<?php echo $pos+1; ?>">
+        <div class="image image-<?php echo $pos+1; ?>">
            <a href="<?php echo Route::url($image->album_id,array('controller'=>'image','id'=>$image->id)); ?>">
-              <img src="/images/dynamic/<?php echo $image->filehash;?>/1000x750xflex.<?php echo $image->ext; ?>" alt="image <?php echo $image->name; ?> preview" />
+              <img src="/images/dynamic/<?php echo $image->filehash;?>/1000x750xfit.<?php echo $image->ext; ?>" alt="image <?php echo $image->name; ?> preview" />
               <span>
                   <large><?php echo $image->name; ?></large>
                   <small>13</small>
               </span>
 
            </a>
-        </article> 
+        </div> 
       <?php endforeach; ?>
-    </section>
+    </div>
 <?php } ?>
 <p class="details"><?php echo $details; ?></p>

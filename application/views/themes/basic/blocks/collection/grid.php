@@ -1,6 +1,5 @@
-<h3><?php echo $collection->name ?></h3>  
-<div class="media-grid collection">
-  <?php foreach ($collection->children as $key=>$child) : ?>
+<div class="media-grid grid">
+  <?php foreach ($children as $key=>$child) : ?>
   <?php if (!$child->published) continue; ?>
     <a href="<?php echo Route::url($child->id); ?>" class="<?php echo $p=(Access::permission($child))?false:'private'; ?>">
       <span class="media">
