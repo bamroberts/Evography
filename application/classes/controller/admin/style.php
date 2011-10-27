@@ -73,7 +73,7 @@ class Controller_Admin_Style extends Master_Admin {
         }
 
     
-   if ($post=$this->request->post()){
+   if ($post=$this->request->initial()->post()){
        $values['style_id']=$post['style'];
        foreach ($this->options as $option){
          if ($value=Arr::get($post,"style_{$post['style']}_{$option}",false)) {

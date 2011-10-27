@@ -16,11 +16,43 @@ class Controller_Admin_Album extends Controller_Admin_Album_Core {
       }    
   }
   
+  public function action_style(){
+    $this->sub();
+  }
+  public function action_password(){
+    $this->sub();
+  }
+  public function action_watermark(){
+    $this->sub();
+  }
+  public function action_cart(){
+    $this->sub();
+  }
+  
+  public function action_images(){
+    $images=ORM::factory('album',$this->request->param('id'))->images->find_all();
+      $this->template->content = View::factory('admin/album/images')
+                              ->set('images',$images);
+  }
+  
+  public function sub(){
+        $controller=$this->request->action();
+        $route=$this->request->url(array('controller'=>$controller,'action'=>'index'));
+        $this->template->content = Request::factory(  $route )->execute();                              
+  }
+  
+  function after(){
+  $this->template->content = View::factory('admin/album')
+                              ->set('content',$this->template->content);
+  parent::after();
+  }
+  
   public function action_edit(){
     $this->_fields[]='open';
     $this->_fields[]='cart';
     $this->_fields[]='comments';
-    return parent::action_edit();
+    parent::action_edit();
+    
   }
   
    function action_upload(){  

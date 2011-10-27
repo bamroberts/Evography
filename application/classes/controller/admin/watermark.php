@@ -44,7 +44,7 @@ class Controller_Admin_Watermark extends Master_Admin {
     
     $columns = $record->list_columns();
     
-    if ($post=$this->request->post()){
+    if ($post=$this->request->initial()->post()){
       if (!empty($_FILES)&&$path=$this->upload()) {$record->path=$path;}
     //upload image regard less
       switch (Arr::get($post,'current')) {

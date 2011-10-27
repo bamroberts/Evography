@@ -8,7 +8,7 @@ class Controller_Admin_Password extends Master_Admin {
       ->bind('current',$current)
       ->bind('users',$users)
       ->bind('columns',$columns)
-      ->bind('data', $record)
+      ->bind('data', $data)
       ->bind('errors', $errors)
       ;
     
@@ -22,6 +22,7 @@ class Controller_Admin_Password extends Master_Admin {
     if ($album->id != $record->id) {
       $current='inherit';
     } else {
+      $data=$record;
       $current=($record->active)?'on':'off';
     }
     
@@ -36,7 +37,7 @@ class Controller_Admin_Password extends Master_Admin {
         }
 
   
-    if ( $post=$this->request->post() ){
+    if ( $post=$this->request->initial()->post() ){
       switch (Arr::get($post,'current')) {
       case 'inherit':
         if ($record->loaded()){
@@ -62,7 +63,7 @@ class Controller_Admin_Password extends Master_Admin {
         }
         $record->phrase=Arr::get($post,'phrase');
         $record->user_ids=join(Arr::get($post,'users',array()),',');
-        $record->active=($record->password!='' OR $record->user_ids != '')?true:false;        
+        $record->active=($record->phrase!='' OR $record->user_ids != '')?true:false;        
         $current=$record->active?'on':'off';
         $record->save();
       break;
