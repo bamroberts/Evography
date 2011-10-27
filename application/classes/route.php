@@ -37,7 +37,7 @@ static function domain($domain=null) {
           'user'       => $domain->user_id,
           'root'   => $domain->node_id,
           'theme'      => $domain->theme_id,
-          'format'     => '/',
+          'format'     => false,
           'id'         => null,
           'page'       => 1
         );
@@ -80,6 +80,8 @@ static function domain($domain=null) {
         
         //echo $domain->node_id;
         //Add default path for domain
+        //options are duplicated as they need the first / removed
+        $route_options="(<controller>(/<action>)(/<id>(-<name>)))(page-<page>)(<format>)";
         $routes[$domain->node_id] = new Route("$route_options", $route_conditions);
         $routes[$domain->node_id]
            ->defaults( $settings +
