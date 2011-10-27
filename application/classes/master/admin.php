@@ -3,7 +3,7 @@
 
  class Master_Admin extends Master_Master
   {
-     public $template = 'templates/admin';
+     public $template = 'admin/template';
       
       // Controls access for the whole controller, if not set to FALSE we will only allow user roles specified
       // Can be set to a string or an array, for example 'login' or array('login', 'admin')
@@ -66,6 +66,8 @@
            //if($this->auto_render)
            // {
               // Initialize empty values
+              
+              $this->template->site            = 'EVOGRAPHY';
               $this->template->title            = '';
               $this->template->titlepart        = array();
               $this->template->slideshownumber   = '';

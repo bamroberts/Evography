@@ -27,7 +27,7 @@
          
          //Need a new way to do this
          //if (!$this->request->is_initial()){
-         if ($this->request->param('format')=='.part'){
+         if (!$this->request->is_initial() || $this->request->param('format')){
             $this->internal=true;
             $this->auto_render = FALSE;
             $this->template->content          = '';
