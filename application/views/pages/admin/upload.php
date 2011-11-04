@@ -109,24 +109,37 @@ a:hover, a.hover {
 .hide {display:none;}
 </style>
 <h4>Upload images</h4>
-<nav><ul class="tabs">
-<li class="active"><a href="#">From your computer</li>
-<li><a href="#">From Facebook</li>
-</ul>
+
+<nav>
+  <ul class="tabs">
+    <li class="active"><a href="#">From your computer</a></li>
+    <li>
+    <?php if(Facebook::factory()->user()) : ?>
+    <a href="<?php echo Request::current()->url(array('action'=>'facebook')); ?>">From Facebook</a>
+    <?php else: ?>
+      <?php echo Facebook::login(); ?>
+    <?php endif; ?>
+    </li>
+  </ul>
 </nav>
-<form id="uploader" action="<?php echo Request::initial()->url(); ?>" method="post" enctype="multipart/form-data">
-  <div id="photoupload-fallback">
-    <p>
-      It appears you either have javascript disabled or are missing the latest version of Flash.  Unfortunately because of this you will be limited to uploading files one at a time.
-    </p>
-    
-    <label for="file">
-      Upload a Photo:
-      <input type="file" name="file" />
-    </label>
-    <button type="submit" name="save" value="">Upload Images</button>
-  </div>
-</form>
+
+<section>
+  <h4>From your computer</h4>
+  <form id="uploader" action="<?php echo Request::initial()->url(); ?>" method="post" enctype="multipart/form-data">
+    <div id="photoupload-fallback">
+      <p>
+        It appears you either have javascript disabled or are missing the latest version of Flash.  Unfortunately because of this you will be limited to uploading files one at a time.
+      </p>
+      
+      <label for="file">
+        Upload a Photo:
+        <input type="file" name="file" />
+      </label>
+      <button type="submit" name="save" value="">Upload Images</button>
+    </div>
+  </form>
+</section>
+
 <style type="text/css">@import url(/assets/javascript/plupload/jquery.plupload.queue/css/jquery.plupload.queue.css);</style>
 <!-- Load plupload and all it's runtimes and finally the jQuery queue widget -->
 	<script type="text/javascript" src="/assets/javascript/plupload/plupload.full.js"></script>
@@ -195,7 +208,7 @@ a:hover, a.hover {
       
  
 	    // Client side form validation
-	    $('form').submit(function(e) {
+	    $("#uploader").submit(function(e) {
 	        var uploader = $('#uploader').pluploadQueue();
 	 
 	        // Files in queue upload them first
