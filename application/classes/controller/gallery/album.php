@@ -56,7 +56,7 @@ class Controller_Gallery_Album extends Controller_Gallery_Album_Master {
 	  
 	  //if not overridden set this to a multiple of 3
 	  $_REQUEST['current']['limit']=($this->request->param('format')=='.part')?6:Arr::get($_REQUEST['current'],'limit',15);
-	  $this->template->script_options->merge(array('lightbox'=>false,));
+	  $this->template->script_options->merge(array('lightbox'=>true,));
 
 	  //$this->template->js_load($js);
 	 
