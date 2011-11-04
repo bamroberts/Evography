@@ -258,21 +258,134 @@ if ($this->request->param('id')<1) {throw exception;}
   }
   
   
+  public function get_fb_albums(){
+    if( ! $facebook=Facebook::factory() ) return Facebook::login();
+     $columns=$this->_model;
+    $albums = $facebook->get('/me/albums?limit=0');
+    foreach ($albums['data'] as $key=>$album) {
+      $columns['album']['options'][$album['id']]="{$album['name']} - ". Arr::get($album,'count',0)." images";
+    }
+  
+    $view = View::factory('admin/facebook/albums')
+      ->bind('columns',$columns)    
+      ->bind('data',$post)
+      ->bind('errors',$errors);
+      
+    $post=$this->request->initial()->post();
+    
+    return $view;
+  }
+  
+  public function get_fb_images(){
+    if( ! $facebook=Facebook::factory()) return Facebook::login();
+    $columns=$this->_model; 
+    if ($post=$this->request->initial()->post()) {
+      if ( $album_id = Arr::get($post,'album')) {
+        //album is set, get facebook images
+        $images = $facebook->get("/{$album_id}/photos/?fields=id,picture,images,from&limit=0");
+        foreach ($images['data'] as $key=>$image) {
+          $columns['images']['options'][$key]=Arr::get($image,'picture',0);
+        }
+        $view = View::factory('admin/facebook/images')
+          ->bind('album',$album_id)
+          ->bind('columns',$columns)
+          ->bind('data',$post)
+          ->bind('errors',$errors)
+          ;
+        
+        //import is set, import selected images
+        if (is_array($import=Arr::get($post,'images',false) ) ) {
+          $image=$images['data'];
+          unset($_POST['images']);
+          foreach ($import as $id=>$tick) {
+            $this->import_image( $image[$id]['images'][0]['source'] );
+          }
+        }
+      }
+    return $view;
+    }   
+  }
+  
+  public function import_image($source){
+        //Get local 
+        $user_id=$this->user_id;
+        $album_id=$this->request->param('id');
+        
+        $path = DOCROOT."images/uploads/{$user_id}/{$album_id}/";
+        
+			  if (!is_dir($path)) {
+			   mkdir($path,0777,true);
+			  }
+			  
+			  $file=pathinfo($source);	
+			  $filename     =$file['basename'];
+			  $name		      =$file['filename'];	
+			  $ext          =strtolower($file['extension']);
+			  $hash         =uniqid();
+			  $new_filename ="{$hash}.{$ext}";
+			  
+        $get=file_get_contents($source);
+        $put=file_put_contents($path.$new_filename,$get);
+        $filepath=$path.$new_filename;
+        
+		    $size         =filesize($source);
+		 	  list($width,$height) = @getimagesize($filepath);
+		 	  
+		 	  $_POST['filepath']=$filepath;
+		 	  $_POST['file']=$file;
+		 	  $_POST['filename']=$filename;
+		 	  $_POST['name']=$image[$id]['id'];
+		 	  $_POST['ext']=$ext;
+		 	  $_POST['hash']=$hash;
+		 	  $_POST['new_filename']=$new_filename;
+		 	  $_POST['size']=$size;
+		 	  $_POST['width']=$width;
+		 	  $_POST['height']=$height;
+		 	  
+		 	  $_POST['source']='facebook';
+		 	  $_POST['fb_user']=$image[$id]['from']['id'];
+		 	  $_POST['fb_user_name']=$image[$id]['from']['name'];
+		 	  $_POST['fb_date']=$image[$id]['created_time'];
+		 	  
+        //insert into DB
+        $request = Request::factory("admin/album/$album_id/upload/");
+        $request->execute();
+  }
+  
+  public function action_albums(){
+    $this->template->content=$this->get_fb_albums();
+  }
+  public function action_images(){
+    $this->template->content=$this->get_fb_images();
+  }
   public function action_import(){
-   $fb=$this->connect();
-   $facebook=$fb->link;
-   if (!$facebook) return;
+    if( ! $facebook=Facebook::factory() ) {
+      return $this->template->content = Facebook::login();
+    }
+    $this->template->content = View::factory('admin/facebook/import')
+      ->set('user', $facebook->user() )
+      ->set('albums',  $this->get_fb_albums() )
+      ->set('images',  $this->get_fb_images() )
+      ;
+  }
+  
+  
+  
+  
+  public function action_import2(){
+   $facebook=Facebook::factory(); 
+   
+   if (! $facebook->user() ) {
+      return $this->template->content=Facebook::login('Connect to facebook');
+   }
     
    $this->template->content = View::factory('pages/admin/facebook-import')
    	  ->bind('columns',$columns)
       ->bind('data', $data)
       ->bind('errors', $errors)
-      ->bind('user', $fb->user)
+      ->set('user', $facebook->user_details())
       ->bind('logoutUrl', $fb->logoutUrl)
       ->bind('loginUrl', $fb->loginUrl);
-      
-    if (!$fb->user) return;  
-    //Only query albums if we are logged in with facebook.
     
      
     $columns=$this->_model;
@@ -280,13 +393,13 @@ if ($this->request->param('id')<1) {throw exception;}
     
    
     
-    $albums = $facebook->api('/me/albums?limit=0', 'get');
+    $albums = $facebook->app->api('/me/albums?limit=0', 'get');
     foreach ($albums['data'] as $key=>$album) {
       $columns['album']['options'][$album['id']]="{$album['name']} - ". Arr::get($album,'count',0)." images";
     }
     
     if ($album=Arr::get($data,'album')){
-      $images = $facebook->api("/$album/photos/?fields=id,picture,images,from&limit=0", 'get');
+      $images = $facebook->app->api("/$album/photos/?fields=id,picture,images,from&limit=0", 'get');
       foreach ($images['data'] as $key=>$image) {
         $columns['images']['options'][$key]=Arr::get($image,'picture',0);
       }
