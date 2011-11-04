@@ -132,13 +132,14 @@ Kohana::modules(array(
 	  'pin'        => ''
   ));
   
-  $route_conditions = array('action'=>'[a-zA-Z_-]+[0-9]*[a-zA-Z_-]*','format'=>'part|ajax|xml|json|result','id'=>'[0-9]+','name'=>'[a-zA-Zs]+');
+  $route_conditions = array('action'=>'[a-zA-Z_-]+[0-9]*[a-zA-Z_-]*','subaction'=>'[a-zA-Z_-]+[0-9]*[a-zA-Z_-]*','format'=>'part|ajax|xml|json|result','id'=>'[0-9]+','name'=>'[a-zA-Zs]+');
      
-     ROUTE::set('admin', 'admin(/<controller>(/<id>)(/<action>)(/<name>))(.<format>)',$route_conditions)
+     ROUTE::set('admin', 'admin(/<controller>(/<id>)(/<action>)(/<subaction>)(/<name>))(.<format>)',$route_conditions)
   ->defaults(array(
     'directory'  => 'admin',
     'controller' => 'user',
     'action'     => 'index',
+    'subaction'  => 'index',
     'id'         => null,
     'name'       => null,
     'format'     => false,
