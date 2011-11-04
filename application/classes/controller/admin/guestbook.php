@@ -5,8 +5,7 @@ class Controller_Admin_Guestbook extends Controller_Admin_Album_Core {
   protected $_fields=array('name', 'desc', 'published','facebook','private','theme');
   
   function action_index(){
-    if (!$this->id) $this->fof();
-    $collection=Orm::factory($this->_model,$this->id);
+    $collection=$this->node
     //list these out in a table
     foreach ($collection->comment->find_all() as $key=>$comment){
       $this->template->content.="<p>$key:{$comment->message} ({$comment->user->name})</p>";

@@ -2,14 +2,42 @@
 
 class Controller_Admin_Collection extends Controller_Admin_Album_Core {
 public function action_index(){
+   $collection=$this->node;
    
-   $collections=ORM::factory($this->_model,$this->id)->get_descendants(true);
+   if ($this->node->type != $this->request->controller()) {
+      $this->request->redirect($this->request->url(array('controller'=>$this->node->type)));
+   }
+   
+   //ORM::factory($this->_model,$this->id);
+   $children   = $collection->get_descendants(false);
+   if (! $children->count()) {
+    $empty = "-empty-";
+   }
+   
+   
+   $media =  $this->template->content=View::factory('/admin/blocks/collection')
+      ->bind('collection',$children);
     
-   $this->template->content=View::factory('/admin/blocks/collection')
-      ->bind('collection',$collections);
+   $this->template->content=View::factory('/admin/collection/summary')
+      ->bind('collection',$collection)
+      ->bind('media',$media)
+      ->bind('empty', $empty);
 
   }
   
+  public function action_cover(){return $this->sub();}
+  
+  function after(){
+  
+    if ($this->auto_render) {  
+      $view=View::factory('admin/collection')
+         ->set('content',$this->template->content)
+         ->set('collection',$this->node);
+      $this->template->content = $view;
+    }
+    
+    parent::after();
+  }
 
  
   

@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Admin_Watermark extends Master_Admin {
+class Controller_Admin_Watermark extends Controller_Admin_Album_core {
   function action_index(){
     $this->template->content=View::factory('admin/watermark')
       ->bind('watermark',$record)
@@ -12,7 +12,7 @@ class Controller_Admin_Watermark extends Master_Admin {
       ->bind('errors', $errors);
     
     $start_node=ORM::factory('album',$this->start_node);
-    $album=ORM::factory('album',$this->id);
+    $album=$this->node;
     if (  !$album->id
             || // or is node user start node or a child of?
             //($collection->id!=$start_node->id&&$collection->level<=$start_node->level)

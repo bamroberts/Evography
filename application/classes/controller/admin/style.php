@@ -1,5 +1,5 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-class Controller_Admin_Style extends Master_Admin {
+class Controller_Admin_Style extends Controller_Admin_Album_core {
   var $options=array(
       'size'=>array(
          'name'=>'Thumbnail size',
@@ -50,7 +50,7 @@ class Controller_Admin_Style extends Master_Admin {
       ->bind('data', $post)
       ->bind('errors', $errors);
     
-    $album = ORM::factory('album',$this->id);
+    $album = $this->node;
     $styles= ORM::factory('styles')->where('type','=',$album->type)->find_all();
    // foreach ($styles as $style){
    //   $options = explode(',',$style->options); 

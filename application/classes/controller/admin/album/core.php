@@ -10,41 +10,67 @@ class Controller_Admin_Album_core extends Master_Admin {
     $this->id=$this->request->param('id');
     $this->template->breadcrumb_part[]=HTML::Anchor($this->request->url(array('controller'=>'collection','action'=>'','id'=>'')),'Collections');
 
+    $start_node=ORM::factory($this->_model,Auth::instance()->get_user()->start_node);
+    
     //Check and set access level
     if ($this->id){
-      $collection=ORM::factory($this->_model,$this->id);
-      $start_node=ORM::factory($this->_model,Auth::instance()->get_user()->start_node);
+      $this->node=ORM::factory($this->_model,$this->id);
       
-      if (  !$collection->id
+      
+      if (  !$this->node->id
             || // or is node user start node or a child of?
-            //($collection->id!=$start_node->id&&$collection->level<=$start_node->level)
             //if collection is before or after start node it is out of user scope.
-            ($collection->lft < $start_node->lft || $collection->rgt > $start_node->rgt)
+            ($this->node->lft < $start_node->lft || $this->node->rgt > $start_node->rgt)
             ||  //of requested node is not of this controller type
-            ($collection->type!=$this->request->controller())
+            ($this->node->type!=$this->request->controller())
           )
         {
           $this->fof();
         }
       
       //Set breadcrums for parents upto start node.
-      foreach ($collection->parents as $parent){
+      foreach ($this->node->parents as $parent){
         if($parent->level < $start_node->level) continue;
         $this->template->breadcrumb_part[]=HTML::Anchor($this->request->url(array('controller'=>$parent->type,'action'=>'','id'=>$parent->id)),$parent->name);
       }
       
       //Sec current record if doing edit /or other action
       if (Route::$default_action != $this->request->action()){
-	      $this->template->breadcrumb_part[]=HTML::Anchor($this->request->url(array('action'=>'')),$collection->name);
+	      $this->template->breadcrumb_part[]=HTML::Anchor($this->request->url(array('action'=>'')),$this->node->name);
 	    }
       
     } else {
-      $this->id=Auth::instance()->get_user()->start_node;
+      $this->node=$start_node;
+      //$this->id=Auth::instance()->get_user()->start_node;
     }
   }
   
+  
+  //this lets us run external controllers as sub functions of this controller
+  //sometimes something like 
+  public function sub(){
+        $controller=$this->request->action();
+        $action=$this->request->param('subaction');
+        
+        $route=$this->request->url(array('controller'=>$controller,'action'=>$action));
+        $this->template->content = Request::factory( $route )->execute();                              
+  }
+  
+  public function action_style(){
+    $this->sub();
+  }
+  public function action_password(){
+    $this->sub();
+  }
+  public function action_watermark(){
+    $this->sub();
+  }
+  public function action_shopping(){
+    $this->sub();
+  }
+  
   function action_delete(){
-    $album=ORM::factory('album',$this->id);
+    $album=$this->node;
     //Add some sort of user detection
     if ($this->id==Auth::instance()->get_user()->start_node
         || !$album->belongs_to(Auth::instance()->get_user()->start_node)
@@ -82,7 +108,7 @@ class Controller_Admin_Album_core extends Master_Admin {
       ->bind('errors', $errors);
     
       
-      $data=ORM::factory($this->_model,$this->id);
+      $data=$this->node;
       $columns = Arr::extract($data->list_columns(),$this->_fields);
       $columns['private']=array('formtype'=>'raw','data'=>$this->access());
       
@@ -111,12 +137,12 @@ class Controller_Admin_Album_core extends Master_Admin {
   } 
  }
   
-  public function access(){
-    $users= ORM::factory('user')->find_all();
-    return View::factory('admin/blocks/access')
-   	  ->bind('users',$users);
-  
-  }
+//  public function access(){
+//    $users= ORM::factory('user')->find_all();
+//    return View::factory('admin/blocks/access')
+//   	  ->bind('users',$users);
+//  
+//  }
   
   public function action_select(){
     $model=array(
@@ -126,7 +152,7 @@ class Controller_Admin_Album_core extends Master_Admin {
         )
     );
   
-    $item=ORM::Factory($this->_model,$this->id);
+    $item=$this->node;
     //$self = FALSE, $direction = 'ASC', $direct_children_only = FALSE, $leaves_only = FALSE, $limit = FALSE, array $where=array()
     $tree=$item->get_descendants(false,'ASC',False,false,false,array(array('column'=>'published','operator'=>'=','value'=>1)));
     foreach ($tree as $node){

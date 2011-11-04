@@ -5,21 +5,28 @@ class Controller_Admin_Gallery extends Controller_Admin_Collection {
  protected $_fields=array('name', 'desc', 'published','facebook','private','theme');
 
 function action_index(){
-  	$album=ORM::factory('album',$this->id);
+  	$album=$this->node;
   	
   	if ($album->type!='gallery'){
   	  $this->fof();
   	}
   	
+  	
   	foreach ($album->children as $child){
-  	  $section[]=View::factory('/admin/blocks/multipage-section')
+  	  $section[]=View::factory('/admin/blocks/gallery-section')
   	    ->set('details', $child);
   	}
 
+    if (!isset($section)){
+    $section=array();
+    $empty="-empty-";
+    }
   	
-  	$this->template->content=View::factory('/admin/multipage')
-  	    ->bind('details', $album)
-  	    ->bind('sections',$section)
+  	
+  	$this->template->content=View::factory('/admin/gallery')
+  	    ->bind('gallery' , $album)
+  	    ->bind('sections', $section)
+  	    ->bind('empty'   , $empty)
   	    ;
 	  }
 

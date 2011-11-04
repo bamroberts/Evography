@@ -1,9 +1,9 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Admin_Tags extends Controller_Admin_Collection {
+class Controller_Admin_Tags extends Controller_Admin_Album_core {
 
 function action_index(){
-
+    $album=$this->node;
 }
 
 function action_add(){

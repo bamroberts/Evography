@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Admin_Password extends Master_Admin {
+class Controller_Admin_Password extends Controller_Admin_Album_core {
   function action_index(){
     $this->template->content=View::factory('admin/password')
       ->bind('password',$record)
@@ -14,7 +14,7 @@ class Controller_Admin_Password extends Master_Admin {
     
     $columns=array('phrase'=>array(),'screenshot'=>array(),);
     
-    $album=ORM::factory('album',$this->id);
+    $album=$this->node;
     $users= ORM::factory('user')->find_all(); //we actually need to find user under this account  -  not sure best way to do this right now
     //add auth
     
