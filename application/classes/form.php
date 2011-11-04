@@ -129,7 +129,7 @@ defined('SYSPATH') or die('No direct script access.');
   	  		$error="error";
   	  		}
   	  $response.="
-  	    <div class=\"group $formtype input_{$formtype}_$col $error\">
+  	    <div class=\"group $formtype input_{$formtype}_{$col} $error\">
   	    	$label
   	    	$d
   	    	$h
