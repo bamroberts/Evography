@@ -9,7 +9,7 @@
 <?php else : ?> 
    <form class='fleft' method='post'>
       <fieldset>  
-        <?php  echo Helpers::render_form($columns,$data,$errors,'all'); ?>
+        <?php  echo Form::render($columns,$data,$errors,'all'); ?>
         <input type="submit" value='Export all images' />
       </fieldset>  
     </form>

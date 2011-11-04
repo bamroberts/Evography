@@ -8,7 +8,8 @@ nav.vertical li {float:none;}
 </style>
 
 <?php $sections=array('Summary'=>'index','Details'=>'edit','Images'=>'images','Upload'=>'upload','Style'=>'style','Access'=>'password','Watermarks'=>'watermark','Cart'=>'shopping',); ?>
-<section class="row">
+<h2><?php echo $album->name; ?></h2>
+<section class="row album">
   <nav class="span3 sections vertical">
     <ul>
     <?php foreach ($sections as $name=>$action) : ?>
