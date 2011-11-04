@@ -12,36 +12,45 @@
  .head img {border:1px solid #414141; padding:2px; background: white; margin-right: 10px;}
  button, {margin-left:20px;}
 </style>
-<h4>Import files from facebook:</h4>
-<?php if (!$user) :?>
-<a class="button" style="margin-left:20px; margin-bottom:20px;" href="<?php echo $loginUrl;?>">Login to Facebook</a>
-<?php else : ?>
-<div class='head'>
- <img class='fleft' src="<?php echo $user->picture; ?>" />
- <p>
-  <?php echo $user->name; ?> <br /> (<a class="" href="<?php echo $logoutUrl;?>">Logout from facebook</a>)
- </p>
-</div>
-  <a name="facebook"></a>
-  <form method="post" action="#facebook" id="fb_album">
-    <fieldset name="Pick Album">
-      <?php echo Helpers::render_form($columns,$data,$errors,'album'); ?>
-      <button type="submit">Select album</button>
-    </fieldset>  
-  </form>
+<section id="facebook">
+  <h4>From Facebook</h4>
+  <div class="row">
+    
+    <div class="span4">
+       <img src="<?php echo $user->picture; ?>" class="media" />
+       <p>
+        <?php echo $user->name; ?>
+       </p>
+    </div> 
+    
+    <form method="post" action="#facebook" id="fb_album" class="span8">
+      <fieldset name="Pick Album">
+        <?php echo Form::render($columns,$data,$errors,'album'); ?>
+        <button type="submit" class="btn">Select album</button>
+      </fieldset>  
+    </form>
+    
+  </div>  
 
   <?php if ($album=Arr::get($data,'album',false)) : ?>
   <form method="post" action="#facebook" id="fb_pick">
     <fieldset>
-      
- <label for="images">Pick images</label><button type="submit">Import selected images</button>
-        <?php  echo Form::hidden('album',$album); ?>
-        <?php  echo Helpers::render_form($columns,$data,$errors,'images'); ?>
-      
+        
+        <div class="group select">
+          <label>Pick images</label>
+          <button type="submit" class="btn">Import selected images</button>
+          <?php  echo Form::hidden('album',$album); ?>
+        </div>
+        
+        <div class="group media-grid" data-control="all-none" >
+          <?php  echo Form::render($columns,$data,$errors,'images'); ?>
+        </div>
+    
       </fieldset>  
     </form>
   <?php endif; ?>
-<?php endif; ?>
+   
+</section>
 
 <script>
   function all_none(ul){
