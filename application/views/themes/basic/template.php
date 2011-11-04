@@ -111,15 +111,232 @@ $.fn.pagination = function( options ) {
     $(this).data('paginate', new Paginate( this, options ))
     return this;
   }
+  
+  
+
+
+ /* Lightbox PUBLIC CLASS DEFINITION
+  * ============================= */
+  var Lightbox = function ( content, options ) {
+  
+    //merge settings with defaults 
+    this.settings = $.extend({}, $.fn.lightbox.defaults, options)
+    
+    //master object
+    this.$element = $(content)
+      .delegate('a img', 'click', $.proxy(this.click, this))
+      ;
+    
+    this.settings.target = this.settings.target ? $(this.settings.target) : this.$element.closest('section');
+    
+        
+    //all elements that have an image in an href
+    this.$set = this.$element.find('a img');
+    
+    this.page=0;
+    this.current=false;
+    
+    //this.$element.append('<div class="window">Hello</div>')
+    
+    this.$window=$('<div class="lightbox-window">'); 
+    this.$window.delegate('.lightbox-window img', 'click', $.proxy(this.hide, this))
+      .delegate('.next', 'click', $.proxy(this.next, this))
+      .delegate('.previous', 'click', $.proxy(this.previous, this))
+      .delegate('.fullscreen', 'click', $.proxy(this.fullscreen, this))
+          
+    
+    this.bind(this.settings.target);    
+    //this.$target.append(this.$window);
+    
+    if (this.settings.preload){
+    
+    }
+
+    return this
+  }
+  
+  Lightbox.prototype = {
+     next: function (item) {
+       //next = $(this.current).parent().next().find('img').first() || this.$element.find('img').first();
+       //this.show($(next))
+       index = this.page;
+       if (++index>this.$set.length-1) index=0;
+       
+       this.show( $(this.$set[index]) )
+     },
+     previous: function (event) {
+       //previous = this.current.previous('img') || this.$element.find('img').last();
+       
+       
+       index = this.page;
+       if (--index<0) index=this.$set.length-1;
+       
+       this.show( $(this.$set[index]) )
+     },
+     click:function (e) {
+        e && e.preventDefault();
+        this.show(e.currentTarget)
+     },
+     show: function (item) {
+        var that = this
+  
+        this.$element.pass('polaroid','pause');
+        
+       // if ($polaroid=this.$element.data('polaroid')){
+       //     $polaroid.pause();
+      //  }
+        
+        //console.log(this.$set.length)
+        
+        this.current = item ;
+        this.page = this.$set.index(this.current);
+        var href = $(item).parent('a').attr('href');
+         
+         this.$window.empty();
+         this.$window.append('<img src="'+href+'.jpg" />');
+        
+         this.$window.append('<a class="next btn">next</a>');
+         this.$window.append('<a class="previous btn">previous</a>');
+         this.$window.append('<a class="close btn">close</a>');
+           
+         this.$window.append('<a class="fullscreen btn">fullscreen</a>');
+         this.$window.append('<span class="count">'+this.page + '/' + this.$set.length + '</span>');
+
+       
+        img=this.$window.find('img').first()
+        
+        width=img.width();
+        height=img.height();
+        if (height>width) img.addClass('portrait');
+       
+        this.$target.addClass('lightbox-target');
+       
+        console.log(href);
+        
+        this.isShown = true
+        
+        escape.call(this)
+        
+        return this
+      }
+
+    , hide: function (e) {
+        e && e.preventDefault()
+
+        if ( !this.isShown ) {
+          return this
+        }
+
+        var that = this
+        this.isShown = false
+        escape.call(this)
+        
+        this.$target.removeClass('lightbox-target');
+        
+        
+        if (this.fullscreen) {
+          this.fullscreen=false;
+          this.bind(this.settings.target);
+        }
+        
+        this.$window.empty();
+                
+        return this
+      }
+      
+    , fullscreen: function(e) {
+       // this.$target.removeClass('lightbox-target');
+        
+        this.fullscreen=true;
+        this.bind('body');
+      }
+    
+    , bind:   function(item) {
+      if (this.$target) {
+            this.$target.removeClass('lightbox-target')
+      }     
+      this.$target = $(item);
+      
+      this.$window.appendTo(this.$target)
+      
+      if (this.isShown) {
+        this.$target.addClass('lightbox-target');
+      }
+    }
+      
+  }
+
+
+ //This is a function that allows communication between javascript plugins attach to the same object.
+ $.fn.pass = function (plugin,action,options){
+  var data=[];
+ 
+  this.each(function(){
+    if ($plugin=$(this).data(plugin)){
+      if (typeof $plugin[action]==='function') {
+            return data.push ($plugin[action]() )
+          }
+      return data.push( $plugin[action] )
+    }
+    return data.push(this);
+    });
+   
+  //if there is only one result, do not return it as an array  
+  return (data.length == 1) ? data[0] : data ;  
+ } 
+
+
+ /* Lightbox PLUGIN DEFINITION
+  * ======================= */
+
+  $.fn.lightbox = function ( options ) {
+      return this.each(function () {
+        $(this).data('lightbox', new Lightbox(this, options))
+      })
+    return this
+  }
+
+  $.fn.lightbox.defaults = {
+    backdrop: true
+  , keyboard: true
+  , fullscreen: true
+  , show: false
+  , destroy:false
+  , target: false
+  
+  }
+  
+  
+
+  function escape() {
+    var that = this
+    if ( this.isShown && this.settings.keyboard ) {
+      $(document).bind('keypress.lightbox', function ( e ) {
+         if (e.which==32) {  
+            e && e.preventDefault() //space
+            that.next();
+          }
+      });
+      
+        $(document).bind('keyup.lightbox', function ( e ) {
+         switch (e.which) {
+            case 37: that.previous(); break; //left - next
+            case 39: that.next(); break; //right
+            case 27: that.hide(); break; //esacpe
+        }      
+      });
+    } else if ( !this.isShown ) {
+      $(document).unbind('keyup.lightbox');
+      $(document).unbind('keypress.lightbox')
+    }
+  }
    
 
 
 $(function () {
-    $("[data-lightbox]").delegate("img", "click", function(e){
-         e.preventDefault  ();
+    $("[data-lightbox]").lightbox();
         //var $speed = $(this).data('speed', 300);
-        alert ("showing lightbox");
-    });
+   
     $("[data-fade]").fadeImages();
     $("[data-paginate]").pagination();
   
@@ -141,6 +358,65 @@ $(function () {
 
 
 </script>
+<style>
+  .lightbox-target {position: relative; overflow:hidden;}
+ 
+  .lightbox-target .lightbox-window a { position: absolute; top:50%;
+        z-index:1001; }
+   
+  .lightbox-target a.next     { right:10px; }
+  .lightbox-target a.previous { left:10px;  }
+  .lightbox-target a.fullscreen { left:100%; margin-left:-50%;  }
+        
+  body.lightbox-target a.next     { right:27%; }
+  body.lightbox-target a.previous { left:27%;  }
+  body.lightbox-target a.fullscreen { display:none; }
+  
+  .lightbox-target .lightbox-window {
+        position:absolute;
+        top:0%;
+        left:0%;
+        width:100%;
+        height:100%;
+        background-color:rgba(0,0,0,0.6);
+}
+  
+  body.lightbox-target .lightbox-window {
+          position:fixed;
+          top:-50%;
+          left:-50%;
+          width:200%;
+          height:200%;
+          
+  }
+  
+.lightbox-window img {
+        background-color:black;
+        border:5px solid white;
+        outline:5px solid transparent;
+        
+        -moz-box-sizing: border-box;
+         padding:40px;
+
+        position:absolute;
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        margin:auto;
+        max-width:100%;
+        max-height:100%;
+}
+
+body.lightbox-target img {max-height:50%;}
+
+
+
+
+
+
+</style>
+
 
 </head>
 <body id="<?php echo url::page_id(); ?>" class="<?php echo url::page_class(); ?>" style="<?php if(Access::permission($node) || $node->password->cover) : ?>
