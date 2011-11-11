@@ -13,7 +13,7 @@ class Controller_Admin_User extends Master_Admin {
       ;
       
       $collections=Request::factory($this->request->url(array('controller'=>'collection')))->execute();
-        
+      $this->request->controller(false);  
   }	
   
   function action_welcome() {

@@ -21,4 +21,6 @@ class Theme extends View {
  				':file' => join($pages,"' or '"),
  	  ));
   } 
+  
+   
 }

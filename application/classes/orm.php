@@ -2,6 +2,10 @@
 defined('SYSPATH') or die('No direct script access.');
 
 class Orm extends Kohana_Orm {
+  
+  //this is to hold form information
+  public $form;
+
   protected $_model=array();
   /**
 	 * Merges the $_model values with the model original column data
@@ -52,13 +56,18 @@ class Orm extends Kohana_Orm {
           }
         }
       }
-      foreach ($this->_has_one as $connection) {
-        $items = $this->$connection->find_all();
+      foreach ($this->_has_one as $key=>$connection) {
+        if (!$this->$key->_loaded) {
+          $items=$this->$key->find_all();
+        }
+        $items=array($this->$key);
         foreach ($items as $item) {
             $item->delete_all();
         }
       }
-      $this->delete();  
+      if ($this->_loaded){
+        $this->delete();  
+      }
     }
     
     

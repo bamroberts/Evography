@@ -1,0 +1,1 @@
+<span class="help-block"><?php echo ($err=$this->error())?$err:$this->get('help'); ?></span>

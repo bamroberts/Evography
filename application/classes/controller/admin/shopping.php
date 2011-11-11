@@ -20,7 +20,12 @@ class Controller_Admin_Shopping extends Controller_Admin_Album_core {
   }
   
   function action_add(){
-    echo "got it goood!!";
+    $this->template->content = View::factory('admin/album/shopping-add')
+    ->bind('existing',$existing)
+    ->bind('catagories',$catagories)
+    ->bind('data',$data)
+    ->bind('errors',$errors)
+    ;
   }
   
 }

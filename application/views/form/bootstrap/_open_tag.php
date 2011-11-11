@@ -1,0 +1,1 @@
+<div class="group <?php echo ($driver=$this->driver())=='input'?'text':$driver; ?><?php echo ($this->error()) ? ' error' : ''; ?>">

@@ -3,6 +3,7 @@
 Class Controller_Gallery_Buy extends Master_Gallery {
 	
 	function action_index(){
+	
 	}
 	
 	function action_image(){

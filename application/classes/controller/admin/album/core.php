@@ -22,7 +22,7 @@ class Controller_Admin_Album_core extends Master_Admin {
             //if collection is before or after start node it is out of user scope.
             ($this->node->lft < $start_node->lft || $this->node->rgt > $start_node->rgt)
             ||  //of requested node is not of this controller type
-            ($this->node->type!=$this->request->controller())
+            (!$this->internal && $this->node->type!=$this->request->controller())
           )
         {
           $this->fof();
@@ -46,15 +46,7 @@ class Controller_Admin_Album_core extends Master_Admin {
   }
   
   
-  //this lets us run external controllers as sub functions of this controller
-  //sometimes something like 
-  public function sub(){
-        $controller=$this->request->action();
-        $action=$this->request->param('subaction');
-        
-        $route=$this->request->url(array('controller'=>$controller,'action'=>$action));
-        $this->template->content = Request::factory( $route )->execute();                              
-  }
+
   
   public function action_style(){
     $this->sub();
@@ -102,7 +94,7 @@ class Controller_Admin_Album_core extends Master_Admin {
  
    
  function action_edit(){    
-     $this->template->content = View::factory('pages/admin/edit')
+     $this->template->content = View::factory('admin/edit')
    	  ->bind('columns',$columns)
       ->bind('data', $data)
       ->bind('errors', $errors);
@@ -110,7 +102,7 @@ class Controller_Admin_Album_core extends Master_Admin {
       
       $data=$this->node;
       $columns = Arr::extract($data->list_columns(),$this->_fields);
-      $columns['private']=array('formtype'=>'raw','data'=>$this->access());
+     // $columns['private']=array('formtype'=>'raw','data'=>$this->access());
       
    if($post=$this->request->post()){
     //compolsory
@@ -159,6 +151,11 @@ class Controller_Admin_Album_core extends Master_Admin {
       $model['select']['options'][$node->id]=str_repeat('&nbsp;&nbsp;', $node->level - $item->level-1).$node->name;
     }
     echo Form::render($model);
+  }
+  
+  function after(){
+  $this->template->menu='collection';
+  parent::after();
   }
   
   }

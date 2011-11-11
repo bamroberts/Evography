@@ -162,7 +162,7 @@ class Controller_Admin_Upload extends Controller_Admin_Album_core {
   	       ->set('meta'       , $cam_data                         )
   	       ->set('path'       , str_replace('\\','/',str_replace(DOCROOT,'',$filepath))  )
   	       ->set('taken'      , date('Y-m-d H:i:s',time(  Arr::get($meta, 'DateTime') )) )
-  	       ->set('order'      , ORM::factory('album',$album_id)->images->count_all() + 1 );
+  	       ->set('order'      , $this->node->images->count_all() + 1 );
   	        
      if (Arr::get($meta, 'Orientation',1)) 
      {

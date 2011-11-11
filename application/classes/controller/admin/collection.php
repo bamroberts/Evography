@@ -4,7 +4,7 @@ class Controller_Admin_Collection extends Controller_Admin_Album_Core {
 public function action_index(){
    $collection=$this->node;
    
-   if ($this->node->type != $this->request->controller()) {
+   if (!$this->internal && $this->node->type != $this->request->controller()) {
       $this->request->redirect($this->request->url(array('controller'=>$this->node->type)));
    }
    
@@ -45,7 +45,7 @@ public function action_index(){
     $this->_fields[]='type'; 
     $data=ORM::factory($this->_model); 
     
-    $this->template->content = View::factory('pages/admin/edit')
+    $this->template->content = View::factory('admin/edit')
    	  ->bind('columns',$columns)
       ->bind('data', $data)
       ->bind('errors', $errors);
@@ -73,7 +73,7 @@ public function action_index(){
     $data->values($_POST, $this->_fields);
     
     try {
-    $data->insert_as_last_child($this->id);
+    $data->insert_as_last_child($this->node->id);
 		$data->save();
 		
 		Hint::set(Hint::SUCCESS,"Your record was successfully created.");
@@ -114,17 +114,33 @@ public function action_index(){
         }
         break;
        case 'move':
-        echo 'hello';
+        //echo 'hello';
         if(!$item_id=$this->request->query('item')) return;
+        
         $item=Orm::factory($this->_model,$item_id);
        // if (!$to=$this->request->query('before')) return;
         //$sibling=Arr::get($item->siblings->as_array(),$to - 1,false);
-        if (!$before=$this->request->query('before')){
-           $item->move_to_last_child($item->parent);
+        if ($before=$this->request->query('before')) {
+          $item->move_to_next_sibling($before);
         } else {
-          //echo debug::vars($sibling);
-          $item->move_to_prev_sibling($before);
+          $under=$this->request->query('under');
+          if (!$under) {$under=$item->parent;}
+          
+          echo "item->move_to_first_child($under);";
+          
+          $item->move_to_first_child($under);
         }
+       // } else {
+       // $before=$this->request->query('before',$this->parent);
+       // $item->move_to_next_sibling($before);
+       // }
+        
+       // if (!$before=$this->request->query('before')){
+       //    $item->move_to_last_child($item->parent);
+       // } else {
+          //echo debug::vars($sibling);
+       //   $item->move_to_prev_sibling($before);
+       // }
         break;
         case 'order':
         return;

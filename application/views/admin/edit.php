@@ -1,4 +1,4 @@
-<form method="post" action="<?php echo Request::initial()->url(); ?>">
+<form method="post" action="<?php //echo Request::initial()->url(); ?>">
   <legend>
   <?php if($data->id) : ?>
      Edit this <?php echo Request::current()->controller(); ?>    

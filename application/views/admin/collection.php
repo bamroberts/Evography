@@ -9,7 +9,11 @@ nav.vertical li {float:none;}
 </style>
 
 <?php $sections=array('Summary'=>'index','Details'=>'edit','Cover'=>'cover','Style'=>'style','Access'=>'password','Watermarks'=>'watermark','Cart'=>'shopping',); 
+if (Request::initial()->action()=='add'){
+  $sections=array('Create new'=>'add');
+}
 ?>
+
 <section class="row album">
   <nav class="span3 sections vertical">
     <ul>

@@ -30,8 +30,11 @@ class Url extends Kohana_url {
    return str_replace('/',' ',self::canonical());
   }  
   
-  static function image($ext,$filehash=null,$width=100,$height=100,$format='fit'){
-    return "/images/dynamic/$filehash/{$width}x{$height}x{$format}.{$ext}";
+  static function image($image,$width=100,$height=100,$format='fit',$missing='No Cover Set'){
+    if (!is_object($image) || !$image->id){
+      return "http://dummyimage.com/{$width}x{$height}/d2/fff.jpg&text=$missing";
+    }
+    return "/images/dynamic/{$image->filehash}/{$width}x{$height}x{$format}.{$image->ext}";
   }
       
 }

@@ -13,7 +13,9 @@ class Controller_Api_Album extends Controller_REST {
 	function action_index(){
 	  //if get limit set default
 	  //set offset
-	  $albums=new Model_Albums($id);
+	  //$albums=new Model_Albums($id);
+	  $album=Orm::factory('album')->limit(5)->find_all()->as_array();
+	  $this->response->body($this->_prepare_response($album));
 	}
 	
 	function action_create(){}
@@ -23,20 +25,20 @@ class Controller_Api_Album extends Controller_REST {
 	
 	 
 	// Method to prepare the output
-	protected function _prepare_response(Model_Iterator $messages)
+	protected function _prepare_response($messages,$format='json')
 	{
 		// Return messages formatted correctly to format
-		switch ($this->request->param('format') {
-			case '.json' : {
+		switch ($format) {
+			case 'json' : 
 				$this->request->headers['Content-Type'] = 'application/json';
-				$data = //$data->as_array();
+				//$data = $data->as_array();
 				return json_encode($messages);
-			}
-			case '.html' : {
-				return View::factory('albums/xhtml', $messages);
-			}
-			default : {
+			
+			case 'html' : 
+				return View::factory('album/xhtml', $messages);
+			
+			default : 
 				throw new Controller_Exception_404('File not found!');
-			}
+		}	
 		}
 	}

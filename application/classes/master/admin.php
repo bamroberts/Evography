@@ -80,6 +80,7 @@
               $this->template->scripts          = array();
               $this->template->breadcrumb_part  = array();
               $this->template->breadcrumb       ='';
+              $this->template->menu       =false;
               
               $this->template->breadcrumb_part[]=HTML::anchor($this->request->url(array('controller'=>'','action'=>'','id'=>'')), 'Home');
           //  }      
@@ -121,7 +122,11 @@
                 $this->template->breadcrumb    = join($this->template->breadcrumb_part,' &raquo; ').' &raquo;';
              }
              
-             $this->template->flash   		  = Hint::render(); 
+             $this->template->flash   		  = Hint::render();
+             if (!$this->template->menu) $this->template->menu=$this->request->controller();
+             $this->template->menu= View::factory('admin/block/menu')->set('current',$this->template->menu);
+             
+             
            }
          parent::after();
       }
@@ -166,6 +171,15 @@
      
    }
    
+     //this lets us run external controllers as sub functions of this controller
+  //sometimes something like 
+  public function sub(){
+        $controller=$this->request->action();
+        $action=$this->request->param('subaction');
+        
+        $route=$this->request->url(array('controller'=>$controller,'action'=>$action));
+        $this->template->content = Request::factory( $route )->execute();                              
+  }
    
    public function success($item='record',$extra=null){
      Hint::set(Hint::SUCCESS,"Your $item was successfully updated.$extra");

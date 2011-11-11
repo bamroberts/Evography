@@ -7,7 +7,11 @@ nav.sections li.active a {padding:20px 10px; background-color:#31A2FF; color:whi
 nav.vertical li {float:none;}
 </style>
 
-<?php $sections=array('Summary'=>'index','Details'=>'edit','Images'=>'images','Upload'=>'upload','Style'=>'style','Access'=>'password','Watermarks'=>'watermark','Cart'=>'shopping',); ?>
+<?php $sections=array('Summary'=>'index','Details'=>'edit','Images'=>'images','Upload'=>'upload','Style'=>'style','Access'=>'password','Watermarks'=>'watermark','Cart'=>'shopping',);
+if (Request::initial()->action()=='add'){
+  $sections=array('Create new'=>'add');
+}
+ ?>
 <h2><?php echo $album->name; ?></h2>
 <section class="row album">
   <nav class="span3 sections vertical">

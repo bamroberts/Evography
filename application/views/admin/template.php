@@ -37,33 +37,27 @@
 <body>
   <div class="container">
     <header class="fix">
-      <h1 class="pull-left">EVOGRAPHY <a href="">Admin Area</a></h1> 
+      <h1 class="pull-left">EVOGRAPHY <a href="<?php echo Route::url('admin');?>">Admin Area</a></h1> 
       <h5 class="pull-right">
            <?php if ($user=Auth::instance()->get_user()) : ?>
             You are 
-            <a href="<?php echo Helpers::URL(array('controller'=>'user','action'=>'details'));?>">
+            <a href="<?php echo Route::url('admin');?>/user/details">
               <?php echo $user->username; ?>
             </a>  
             / 
-            <a href="<?php echo Helpers::URL(array('controller'=>'user','action'=>'logout'));?>">
+            <a href="<?php echo Route::url('admin');?>/user/logout">
               Logout  
             </a>
            <?php else : ?>
-            <a href="<?php echo Helpers::URL(array('controller'=>'user','action'=>'login'));?>">
+            <a href="<?php echo Route::url('admin');?>/user/login">
               Login  
             </a>
            <?php endif; ?> 
       </h5>
     </header> 
     
-    <nav>
-        <ul class="tabs">
-          <li><a href="">Home</a></li>
-          <li class="active"><a href="#">Manage Galleries</a></li>
-          <li><a href="#">Options</a></li>
-          <li><a href="#">Sales</a></li>
-          <li><a href="#">Your Account</a></li>
-        </ul>
+    <nav class="tabs">
+        <?php echo $menu; ?>
     </nav>
      
     
@@ -74,7 +68,9 @@
     </div>
     
     <footer>
-    
+      <nav class="pull-right">
+        <?php echo $menu; ?>
+      </nav>
     </footer>
   </div>
 </body>

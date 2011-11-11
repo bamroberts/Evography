@@ -1,8 +1,8 @@
 <li class="section" id="section_<?php echo $details->id; ?>">
   <h4 class="<?php echo $details->type; ?>"><?php echo ($details->type); ?> - <?php echo $details->name; ?></h4>
   <div>
-  <img class="right" src="/assets/images/ui/<?php echo $details->type; ?>.png" alt="Illustration for <?php echo $details->type; ?> section" />
-  <img class="left" src="/images/dynamic/<?php echo $details->cover()->filehash; ?>/130x130xfit.<?php echo $details->cover->ext; ?>"  alt="album cover for <?php echo $details->name; ?>" />
+  <img class="pull-right" src="/assets/images/ui/<?php echo $details->type; ?>.png" alt="Illustration for <?php echo $details->type; ?> section" />
+  <img class="pull-left" src="<?php echo Url::image($details->cover)?>"  alt="album cover for <?php echo $details->name; ?>" />
   <dl>
       <dt>Album is </dt>
       <dd><?php echo ($details->published)?'Live':'Offline'; ?></dd>

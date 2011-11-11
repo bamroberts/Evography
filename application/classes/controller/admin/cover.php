@@ -20,8 +20,8 @@ class Controller_Admin_Cover extends Controller_Admin_Upload {
     $images=array();
       
     if ($inherit=Arr::get($post,'inherit')) {
-      $album=ORM::factory('album',$inherit);
-      $this->node->set('cover_image_id',$album->cover_id)->save();
+      //$album=ORM::factory('album',$inherit);
+      $this->node->set('cover_image_id',$inherit)->save();
     }
     
     if($album_selected=Arr::get($post,'album')){

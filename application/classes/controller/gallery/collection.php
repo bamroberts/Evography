@@ -63,6 +63,7 @@ if ($collection->children==0 && $collection->albums->count_all()==1){
         		->find_all();
   
     $media=Theme::factory(array("{$this->theme}/blocks/collection/{$this->style}","default/blocks/collection/{$this->style}"))
+			->bind('collection', $collection)
 			->bind('children', $children);
 		
 		

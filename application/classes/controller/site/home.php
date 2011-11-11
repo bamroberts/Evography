@@ -1,21 +1,23 @@
 <?php 
 class Controller_Site_Home extends Master_Site {
+  protected $private_beta=true;
 
 	function action_index(){
-		$this->template->content=View::factory('/pages/site/home');
+		$this->template->content=View::factory('site/home');
+		$this->request->action(false);
 	}
 	
 	function action_tour(){
-		$this->template->content=View::factory('/pages/site/tour');
+		$this->template->content=View::factory('site/tour');
 	}
 	
   function action_pricing(){
-		$this->template->content=View::factory('/pages/site/pricing');
+		$this->template->content=View::factory('site/pricing');
 	}
 	
   function action_unknown(){
     $this->response->status(404);
-		$this->template->content=View::factory('/pages/site/unknown');
+		$this->template->content=View::factory('site/unknown');
 	}
 	
 	function action_features(){
@@ -29,8 +31,33 @@ $this->template->styles=array(
         'assets/css/960.css' => 'screen',
         'assets/css/admin_alecmaxwell.css' => 'screen',                                                                                                    
       )
+      
+      
 */;
-	   $this->template->content=View::factory('/pages/site/signup')
+
+    if ($this->private_beta){
+      if ($code=$this->request->query('invite')){
+        $invite=Orm::factory('invite',array('unlock'=>$code));
+        if ($email=$invite->email) {
+          return $this->create_account();
+        }
+        echo 'wrong invite: '.$invite;
+      }
+    } else {return $this->create_account();}
+    
+    return $this->register_interest();
+
+	   	   
+	   	}
+	
+	function email_welcome($user){
+	Hint::set(Hint::SUCCESS,'An email with your account information in has been sent to your email address.');
+	   //Email::send('welcome',$user);
+	   return true;
+	}
+	
+	function create_account(){//if we are signing up
+	$this->template->content=View::factory('site/signup')
 	     ->bind('columns',$columns)
 	     ->bind('data',$user)
 	     ->bind('errors',$errors);
@@ -38,9 +65,7 @@ $this->template->styles=array(
 	   $user=ORM::factory('user');
 	   $fields = array('username','email','password');
 	   $columns=Arr::extract($user->list_columns(),$fields);
-	   
-	   
-	   //if we are signing up
+	
 	   if($_POST) {
 	     $user=ORM::factory('user');
 	     //$user->values($_POST);
@@ -79,12 +104,48 @@ $this->template->styles=array(
   	   }
 	   
 	   }
-	}
+}
 	
-	function email_welcome($user){
-	Hint::set(Hint::SUCCESS,'An email with your account information in has been sent to your email address.');
-	   //Email::send('welcome',$user);
-	   return true;
-	}
+	function register_interest(){
+	 $fields=array(
+  	 'name'=>array(
+  	   'driver'=>'input',
+  	   'type'=>'text',
+  	   'label'=>'Your name',
+  	   'attr'=>array(
+  	     'placeholder'=>'John Smith',
+  	   ),
+  	 ),
+  	 'email'=>array(
+  	   'driver'=>'input',
+  	   'type'=>'email',
+  	   'label'=>'Your email address',
+  	   'attr'=>array(
+  	     'placeholder'=>'me@some-domain.com',
+  	   ),
+  	 ),
+  	 'submit'=>array(
+  	   'driver'=>'submit',
+  	   'label'=>'Keep me in the loop',
+  	   'attr'=>array(
+  	     'class'=>'btn primary',
+  	   ),
+  	 ),
+   );
+	
+	
+	 $this->template->content=View::factory('site/invite')
+	   ->bind('form',$form);
+	   
+	   $form = Formo::Form(array('alias'=>'invite','attr'=>array('class'=>'form-stacked')));
+	   foreach ($fields as $name=>$options){
+	          // $options['value']=Arr::get($post,$name)
+	           $form->add($name,$options);   
+	   }
+	 }
+  
+  function action_available(){
+    
+  }	
 }
 ?>

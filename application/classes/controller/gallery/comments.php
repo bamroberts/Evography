@@ -108,7 +108,7 @@ Class Controller_Gallery_Comments extends Controller_Gallery_Album_Master {
 	
 		
 	function action_add(){
-	 // set quantities 
+	 $this->template->content= $this->request->param('id')?'Add to image':'Add to album';
 	}
 	
 	
@@ -117,16 +117,25 @@ Class Controller_Gallery_Comments extends Controller_Gallery_Album_Master {
 	}
 	
 	function draw_form(){
+	   $form=Formo::form()
+	   ->add('name','input',array('type'=>'text','label'=>'Your name'))
+	   ->add('message','textarea',array('label'=>'Your message'))
+	   ;
+	
 	  return Theme::factory(array("{$this->theme}/blocks/comments/form",'default/blocks/comments/form'))
-	     ->bind('columns',$columns)
-	     ->bind('data',$data)
-	     ->bind('errors',$errors)
-	     ->bind('inject',$user)
+	     //->bind('columns',$columns)
+	     //->bind('data',$data)
+	    // ->bind('errors',$errors)
+	    // ->bind('inject',$user)
+	     ->bind('form',$form)
 	     ->set('submit',"Sign the guestbook")
 	   ;
 
 	 $columns=ORM::factory('comment')->list_columns(array('message'));
 	 $data=$_REQUEST;
+	 
+	 
+	 
 	 
 	 $user=ORM::factory('user',Auth::instance()->get_user());  
 	  if ($user->id) {

@@ -179,6 +179,8 @@ $scripts =array();
           }
     }
    
+   
+   
    function action_login() {
        $password=$this->node->password;
        $columns=array();

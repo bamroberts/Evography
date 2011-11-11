@@ -24,12 +24,12 @@ static function domain($domain=null) {
         $route_conditions = array(
           'controller'  =>'[a-zA-Z_-]*[a-zA-Z_-]*',
           'action'      =>'[a-zA-Z_-]*[a-zA-Z_-]*',
-          'format'      =>'.html|.part|.xml|.json|.jpg',
+          'format'      =>'html|part|ajax|json|jpg',
           'id'          =>'[0-9]+',
           'page'        =>'[0-9]+',
           'name'        =>'[a-zA-Zs+-]+'
         );
-        $route_options="(/<controller>(/<action>)(/<id>(-<name>)))(/page-<page>)(<format>)";
+        $route_options="(/<controller>(/<action>)(/<id>(-<name>)))(/page-<page>)(.<format>)";
         
         //Domain based defaults 
         $settings=array(
@@ -62,7 +62,6 @@ static function domain($domain=null) {
       $query=DB::query(Database::SELECT,$sql)->as_object()->execute();
       while ($route=$query->current()) {
          
-                  
          
          $routes[$route->id] = new Route("{$route->path}$route_options", $route_conditions);
          $routes[$route->id]
@@ -81,7 +80,7 @@ static function domain($domain=null) {
         //echo $domain->node_id;
         //Add default path for domain
         //options are duplicated as they need the first / removed
-        $route_options="(<controller>(/<action>)(/<id>(-<name>)))(page-<page>)(<format>)";
+        $route_options="(<controller>(/<action>)(/<id>(-<name>)))(page-<page>)(.<format>)";
         $routes[$domain->node_id] = new Route("$route_options", $route_conditions);
         $routes[$domain->node_id]
            ->defaults( $settings +

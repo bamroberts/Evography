@@ -108,10 +108,13 @@ Kohana::modules(array(
 	 'image'      => MODPATH.'image',      // Image manipulation
 	 'orm'        => MODPATH.'orm',        // Object Relationship Mapping
 	  // 'unittest'   => MODPATH.'unittest',   // Unit testing
-	  // 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
+	  'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 	  'hint' => MODPATH.'hint', // Light "flash" messages
     'mailer' => MODPATH.'mailer', // Mail functions
     'orm-tree' => MODPATH.'orm-tree', // Tree based ORM
+    'formo' => MODPATH.'kohana-formo', // OOP form class
+    'OAuth2' => MODPATH.'oauth2', // Api auth
+    'api' => MODPATH.'api', // Api base template
 	));
 
 /**
@@ -132,9 +135,16 @@ Kohana::modules(array(
 	  'pin'        => ''
   ));
   
-  $route_conditions = array('action'=>'[a-zA-Z_-]+[0-9]*[a-zA-Z_-]*','subaction'=>'[a-zA-Z_-]+[0-9]*[a-zA-Z_-]*','format'=>'part|ajax|xml|json|result','id'=>'[0-9]+','name'=>'[a-zA-Zs]+');
+  $route_conditions = array(
+    'controller' =>  '[a-zA-Z_-]+[0-9]*[a-zA-Z_-]*',
+    'action'     =>  '[a-zA-Z_-]+[0-9]*[a-zA-Z_-]*',
+    'subaction'  =>  '[a-zA-Z_-]+[0-9]*[a-zA-Z_-]*',
+    'format'     =>  'part|ajax|xml|json|result',
+    'id'         =>  '[0-9]+',
+    'name'       =>  '[a-zA-Zs]+'
+    );
      
-     ROUTE::set('admin', 'admin(/<controller>(/<id>)(/<action>)(/<subaction>)(/<name>))(.<format>)',$route_conditions)
+     ROUTE::set('admin', 'admin(/<controller>(/<id>)(/<action>(/<subaction>))(.<format>))',$route_conditions)
   ->defaults(array(
     'directory'  => 'admin',
     'controller' => 'user',
@@ -144,7 +154,8 @@ Kohana::modules(array(
     'name'       => null,
     'format'     => false,
   ));
-    
+  
+     
   //get domain based routes  
   Route::domain(); 
     

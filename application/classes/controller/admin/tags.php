@@ -17,11 +17,11 @@ function action_add(){
 function action_delete(){}
 
 function action_suggest(){}
-  $sql="SELECT image_id FROM image_tags where tag='$'"
+  //$sql="SELECT image_id FROM image_tags where tag='$'";
   
-  select all images with matching tags
+  //select all images with matching tags
   
-  select all tags, count(*) with ^ ids excluding tags already selected order by count()
+  //select all tags, count(*) with ^ ids excluding tags already selected order by count()
   
   
 }

@@ -13,8 +13,36 @@ class Controller_Gallery_Image extends Master_Gallery {
     parent::before();
   }
   
+  public function json(){
+    $image=ORM::factory('image',$this->request->param('id'));
+    
+    $return=array(
+      'name'=>$image->name,
+    //  'desc'=>$image->desc,
+      'size'=>url::image($image,1024,1024,'fit'),
+      'comments'=> $image->comment->count_all(),
+     // 'forsale'=> $image->pricing->where('availible','=',1)->count_all()?true:false,
+      'link'=>array(
+          'album'=>Route::url($image->album_id,array('controller'=>'comments','id'=>$image->id)),
+          'comments'=>Route::url($image->album_id,array('controller'=>'comments','id'=>$image->id)),
+          'purchase'=>Route::url($image->album_id,array('controller'=>'buy','id'=>$image->id)),
+        ),
+          
+      );
+    $this->template->content = json_encode($return);  
+      
+    
+
+  }
+  
   
   public function action_index(){
+    switch ($this->request->param('format')){
+    case 'json':
+      return $this->json();
+      break;
+    }
+  
   
     $image=ORM::factory('image',$this->request->param('id'));
     if (!$image->id or $image->album_id!=$this->request->param('node')) {
@@ -29,7 +57,7 @@ class Controller_Gallery_Image extends Master_Gallery {
     $image->save();
     
     //  If format is set to jpg serve up image.  Used to trick lightbox.
-    if ($this->request->param('format')=='.jpg'){
+    if ($this->request->param('format')=='jpg'){
       $this->request->redirect("/images/dynamic/{$image->filehash}/1000x1000xfit.{$image->ext}",301);
       return;
     }
@@ -69,7 +97,7 @@ class Controller_Gallery_Image extends Master_Gallery {
     ->bind('pagination',$pagination)
     ;
 */
-    $comments=Request::factory( Route::url($this->node->id, array('controller'=>'comments','id'=>$image->id,'format'=>'.part')) )->execute();
+    $comments=Request::factory( Route::url($this->node->id, array('controller'=>'comments','id'=>$image->id,'format'=>'part')) )->execute();
         
 		$this->template->content = Theme::factory(array("{$this->theme}/image","default/image"))
 

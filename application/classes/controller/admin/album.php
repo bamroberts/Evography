@@ -204,7 +204,7 @@ class Controller_Admin_Album extends Controller_Admin_Album_Core {
   public function action_set_cover(){
     $data=Arr::merge($_POST,$_GET);
     if ($data){
-      $album= $this->node
+      $album= $this->node;
       if ($album->id AND $cover=ARR::get($data,'cover') AND $album->images->find($cover) ) {
         $album->set('cover_image_id',$cover)->save();
       }
