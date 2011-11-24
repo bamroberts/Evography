@@ -12,7 +12,7 @@
     <?php endif; ?>
   <?php endif; ?>
   </div>
-<iframe class="fb_like" src="http://www.facebook.com/plugins/like.php?app_id=179663692087801&amp;href=<?php echo URL::site(Request::current()->url(),'http'); ?>&amp;send=false&amp;layout=standard&amp;width=450&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=verdana&amp;height=35" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:35px;" allowTransparency="true"></iframe>  
-<p class="pagination"><?php echo $pagination->details(); ?></p>
-<?php echo $pagination->render(); ?>
+ 
+<p class="pagination"><?php //echo $pagination->details(); ?></p>
+<?php //echo $pagination->render(); ?>
 

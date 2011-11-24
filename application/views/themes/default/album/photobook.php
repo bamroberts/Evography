@@ -1,5 +1,5 @@
 <?php 
- if(Request::current()->param('format')=='.part') {
+ if(Request::current()->param('format')=='part') {
   $image_x ='400';
   $image_y ='250';
  // $book_x  ='850';

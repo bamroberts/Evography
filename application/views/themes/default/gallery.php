@@ -1,31 +1,39 @@
+<div class="gallery" id="node_<?php echo $collection->id; ?>">
   
-<style>
-  .intro {	
+  <section class="intro">
+    <?php echo facebook::like(Route::URL($collection->id)); ?>
+    <h2><?php echo $collection->name; ?></h2>
+    <?php echo Request::factory(Request::current()->url(array('controller'=>'menu','action'=>'index','format'=>'part')))->execute();?>
+    <p><?php echo $collection->desc; ?></p>
+  </section>  
   
-  
-	background-image: url('/images/dynamic/<?php echo $collection->cover->filehash;?>/900x200xcrop.jpg');
-	background-repeat: repeat-x;
-	}
-	
-	h2 {height:100px;background-color: rgba(0,0,0,0.7); }
-	h2 span {font-size: 50%;display: block;}
-	
-	.links {
-	  background-color:rgba(0,0,0,0.7);
-	  clear:left;
-	  float:right;
-	}
-	
-	div.section {border-top:2px solid white;}
-</style>
-<div class='intro'>
-  <h2><?php echo $collection->name; ?><span><?php echo $collection->desc; ?></span></h2>
-  <?php echo Request::factory(Request::current()->url(array('controller'=>'menu','action'=>'index')))->execute();?>
+  <?php foreach ($children as $key=>$section): ?>
+  <?php if (!$section->published) continue; ?>
+    <hr />
+    <section id="node_<?php echo $key ?>" class="<?php echo $section->type; ?>">
+      <a href="<?php echo Route::url($section->id); ?>" class="btn pull-right">
+        View <?php echo $section->type; ?>
+      </a>
+      <h3>
+        <a href="<?php echo Route::url($section->id); ?>">
+          <?php echo $section->name; ?>
+        </a>
+      </h3>
+      <p><?php echo $section->desc;?></p>
+      <?php echo Request::factory(  Route::url( $section->id, array('format'=>'part') )  )->execute(); ?>
+    </section>
+ 
+  <?php endforeach; ?>
 </div>
 
-<?php foreach ($sections as $key=>$details): ?>
-   <div id="<?php $key ?>" class="section" style="clear:both">  
-    <?php $_REQUEST['current'] = Arr::get($details,'data',array()); ?>
-    <?php echo Request::factory($details['factory'])->execute(); ?>
-   </div>
-<?php endforeach; ?>
+<?php
+
+//inview
+
+//$view = View::factory('login')->bind('form',$form);//
+//
+//$options=array('prefix'=>'page1_','namespace'=>$this->request->controller());
+//$form = Form::factory($colums,$values,$errors,$options);
+
+
+?>

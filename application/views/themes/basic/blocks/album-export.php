@@ -1,1 +1,0 @@
-<?php echo Request::factory("/admin/facebook/{$album->id}/export")->execute(); ?>
