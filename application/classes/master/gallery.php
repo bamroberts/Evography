@@ -51,6 +51,7 @@
            
            //only bother flushing template if we are going to render it.
            if($this->auto_render){
+             if (Request::user_agent('mobile')) {$this->theme = 'mobile';}
 			       $this->template = View::factory("themes/{$this->theme}/template");
 			     }
          }
