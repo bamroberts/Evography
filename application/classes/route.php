@@ -3,6 +3,8 @@ defined('SYSPATH') or die('No direct script access.');
 
 class Route extends Kohana_route {
 
+private $trail_slash=true;
+
 public static function exists($name){
     return isset(Route::$_routes[$name]);
 }
@@ -114,6 +116,10 @@ static function domain($domain=null) {
         Route::inject($routes);
   }
   
+  public function get_default($param){
+    return Arr::get($this->_defaults,$param,false);
+  }
+  
   //Copy of normal reverse route, but set to ignore defaults 
   public function uri(array $params = NULL)
     {
@@ -216,7 +222,7 @@ static function domain($domain=null) {
         // Clean up the host and prepend it to the URI
         $uri = rtrim($host, '/').'/'.$uri;
     }
- 
+    
     return $uri;
   }
 }

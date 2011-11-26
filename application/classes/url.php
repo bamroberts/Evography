@@ -36,5 +36,49 @@ class Url extends Kohana_url {
     }
     return "/images/dynamic/{$image->filehash}/{$width}x{$height}x{$format}.{$image->ext}";
   }
+  
+  
+  static function back($node){
+    $request=Request::initial();
+    $action=$request->route()->get_default('action');
+    if ($action && $request->action()!=$action) 
+    {
+     
+      $url=$request->url(array('action'=>false));
+      $txt='Cancel';
+      $icn='cancel';
+    }
+    elseif ($request->controller()!=$request->route()->get_default('controller')) 
+    {
+      $url=$request->url(array('controller'=>false));
+      $txt='Back';
+      $icn='arrow-l';
+    }
+    else 
+    {
+      $parent = $node->parent;
+      $start  = $request->param('root');
+      if ($parent->id==$start) 
+      {
+        $url=Route::url($parent->id);
+        $txt='Home';
+        $icn='home';
+        
+      }
+      elseif ($parent->is_descendant($start)) {
       
+        $url=Route::url($parent->id);
+        $txt=Text::limit_chars($parent->name,20,'...');
+        $icn='grid';
+      }
+      else {return false;}
+    }
+    return '<a href="'.$url.'"  data-direction="reverse" data-icon="'.$icn.'" >'.$txt.'</a>';     
+  } 
+  
+  public static function site($uri = '', $protocol = NULL, $index = TRUE)
+  {
+  $path=parent::site($uri, $protocol, $index);
+  return ($path!='/'&&strpos($path, '.') === FALSE) ? $path.'/' : $path;  
+  }   
 }
