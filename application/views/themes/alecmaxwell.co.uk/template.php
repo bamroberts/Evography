@@ -9,7 +9,7 @@
     <meta name="description" content="<?php echo strip_tags($meta_description); ?>" />
     <meta name="copyright" content="" />
 
-    <link type="text/css" href="http://alecmaxwell.co.uk/assets/css/reset.css" rel="stylesheet" media="screen" />
+<link type="text/css" href="http://alecmaxwell.co.uk/assets/css/reset.css" rel="stylesheet" media="screen" />
 <link type="text/css" href="http://alecmaxwell.co.uk/assets/css/text.css" rel="stylesheet" media="screen" />
 <link type="text/css" href="http://alecmaxwell.co.uk/assets/css/960.css" rel="stylesheet" media="screen" />
 <link type="text/css" href="http://alecmaxwell.co.uk/assets/css/mediaboxAdvBlack.css" rel="stylesheet" media="screen" />
@@ -252,9 +252,12 @@ window.addEvent('domready', function(){new preLoad({elements:'.gallery .image im
             <h2><?php echo $collection_title; ?></h2>
 		        <p><?php echo $collection_desc; ?></p>
 		        <?php if($parent=$node->parent) : ?>
-     <a class="btn button" href="<?php echo Route::url($parent->id); ?>">
-     &lt; Back to: <?php echo $parent->name; ?>
-     </a>
+     <!--
+<a class="btn button" href="<?php //echo Route::url($parent->id); ?>">
+     &lt; Back to: <?php //echo $parent->name; ?>
+     
+</a>
+-->
     <?php endif; ?>
         </div>
 

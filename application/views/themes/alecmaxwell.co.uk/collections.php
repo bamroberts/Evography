@@ -1,5 +1,3 @@
-Hello
-
 
 
 <a href="/gallery/collection/">collections</a>
