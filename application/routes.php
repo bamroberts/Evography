@@ -9,7 +9,7 @@ if ($domain->id){
     $route_conditions = array(
       'controller'=>'[a-zA-Z_-]*[a-zA-Z_-]*',
       'action'=>'[a-zA-Z_-]*[a-zA-Z_-]*',
-      'format'=>'/|.html|.part|.xml|.json|.jpg',
+      'format'=>'html|part|xml|json|jpg',
       'id'=>'[0-9]+',
       'name'=>'[a-zA-Zs+-]+'
     );
@@ -24,7 +24,7 @@ if ($domain->id){
     );
     
     //Home route for domain
-    Route::set("album_{$domain->node_id}", '(/<controller>(/<action>)(/<id>(-<name>)))(<format>)',$route_conditions)
+    Route::set("album_{$domain->node_id}", '(/<controller>(/<action>)(/<id>(-<name>)))(.<format>)',$route_conditions)
     ->defaults( $settings +
       array (
           'node'      => $domain->node_id,
