@@ -7,6 +7,7 @@ return array(
         'min_length'    => ':field must be at least :param2 characters long',
       	'max_length'    => ':field must not exceed :param2 characters long',
         'username_available' => 'The username you are entering has already been taken.',
+        'regex' => 'The username can only contain letters (a-z), numbers (0-9), dashes (-) and underscores (_).',
     ),
     'email' => array(
         'not_empty' => 'You must enter an email address.',
