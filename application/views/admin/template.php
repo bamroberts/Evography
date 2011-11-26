@@ -18,7 +18,8 @@
 
   <!-- CSS: implied media=all -->
   <!-- CSS concatenated and minified via ant build script--> 
-  <link rel="stylesheet" href="/assets/css/basic.css?>">
+  <link rel="stylesheet" href="/assets/css/basic.css">
+  <link rel="stylesheet" href="/assets/vendor/jwysiwyg/jquery.wysiwyg.css"> 
   
   <script src="/assets/javascript/libs/modernizr-1.7.min.js"></script>
   <!-- JavaScript at the bottom for fast page loading -->
@@ -41,15 +42,15 @@
       <h5 class="pull-right">
            <?php if ($user=Auth::instance()->get_user()) : ?>
             You are 
-            <a href="<?php echo Route::url('admin');?>/user/details">
+            <a href="<?php echo Route::url('admin');?>user/details">
               <?php echo $user->username; ?>
             </a>  
             / 
-            <a href="<?php echo Route::url('admin');?>/user/logout">
+            <a href="<?php echo Route::url('admin');?>user/logout">
               Logout  
             </a>
            <?php else : ?>
-            <a href="<?php echo Route::url('admin');?>/user/login">
+            <a href="<?php echo Route::url('admin');?>user/login">
               Login  
             </a>
            <?php endif; ?> 
@@ -74,4 +75,31 @@
     </footer>
   </div>
 </body>
+
+<script type="text/javascript" src="/assets/vendor/jwysiwyg/jquery.wysiwyg.js"></script>
+<script type="text/javascript">
+$(function() {
+    $('textarea').wysiwyg({
+      rmUnusedControls: true,
+      controls: {
+        bold: { visible: true },
+        italic: { visible: true },
+        underline: { visible: true },
+        justifyLeft: { visible: true },
+        justifyCenter: { visible: true },
+        justifyRight: { visible: true },
+       // undo: { visible: true },
+      //  insertHorizontalRule: { visible: true },
+        createLink: { visible: true },
+      //  paragraph: { visible: true },
+      //  h2: { visible: true },
+      //  h3: { visible: true },
+      //  h4: { visible: true },
+        
+        html: { visible: true },
+      }
+    });
+});
+</script>
+
 </html>

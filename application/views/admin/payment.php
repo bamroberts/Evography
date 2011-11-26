@@ -1,4 +1,4 @@
-<?php echo debug::vars($sub); ?>
+
 
 <?php if($sub->subscription_plan_name=="Trial") : 
 $days=Date::span($sub->active_until,time(),'days');
@@ -8,7 +8,7 @@ $days=Date::span($sub->active_until,time(),'days');
     </h2>
     <p>
       Looks like it's time to upgrade to one of our great packages.
-      <a href="<?php echo Request::current()->url(array('action'=>'plans')); ?>">Check out the payment plans.</a>
+      <a href="<?php echo Request::initial()->url(array('subaction'=>'plans')); ?>">Check out the payment plans.</a>
     </p>
 <?php else: ?>
 
@@ -19,7 +19,9 @@ $days=Date::span($sub->active_until,time(),'days');
 
 <h3>Remember you can change or cancel your plan at anytime.  And if you change plans we can user whats left of your current subscription as credit against the new one.</h3>
 
-<a href="<?php echo Request::current()->url(array('action'=>'plans')); ?>">Change your plan</a>
-<a href="<?php echo Request::current()->url(array('action'=>'cancel')); ?>">Cancel your plan</a>
+<a href="<?php echo Request::initial()->url(array('subaction'=>'plans')); ?>">Change your plan</a>
+<a href="<?php echo Request::initial()->url(array('subaction'=>'cancel')); ?>">Cancel your plan</a>
 
 <?php endif; ?>
+
+<?php echo debug::vars($sub); ?>

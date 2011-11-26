@@ -15,10 +15,8 @@
    .input_text_card_number input {width:300px; }
    .input_text_verification_value input {width:148px;}
 </style>
-
-<?php echo debug::vars($invoice); ?>
 <h1>Subscription checkout</h1>
-<h2>PLAN: <?php echo $plan->name; ?></h2><a href="<?php echo Request::current()->url(array('action'=>'plans','id'=>'')); ?>">Change plan</a>
+<h2>PLAN: <?php echo $plan->name; ?></h2><a href="<?php echo Request::initial()->url(array('subaction'=>'plans','id'=>'')); ?>">Change plan</a>
 
 <?php foreach ($invoice->line_items as $line): ?>
  <?php echo $line->description; ?> <?php echo $line->price; ?>
@@ -30,7 +28,7 @@
 <?php if($invoice->amount <0 ) : ?>
   <p>To change to this plan you will be charged nothing and still have $invoice->price credit to use towards future payments.</p>
   <div class="control">
-    <a class="button" href="<?php echo Request::current()->url(array('action'=>'','id'=>'')); ?>">Cancel</a>
+    <a class="button" href="<?php echo Request::initial()->url(array('subaction'=>'','id'=>'')); ?>">Cancel</a>
     <button class="default" type="submit" name="action" value="pay">Change to this plan</button>
   </div>
 
@@ -40,8 +38,12 @@
     <?php echo Form::render($columns,$data,$errors); ?>
   </fieldset>
   <div class="control">
-    <a class="button" href="<?php echo Request::current()->url(array('action'=>'','id'=>'')); ?>">Cancel</a>
+    <a class="button" href="<?php echo Request::initial()->url(array('subaction'=>'','id'=>'')); ?>">Cancel</a>
     <button class="default" type="submit" name="action" value="pay">Make Payment</button>
   </div>
 </form>
 <?php endif; ?>
+
+
+
+<?php echo debug::vars($invoice); ?>
