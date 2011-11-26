@@ -16,9 +16,10 @@
 	</div><!-- /header -->
 
 	<div data-role="content">	
-	<?php echo $pagination->details(); ?>
+	 <section>
+	  <?php echo $pagination->details(); ?>
     <?php echo $media; ?>	
-    
+   </section>
 	</div><!-- /content -->
 
   <div data-role="footer" data-position="fixed">	

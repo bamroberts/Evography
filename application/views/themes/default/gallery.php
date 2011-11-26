@@ -7,7 +7,7 @@
     <p><?php echo $collection->desc; ?></p>
   </section>  
   
-  <?php foreach ($children as $key=>$section): ?>
+  <?php foreach ($sections as $key=>$section): ?>
   <?php if (!$section->published) continue; ?>
     <hr />
     <section id="node_<?php echo $key ?>" class="<?php echo $section->type; ?>">

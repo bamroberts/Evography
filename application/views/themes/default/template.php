@@ -420,7 +420,7 @@ body.lightbox-target img {max-height:50%;}
 
 </head>
 <body id="<?php echo url::page_id(); ?>" class="<?php echo url::page_class(); ?>" style="<?php if(Access::permission($node) || $node->password->cover) : ?>
-background:url(<?php echo url::image($node->cover->ext,$node->cover->filehash,1000,1000,'fit'); ?>) no-repeat fixed center center; background-size:100%
+background:url(<?php echo url::image($node->cover,1000,1000,'fit'); ?>) no-repeat fixed center center; background-size:100%
 <?php endif; ?>">
   <a class="tabfocus hide" href="#main">jump to content (press enter)</a>
   <div class="container">
