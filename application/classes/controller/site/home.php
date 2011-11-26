@@ -26,22 +26,14 @@ class Controller_Site_Home extends Master_Site {
 	}
 	
 	function action_signup(){
-	  /*
-$this->template->styles=array( 
-        'assets/css/960.css' => 'screen',
-        'assets/css/admin_alecmaxwell.css' => 'screen',                                                                                                    
-      )
-      
-      
-*/;
-
     if ($this->private_beta){
       if ($code=$this->request->query('invite')){
         $invite=Orm::factory('invite',array('unlock'=>$code));
-        if ($email=$invite->email) {
-          return $this->create_account();
+        if ($invite->email) {
+          return $this->create_account($invite);
         }
-        echo 'wrong invite: '.$invite;
+        Hint::set(Hint::ERROR,'<b>Code not found.</b> Sorry, that invite code does not exist in our system.');
+
       }
     } else {return $this->create_account();}
     
@@ -56,7 +48,7 @@ $this->template->styles=array(
 	   return true;
 	}
 	
-	function create_account(){//if we are signing up
+	function create_account($invite=false){//if we are signing up
 	$this->template->content=View::factory('site/signup')
 	     ->bind('columns',$columns)
 	     ->bind('data',$user)
@@ -66,41 +58,69 @@ $this->template->styles=array(
 	   $fields = array('username','email','password');
 	   $columns=Arr::extract($user->list_columns(),$fields);
 	
-	   if($_POST) {
+	   if( $post=$this->request->post() ) {
 	     $user=ORM::factory('user');
-	     //$user->values($_POST);
-	     
-
-  	   try {
+	   try {
   	    //create user
-  	     $user->create_user($_POST,$fields);
-	     //upgrade user type
-	       $user->set('type','client');
-  	     $user->save();
-  	    //add permissions
-  	     $login=ORM::factory('role')->where('name','=','login')->find();
-  	     $user->add('roles',$login->id);
-  	     $client=ORM::factory('role')->where('name','=','client')->find();
-  	     $user->add('roles',$client->id);
+  	     $user->set('type','client');
+  	     $user->create_user($post,$fields);
+  	    
   	    //create specific role for this account  
-  	     $role=ORM::factory('role');
-  	     $role->set('name','client_'.$user->id);
-  	     $role->set('description','Role for client '.$user->username);
-  	     $role->save();
-  	    //add this role
-  	     $user->add('roles',$role->id); 
+  	     $role=ORM::factory('role')
+  	          ->set('name','client_'.$user->id)
+  	          ->set('description',"Role for client {$user->username} ({$user->email})")
+  	          ->save();
+        //get general access permissions
+  	     $login =ORM::factory( 'role', array('name'=>'login') );
+  	     $admin =ORM::factory( 'role', array('name'=>'admin') );
+  	     $client=ORM::factory( 'role', array('name'=>'client') );
+  	     
+  	    //add roles 
+  	     $user->add('roles',$login->id)
+  	          ->add('roles',$admin->id)
+  	          ->add('roles',$client->id)
+  	          ->add('roles',$role->id);
+  	           
   	    //log us in 
   	     Auth::instance()->login($user->username,Arr::get($_POST,'password'));
+  	     
+  	     //create initial album
+  	     $album = Orm::factory('album');
+  	     $album->set('user_id',$user->id)
+  	           ->set('name',ucwords($user->name)) 
+  	           ->set('type','collection') 
+  	           ->set('published',1);
+  	     $album->save();         
+  	     
+  	     //create default domain
+  	     $domain=Orm::factory('domain');
+  	     $domain->set('user_id',$user->id)
+  	            ->set('name',"{$user->name}.evography.com")
+  	            ->set('node_id',$album->id)
+  	            ->set('system',1)
+  	            ->set('theme',1)
+  	            ->set('published',1);
+         $domain->save();
+          	     
   	    //set success message 
   	     Hint::set(Hint::SUCCESS,'You successfully created your account.');
-  	     
-  	     $this->email_welcome($user);
-  	     
-  	    //redirect to admin area to continue setting up account.
+  	     if ($invite) 
+  	     {
+  	       $invite->delete();
+  	     }
+  	    //send welcome email 
+  	     //$this->email_welcome($user);
+  	   //  $recipt=email::factory('email/signup/welcome')
+	     //          ->bind('details',$user)
+	     //          ->to($user->email,$user->username)
+	     //          ->subject('Welcome to '.SITENAME);
+	     //          ->send();  	    
+	               
+	       //redirect to admin area to continue setting up account.
   	     $this->request->redirect('admin/user/welcome');
   	   } catch(ORM_Validation_Exception $e) {
-	       $errors=$e->errors('models');
-  	     Hint::set(Hint::ERROR,'There was a problem.');
+	       $errors=$e->errors('models/user');
+  	     Hint::set(Hint::ERROR,'Please correct your details.');
   	   }
 	   
 	   }
@@ -137,15 +157,51 @@ $this->template->styles=array(
 	 $this->template->content=View::factory('site/invite')
 	   ->bind('form',$form);
 	   
-	   $form = Formo::Form(array('alias'=>'invite','attr'=>array('class'=>'form-stacked')));
+	   $form = Formo::Form(array('alias'=>'invite','form_message'=>'','attr'=>array('class'=>'form-stacked')));
 	   foreach ($fields as $name=>$options){
 	          // $options['value']=Arr::get($post,$name)
 	           $form->add($name,$options);   
 	   }
+	   
+	   if ($post=$this->request->post('invite')){
+	     $invite=Orm::factory('invite')
+	             ->values($post);
+	             
+	     try 
+	     {
+	       $invite->save();
+	       $invite->clear();
+	       Hint::set(Hint::INFO,"<b>Thanks!</b> Your interest has been registered. Well keep you updated.");
+	       /*
+         $recipt=email::factory('email/signup/interest')
+	               ->bind('details',$invite)
+	               ->to($invite->email,$invite->name)
+	               ->subject('Thanks for registering your interest')
+	               ->send();
+	       $recipt=email::factory('email/system/interest')
+	               ->bind('details',$invite)
+	               ->to(Kohana::email,'System')
+	               ->subject('New interest registered')
+	               ->send();
+      */
+	       
+	     }
+       catch(ORM_Validation_Exception $e) {
+  	       $errors=$e->errors('models');
+  	       foreach ($errors as $field=>$error){
+  	         $form->error($field,$error);
+  	       }  
+  	   }
+  	   
+  	   //load values into form from model.
+	     $form->load(array('invite'=>$invite->as_array()));
+	   }  
 	 }
   
-  function action_available(){
+
+  
+  
+  
     
-  }	
 }
 ?>

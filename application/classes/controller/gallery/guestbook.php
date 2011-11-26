@@ -35,7 +35,7 @@
     $media=Theme::factory(array("{$this->theme}/blocks/comments","default/blocks/comments"))
     ->bind('comments',$comments);
     
-    if ($this->request->param('format')=='.part') {
+    if ($this->request->param('format')=='part') {
       return $this->template->content=$media;
     }
     

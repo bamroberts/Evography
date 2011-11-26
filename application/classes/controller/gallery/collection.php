@@ -62,7 +62,7 @@ if ($collection->children==0 && $collection->albums->count_all()==1){
         		->order_by('order','DESC')
         		->find_all();
   
-    $media=Theme::factory(array("{$this->theme}/blocks/collection/{$this->style}","default/blocks/collection/{$this->style}"))
+    $media=Theme::factory(array("{$this->theme}/collection/{$this->style}","default/collection/{$this->style}"))
 			->bind('collection', $collection)
 			->bind('children', $children);
 		

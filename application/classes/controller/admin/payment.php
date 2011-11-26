@@ -22,6 +22,7 @@ const INVOICE_DATE_TIME = "d M Y h:i:s";
     $this->template->content = View::factory('admin/payment')
         ->bind('sub', $sub);
     
+   // die();
     //Sorry our payment provider appear to be experiencing some problems.      
         
     Spreedly::configure($this->site, $this->token);

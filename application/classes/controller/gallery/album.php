@@ -22,7 +22,7 @@ class Controller_Gallery_Album extends Controller_Gallery_Album_Master {
 	function action_grid(){
 	  $_REQUEST['current']['type']='grid';
 	  
-	  $_REQUEST['current']['limit']=($this->request->param('format')=='.part')?21:Arr::get($_REQUEST['current'],'limit',42);
+	  $_REQUEST['current']['limit']=($this->request->param('format')=='part')?21:Arr::get($_REQUEST['current'],'limit',42);
 	  $setting=array(
 	    'preload'=>true,
 	  );

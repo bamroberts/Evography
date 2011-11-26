@@ -31,8 +31,35 @@ class Controller_Gallery_Album_Master extends Master_Gallery {
 	}
 	
 	public function json(){
-	  $data=array('results'=>$this->data()->as_array());
-	  return json_encode(Arr::merge((array) $this->pagination,$data));
+	  $images=array();
+	  foreach ($this->data() as $image){
+	    $images[$image->id]=array(
+	       'name'=>$image->name,
+	     //  'desc'=>$image->desc,
+	       'landscape'=>($image->width>=$image->height),
+	       'link'=>Route::url($image->album_id,array('controller'=>'image','id'=>$image->id)),
+	       'sizes'=>array(
+	           'thumb'  => Url::image($image,80,80,'crop'),
+	           'small'  => Url::image($image,100,100),
+	           'medium' => Url::image($image,300,300),
+	           'square' => Url::image($image,300,300, 'crop'),
+	           'large'  => Url::image($image,600,600),
+	           'full'   => Url::image($image,1024,1024), 
+	         ),
+	    );
+	  }
+	  
+	  $pagination=array();
+	  $pagination['next']=($page=$this->pagination->next_page) ? $this->request->url(array('page'=>$page)) :false ;
+	  $pagination['previous']= ($page=$this->pagination->previous_page) ? $this->request->url(array('page'=>$page)) :false ;
+	  $pagination['results']=$this->pagination->items_per_page;
+	  $pagination['start']=$this->pagination->current_first_item;
+	  $pagination['end']  =$this->pagination->current_last_item;
+	  $pagination['total']=$this->pagination->total_items;
+	  
+	  
+	 // $data=array('results'=>->as_array());
+	  return json_encode(Arr::merge($this->node->as_array(),array('images'=>$images),$pagination));
 	}
 	
 	public function part(){
@@ -43,7 +70,7 @@ class Controller_Gallery_Album_Master extends Master_Gallery {
     $type=Arr::get($_REQUEST['current'],'type',$type);
     if (!$this->pagination()->total_items) $type="empty";
     
-   $view=Theme::factory(array("{$this->theme}/blocks/album/$type","default/blocks/album/$type"))
+   $view=Theme::factory(array("{$this->theme}/album/$type","default/album/$type"))
     ->set('images',$this->data())
     ->set('details',$this->pagination()->details())
     ->bind('data',$data)
@@ -61,11 +88,11 @@ class Controller_Gallery_Album_Master extends Master_Gallery {
 	public function action_view()
 	{   
 	  switch ($this->request->param('format')){
-	   case '.ajax':
-	   case '.part':
+	   case 'ajax':
+	   case 'part':
 	     return $this->template->content=$this->part();
 	   break;
-	   case '.json':
+	   case 'json':
 	     return $this->template->content=$this->json();
 	   break;
 	  }
@@ -79,7 +106,7 @@ class Controller_Gallery_Album_Master extends Master_Gallery {
 			->set('pagination', $this->pagination);
 		
 		
-		$comments=Request::factory( Route::url($this->node->id, array('controller'=>'comments','format'=>'.part')) )->execute();
+		$comments=Request::factory( Route::url($this->node->id, array('controller'=>'comments','format'=>'part')) )->execute();
 		
 //	if ($this->node->settings('cart')){	
 	//	foreach ($this->node->prices as $price) {

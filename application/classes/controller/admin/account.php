@@ -3,6 +3,14 @@
 class Controller_Admin_Account extends Master_Admin {
 
   function action_index(){}
+  
+  function action_edit(){
+    $this->request->action('user');
+    
+    $this->request->param('subaction','edit');
+    $this->sub();
+  }
+  
   function action_payment(){
     $this->sub();
   }
@@ -12,4 +20,18 @@ class Controller_Admin_Account extends Master_Admin {
   function action_user(){
     $this->sub();
   }
+  
+  function after(){
+  
+    if ($this->auto_render) {  
+      $view=View::factory('admin/account')
+         ->set('content',$this->template->content)
+         ;
+      $this->template->content = $view;
+    }
+    
+    parent::after();
+  }
+
+
 }

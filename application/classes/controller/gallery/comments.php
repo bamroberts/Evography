@@ -76,9 +76,7 @@ Class Controller_Gallery_Comments extends Controller_Gallery_Album_Master {
         		 ->find_all();
 	
 	  $comment_block=Theme::factory(array("{$this->theme}/blocks/comments",'default/blocks/comments'))
-	     ->bind('comments',$comments)
-	     .$this->draw_form();
-	     ;
+	     ->bind('comments',$comments);
     
     if ( $this->request->is_initial() ){
       $control=$pagination->render();
@@ -87,6 +85,7 @@ Class Controller_Gallery_Comments extends Controller_Gallery_Album_Master {
 	  
 	  $this->template->content=Theme::factory(array("{$this->theme}/comments",'default/comments'))
 	     ->bind('media',$comment_block)
+	     ->set('form',$this->draw_form() )
 	     ->bind('page_control',$control)
 	     ->bind('page_details',$details)
 	     //.$this->action_draw()
@@ -108,7 +107,10 @@ Class Controller_Gallery_Comments extends Controller_Gallery_Album_Master {
 	
 		
 	function action_add(){
-	 $this->template->content= $this->request->param('id')?'Add to image':'Add to album';
+	 $mode=$this->request->param('id')?'Add to image':'Add to album';
+	 $this->template->content= $this->draw_form().$mode;
+	 
+	 
 	}
 	
 	
@@ -122,7 +124,7 @@ Class Controller_Gallery_Comments extends Controller_Gallery_Album_Master {
 	   ->add('message','textarea',array('label'=>'Your message'))
 	   ;
 	
-	  return Theme::factory(array("{$this->theme}/blocks/comments/form",'default/blocks/comments/form'))
+	  return Theme::factory(array("{$this->theme}/comments/form",'default/comments/form'))
 	     //->bind('columns',$columns)
 	     //->bind('data',$data)
 	    // ->bind('errors',$errors)
