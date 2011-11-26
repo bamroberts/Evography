@@ -5,9 +5,9 @@ return array
 	// Whether to translate labels
 	'translate'              => FALSE,
 	// Whether to use Kohana messages
-	'use_messages'           => FALSE,
+	'use_messages'           => True,
 	// File for validate messages
-	'message_file'           => 'validate',
+	'message_file'           => 'models',
 	// Default path to view files
 	'view_prefix'            => 'form/bootstrap/',
 	// For determining path to driver files

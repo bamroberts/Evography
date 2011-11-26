@@ -32,7 +32,8 @@
 	        $this->session= isset($_POST['session']) ? Session::instance(NULL, $_POST['session']):Session::instance();
 	        
 	        
-	        if ($user=$this->user=$this->account=Auth::instance()->get_user()) {
+	        if ($user=$this->user=Auth::instance()->get_user()) {
+	         $this->account=$user->account;
 	         $this->user_id=$user->id;
 	         $this->start_node=Auth::instance()->get_user()->start_node;
 	        }
@@ -44,20 +45,24 @@
 	                || (is_array($this->secure_actions) && array_key_exists($action_name, $this->secure_actions) && 
 	                Auth::instance()->logged_in($this->secure_actions[$action_name]) === FALSE))
 					  { 
+				  //no access - send to login or no access page
 				  $this->auth();
+				  }
 					
 					//check subscription status
 					if (!$this->request->is_initial()){
 	         $this->auto_render=FALSE;
 	         $this->internal=true;
 	        } else {
+	          //we only wnat to check the subscrition status on an inital request.
 	          $this->update_subscription_details();
 				    $this->check_subscription();
 	        }
-					
+	        					
 					//this needs updating to reflect a full db-crud assess table     
 					    
-					  } 
+					  
+  
 				   
 				   $this->id=$this->request->param('id');   	
            $this->template->content          = '';

@@ -252,7 +252,7 @@ defined('SYSPATH') or die('No direct script access.');
     		  //Files - to inc js-plupload
     		  case 'multiple_file':
     		  case 'file':
-    		      $this->multipart=true;
+    		      //$this->multipart=true;
     		      $content=View::factory("form/file")->set($details);
     		  break;
     		  
