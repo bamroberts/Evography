@@ -98,7 +98,7 @@
        $token='edb947a47ddb4d2547569d64fc990a12c56e86fe';
        Spreedly::configure($site, $token);
        try{
-         $sub=SpreedlySubscriber::find($this->account->user_id);
+         $sub=SpreedlySubscriber::find($this->user->id);
        } catch(SpreedlyException $e){
          return;
        }
@@ -117,4 +117,35 @@
        $this->account->save();
      }
   } 
+  function action_validate(){
+     $result=array();
+     $query=Arr::merge($this->request->query(),$this->request-> post());
+     foreach ($query as $model=>$fields){
+     if (!is_array($fields)) continue;
+     $validate= Validation::factory( $fields );
+      try {
+         $$model= Orm::factory($model);
+      } catch (error $e) {
+        continue;
+      }
+      foreach ($fields as $field=>$value) {
+       if (!$rule=Arr::get( $$model->rules(true), $field )) continue;
+        $validate->rules($field,$rule);
+      }
+      $validate->check();
+      $result[$model]=$validate->errors('models/'.$model);
+     }    
+     
+     switch($this->request->param('format')){
+        case 'json':
+          $this->template->content=json_encode($result);
+        break;
+        
+        default:
+         $this->fof();
+        break;
+     }   
+      // query /validate.json?username=johnsmith
+  }
+
 }
