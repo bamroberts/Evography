@@ -1,5 +1,6 @@
 <h2>Sorry, we are not quite ready for you yet.</h2>
 <section class="row">
+  <?php echo Hint::render(); ?>
   <div class="span7">
   <h3>Launch Status: <small><strong>private beta</strong></small></h3>
     <blockquote>

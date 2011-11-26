@@ -19,6 +19,13 @@
     <link media="screen" rel="stylesheet" href="/assets/css/style.css" type="text/css">
     
     <style>
+     section {margin-top:20px;}
+     form {margin-top:0;}
+     form p {color:#333;}
+     legend { padding:10px 0;}
+     .form-stacked div.group.error {margin-right:10px;}
+
+    
       body {background-color: #222;}
       p {font-size:1em;}
       h1 {font-size:4em; color:white;text-shadow: 2px 1px 2px #000000; line-height: 1em;}
@@ -157,7 +164,6 @@
 		    border-color: #222 #ddd #ddd #222;
         border-style: solid;
         border-width: 2px;
-        margin: 1em 0;
         background-color: #EEEEEE;
         border-radius: 10px 10px 10px 10px;
         box-shadow: 1px 1px 3px black inset;}
@@ -180,7 +186,8 @@
   form label {color:#333;}
   :-moz-placeholder {color:#ddd;}
 
-		
+
+fieldset.horizontal .group {float:left; margin-right:20px; padding-right:10px;}		
     </style>
     
     <script src="/assets/javascript/libs/modernizr-1.7.min.js"></script>
@@ -415,7 +422,7 @@ $(document).ready(function() {
       dir = e.shiftKey ? -1 : 1,
       console.log('tab pressed');
       e.preventDefault(); 
-      var tindex=Math.abs($(":focus").attr("tabindex"))+(1*dir) || 1;
+      var tindex=Math.abs($(":focus").blur().attr("tabindex"))+(1*dir) || 1;
         
       console.log(tindex);
       $("[tabindex='" + tindex + "']").focus();
@@ -426,6 +433,38 @@ $(document).ready(function() {
  //add forward-back
  
 
+});
+//validation 
+$('input').blur(function(){
+  var $that = $(this);
+  var name  = $that.attr('name');
+  var value = $that.attr('value')
+  if (!value || $that.data('checked')==value) return;
+  $that.data('checked',value)
+  $.ajax({
+  type: "GET",
+  dataType:'json',
+  url: "/validate.json",
+  data: name+'='+value,
+  }).done(function( json ) {
+      result=eval('json.'+name.replace('[','.').replace(']',''));
+      var group=$that.parents('div.group').first();
+      
+      if (result) { 
+        group.addClass('error')
+        group.find('.help-block').html(result);
+      } else {
+        group.removeClass('error')
+        group.find('.help-block').html('');
+        group.find('.add-on').addClass('active');
+      };
+  });
+
+});
+
+$('.close').click(function(){
+  var $that=$(this);
+  $that.parent().hide('fade');
 });
 </script>
 

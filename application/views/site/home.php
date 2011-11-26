@@ -131,7 +131,15 @@ p {color:#383838;}
   </div>
 </div>
 
-
+<div class="row">
+  <div class="span8 box"><h2>Privacy</h2>
+    <p>Password protected sites and galleries</p>
+    <p>Watermarking of images</p>
+  </div>
+  <div class="span8 box"><h2>k</h2>
+    
+  </div>
+</div>
 
   
 <div class="row">
