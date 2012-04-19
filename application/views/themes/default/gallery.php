@@ -25,15 +25,3 @@
  
   <?php endforeach; ?>
 </div>
-
-<?php
-
-//inview
-
-//$view = View::factory('login')->bind('form',$form);//
-//
-//$options=array('prefix'=>'page1_','namespace'=>$this->request->controller());
-//$form = Form::factory($colums,$values,$errors,$options);
-
-
-?>

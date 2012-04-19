@@ -35,7 +35,7 @@
 	        if ($user=$this->user=Auth::instance()->get_user()) {
 	         $this->account=$user->account;
 	         $this->user_id=$user->id;
-	         $this->start_node=Auth::instance()->get_user()->start_node;
+	         $this->start_node=$this->user->start_node;
 	        }
 	        
 	            
@@ -53,8 +53,10 @@
 					if (!$this->request->is_initial()){
 	         $this->auto_render=FALSE;
 	         $this->internal=true;
-	        } else {
+	        } elseif ($this->user) {
 	          //we only wnat to check the subscrition status on an inital request.
+	          //and if we are logged in
+	          
 	          $this->update_subscription_details();
 				    $this->check_subscription();
 	        }

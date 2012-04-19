@@ -22,7 +22,7 @@
           $this->node   = Orm::factory('album',$this->request->param('node'));
           $this->root   = Orm::factory('album',$this->request->param('root'));
           
-          //if subscription is not active i.e. account is suspended
+         //if subscription is not active i.e. account is suspended
           if($this->account_suspended()){
             //if we are not at the root of this domain redirect
             if ($this->root->id!=$this->node->id){
@@ -51,19 +51,26 @@
            
            //only bother flushing template if we are going to render it.
            if($this->auto_render){
-             if (Request::user_agent('mobile')) {$this->theme = 'mobile';}
+             if (Request::user_agent('mobile')) {$this->theme = 'default';}
 			       $this->template = View::factory("themes/{$this->theme}/template");
+			       
 			     }
          }
          
+         $this->init_template();
           
          //add theme css and js 
         
          $this->template->script_options   = Config::instance()->load('javascript');
          
-         if($this->auto_render)
-          {
-            //echo $this->request->param('root');
+                   //$this->user=ORM::factory('user')->where('username','=',$this->request->param('account'))->find();
+	    //if (!$this->user->id) { echo 'Name='.$this->request->param('user'); throw new HTTP_Exception_404('File not found!');}
+	    
+	     
+      }
+      
+      private function init_template(){
+                    //echo $this->request->param('root');
             //echo $this->request->param('node');
             // Initialize empty values
             $this->template->site             = $this->root;
@@ -85,9 +92,7 @@
             $this->template->scripts          = array();
             $this->template->page_link=$this->request->url();
             $this->template->breadcrumbs      = '';
-          }
-          //$this->user=ORM::factory('user')->where('username','=',$this->request->param('account'))->find();
-	    //if (!$this->user->id) { echo 'Name='.$this->request->param('user'); throw new HTTP_Exception_404('File not found!');}
+          
       }
       
       
@@ -154,9 +159,11 @@ $scripts =array();
   }
    
    function action_offline() {
-      $this->template = View::factory("templates/site");
+      //$this->template = View::factory("site/template");
+      $this->init_template();  
       $this->template->content=View::factory('themes/default/offline')
         ->bind('site',$this->account);
+      
    } 
    
    function permission($node) {

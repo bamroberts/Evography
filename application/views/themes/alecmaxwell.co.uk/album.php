@@ -2,7 +2,8 @@
 <h2><?php echo $album->name; ?></h2>
  
   <div class="grid_12 alpha">
-    <?php echo $media; ?>
+    <?php echo $media; ?>    
+    <?php echo $pagination->render(); ?>
   </div>
   
   <div class="grid_4 omega">

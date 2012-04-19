@@ -2,13 +2,23 @@
 
 class Controller_Gallery_Album extends Controller_Gallery_Album_Master {
 
+  function get_default(){
+    return array(
+      'slider'=>array(
+        'data'=>Route::url( $this->node->id,array('format'=>'json') )
+        //'format'=>'json'
+      ),
+      'lightbox'=>false
+    );
+  }
+
 	function action_photobook(){
 	  $_REQUEST['current']['type']='photobook';
 	  $_REQUEST['current']['limit']=Arr::get($_REQUEST['current'],'limit',0);
 	  $setting=array(
 	    'photobook'=>array('height'=>260,'width'=>850),
 	  );
-	  $this->template->script_options->merge($setting);
+	  $this->template->script_options->merge($setting+$this->get_default());
 	  
 	  return $this->action_view();
 	}
@@ -26,7 +36,7 @@ class Controller_Gallery_Album extends Controller_Gallery_Album_Master {
 	  $setting=array(
 	    'preload'=>true,
 	  );
-	  $this->template->script_options->merge($setting);
+	  $this->template->script_options->merge($setting+$this->get_default());
 	  
 	  return $this->action_view();
 	}
@@ -44,10 +54,13 @@ class Controller_Gallery_Album extends Controller_Gallery_Album_Master {
 	
   function action_polaroid(){
 	  $_REQUEST['current']['type']='polaroid';
-	  $_REQUEST['current']['limit']=($this->request->param('format')=='.part')?40:Arr::get($_REQUEST['current'],'limit',80);
-	  $_REQUEST['current']['height']=($this->request->param('format')=='.part')?300:Arr::get($_REQUEST['current'],'height',500);
-	  $js=array('fade'=>array('speed'=>10000),'drag'=>array('rain'=>true), 'lightbox'=>false, 'lazyload', 'scrollload');
-	  $this->template->script_options->merge($js);
+	  $_REQUEST['current']['limit']=($this->request->param('format')=='part')?40:Arr::get($_REQUEST['current'],'limit',80);
+	  $_REQUEST['current']['height']=($this->request->param('format')=='part')?300:Arr::get($_REQUEST['current'],'height',500);
+	  $js=array(
+	  'fade'=>array('speed'=>10000),
+	  'drag'=>array('rain'=>true), 
+	  );
+	  $this->template->script_options->merge($js+$this->get_default());
 	  return $this->action_view();
 	}
 	
@@ -55,7 +68,7 @@ class Controller_Gallery_Album extends Controller_Gallery_Album_Master {
 	  $_REQUEST['current']['type']='magazine';
 	  
 	  //if not overridden set this to a multiple of 3
-	  $_REQUEST['current']['limit']=($this->request->param('format')=='.part')?6:Arr::get($_REQUEST['current'],'limit',15);
+	  $_REQUEST['current']['limit']=($this->request->param('format')=='part')?6:Arr::get($_REQUEST['current'],'limit',15);
 	  $this->template->script_options->merge(array('lightbox'=>true,));
 
 	  //$this->template->js_load($js);

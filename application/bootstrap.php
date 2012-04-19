@@ -115,6 +115,8 @@ Kohana::modules(array(
     'formo' => MODPATH.'kohana-formo', // OOP form class
     'OAuth2' => MODPATH.'oauth2', // Api auth
     'api' => MODPATH.'api', // Api base template
+    'asset-merger' => MODPATH.'asset-merger', // Api base template
+    'aws'=>MODPATH.'kohana-aws', //Amazon web services wrapper
 	));
 
 /**
@@ -152,6 +154,17 @@ Kohana::modules(array(
     'subaction'  => 'index',
     'id'         => null,
     'name'       => null,
+    'format'     => false,
+  ));
+  
+  $route_conditions = array(
+    'action' =>  '[a-zA-Z_-]+[0-9]*[a-zA-Z_-]*',
+    'format' =>  'min|full|split',
+    );
+  ROUTE::set('js', 'assets/js/<action>(.<format>).js',$route_conditions)
+  ->defaults(array(
+    'directory'  => 'system',
+    'controller' => 'js',
     'format'     => false,
   ));
   

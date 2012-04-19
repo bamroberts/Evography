@@ -64,7 +64,7 @@ static function domain($domain=null) {
       $query=DB::query(Database::SELECT,$sql)->as_object()->execute();
       while ($route=$query->current()) {
          
-         
+        // echo "<pre>{$route->path}$route_options</pre>";
          $routes[$route->id] = new Route("{$route->path}$route_options", $route_conditions);
          $routes[$route->id]
            ->defaults( $settings +

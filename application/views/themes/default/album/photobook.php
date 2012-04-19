@@ -24,12 +24,27 @@
   
 //  ];
 </script>
+
+<?php 
+  $slideshow=json_encode(
+      array(
+        //'data'=>Route::Url($album->id, array('format'=>'json','limit'=>0)),
+        'data'=>Route::Url($album->id, array('format'=>'json')) . '?current[limit]=0',
+        'shuffle'=>false,
+        'controls'=>false,
+        'play'=>true,       
+        'touch'=>true,
+      )
+  )
+
+ ?>
+
 <style>
 #fbContainer{height:<?php echo $pane_y;?>px;} 
 </style>
 <div id="fbContainer" data-photobook='<?php echo json_encode($d); ?>' <?php echo $data; ?>>
-    	<a class="altlink" href="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash"><div id="altmsg">Download Adobe Flash Player.</div></a>
-    </div>
+  <div data_slideshow='<?php echo $slideshow; ?>'></div>  	
+</div>
   <div id="fbFooter">
 		<div id="fbContents">
    	</div>

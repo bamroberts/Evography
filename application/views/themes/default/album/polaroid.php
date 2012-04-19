@@ -1,5 +1,5 @@
 
-<div class="media-grid polaroid" style="height:<?php echo Arr::get($_REQUEST['current'],'height',200); ?>px;" <?php echo $data; ?>>
+<div class="media-grid polaroid" style="height:<?php echo Arr::get($_REQUEST['current'],'height',200); ?>px;" <?php echo $data; ?> >
   <?php foreach ($images as $key=>$image) : ?>
     <?php 
         $left=rand(0,50);

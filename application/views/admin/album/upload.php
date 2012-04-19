@@ -48,6 +48,7 @@
 	        url : $("#uploader").attr('action') + '.json',
 	        max_file_size : '20mb',
 	        //chunk_size : '1mb',
+	       
 	 
 	        // Resize images on clientside if we can
 	        //resize : {width : 320, height : 240, quality : 90},
@@ -94,8 +95,9 @@
 	                
 	                //console.log(.filehash);
 	            },
-	        }
-	        
+	            
+	            
+	        }  
 	        
 	    });
  
@@ -123,4 +125,3 @@
 	    });
 	});
 	</script>
-</div>

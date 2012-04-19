@@ -33,7 +33,8 @@ class Controller_Gallery_Album_Master extends Master_Gallery {
 	public function json(){
 	  $images=array();
 	  foreach ($this->data() as $image){
-	    $images[$image->id]=array(
+	    $images[]=array(
+	       'id'=>$image->id,
 	       'name'=>$image->name,
 	     //  'desc'=>$image->desc,
 	       'landscape'=>($image->width>=$image->height),
@@ -46,6 +47,8 @@ class Controller_Gallery_Album_Master extends Master_Gallery {
 	           'large'  => Url::image($image,600,600),
 	           'full'   => Url::image($image,1024,1024), 
 	         ),
+	         'version'=>array(9=>array('src' => Url::image($image,1024,1024),'w'=>1024,'h'=>1024)),
+	        
 	    );
 	  }
 	  
@@ -57,8 +60,6 @@ class Controller_Gallery_Album_Master extends Master_Gallery {
 	  $pagination['end']  =$this->pagination->current_last_item;
 	  $pagination['total']=$this->pagination->total_items;
 	  
-	  
-	 // $data=array('results'=>->as_array());
 	  return json_encode(Arr::merge($this->node->as_array(),array('images'=>$images),$pagination));
 	}
 	
@@ -71,6 +72,7 @@ class Controller_Gallery_Album_Master extends Master_Gallery {
     if (!$this->pagination()->total_items) $type="empty";
     
    $view=Theme::factory(array("{$this->theme}/album/$type","default/album/$type"))
+    ->set('album',$this->node)
     ->set('images',$this->data())
     ->set('details',$this->pagination()->details())
     ->bind('data',$data)

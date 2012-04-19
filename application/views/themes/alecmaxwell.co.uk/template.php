@@ -20,6 +20,9 @@
 <script type="text/javascript" src="http://alecmaxwell.co.uk/assets/javascript/jd.gallery.transitions.js"></script>
 <script type="text/javascript" src="http://alecmaxwell.co.uk/assets/javascript/alecmaxwell.js"></script>
 <script type="text/javascript" src="/assets/themes/alecmaxwell.co.uk/mediaboxAdv-1.2.4.js"></script>
+
+
+<link type="text/css" href="/assets/css/core.css" rel="stylesheet" media="screen" />
     
 <style>
   .gallery ul {
@@ -197,8 +200,8 @@ window.addEvent('domready', function(){new preLoad({elements:'.gallery .image im
   </head>
   <body id="<?php echo str_replace('/','_',trim(Request::current()->url(),'/')); ?>" class="<?php echo str_replace('/',' ',trim(Request::current()->url(),'/')); ?>">	
     <div id="body">
-    <?php if(is_object($cover)) : ?>
-      <div id="photoframe" class="static"><img src="/images/dynamic/<?php echo $cover->filehash;?>/1020x416xcrop<?php echo $cover->crop; ?>.<?php echo $cover->ext; ?>" alt="Cover image" /></div>
+    <?php if(is_object($node->cover)) : ?>
+      <div id="photoframe" class="static"><img src="/images/dynamic/<?php echo $node->cover->filehash;?>/1020x416xcrop<?php echo $node->cover->crop; ?>.<?php echo $node->cover->ext; ?>" alt="Cover image" /></div>
     <?php endif; ?>
 		 <div id="frame">
 		  <div class="container_16" id="head">
@@ -249,8 +252,8 @@ window.addEvent('domready', function(){new preLoad({elements:'.gallery .image im
               <iframe src="http://www.facebook.com/plugins/like.php?app_id=179663692087801&amp;href=<?php echo URL::site($page_link,'http'); ?>&amp;send=false&amp;layout=standard&amp;width=200&amp;show_faces=false&amp;action=like&amp;colorscheme=dark&amp;font=verdana&amp;height=35" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:200px; height:35px;" allowTransparency="true"></iframe>
             </p>     
          <?php endif; ?>   
-            <h2><?php echo $collection_title; ?></h2>
-		        <p><?php echo $collection_desc; ?></p>
+            <h2><?php echo $node->name; ?></h2>
+		        <p><?php echo $node->desc; ?></p>
 		        <?php if($parent=$node->parent) : ?>
      <!--
 <a class="btn button" href="<?php //echo Route::url($parent->id); ?>">

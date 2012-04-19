@@ -76,13 +76,15 @@ defined('SYSPATH') or die('No direct script access.');
   			    $details['options'][$r->id]=$spacer.$r->name;
   			  }
   		  }
+  		  $key=true;
 			case 'select_data':
 			    if (!Arr::get($details,'options',false) && Arr::get($details,'model',false) && $function=Arr::get($details,'function',false)){
 			      $details['options']=Orm::factory(Arr::get($details,'model',false))->{$function}();
 			    }
 			case 'select enum':
-			     foreach (Arr::get($details,'options',array()) as $option){
-			       $opt[$option]=$option;
+			     foreach (Arr::get($details,'options',array()) as $key=>$option){
+			       if (!$key)$key=$option;
+			       $opt[$key]=$option;
 			     }
 			     $details['options']=$opt;
 			case 'select':
@@ -234,12 +236,14 @@ defined('SYSPATH') or die('No direct script access.');
       			    $details['options'][$r->id]=$spacer.$r->name;
       			  }
       		  }
+      		  $key=true;
     			case 'select_data':
     			    if (!Arr::get($details,'options',false) && Arr::get($details,'model',false) && $function=Arr::get($details,'function',false)){
     			      $details['options']=Orm::factory(Arr::get($details,'model',false))->{$function}();
     			    }
     			case 'select_enum':
-    			     foreach (Arr::get($details,'options',array()) as $option){
+    			     foreach (Arr::get($details,'options',array()) as $key=>$option){
+    			     if (!$key)$key=$option;
     			       $opt[$option]=$option;
     			     }
     			     $details['options']=$opt;
@@ -258,7 +262,7 @@ defined('SYSPATH') or die('No direct script access.');
     		  
     		  //for images selction - import / export etc
     		  case 'image_radio':
-    		  case 'image_chackbox':  
+    		  case 'image_checkbox':  
     		  case 'image_select':
     		    $content=View::factory("form/image-picker")->set($details);
     		  break;		  

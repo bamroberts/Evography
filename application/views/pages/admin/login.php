@@ -1,7 +1,6 @@
 <form method="post">
 
-    <?php echo Helpers::render_form($columns,$data,$errors); ?>
-    <hr />
+    <?php //echo Helpers::render_form($columns,$data,$errors); ?>
     
     <div class="group text">
      <label>Username or Email</label>

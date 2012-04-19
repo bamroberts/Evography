@@ -49,10 +49,9 @@ if ($domain->id){
         AND a.rgt < (SELECT rgt FROM album_tree WHERE id ='$domain->node_id')
   ";
   
-
     //Available routes for this domain
     foreach ($routes as $route) {
-      Route::set("album_{$route->id}", '{$route->path}(/<controller>(/<action>)(/<id>(-<name>)))<format>',$route_conditions)
+      Route::set("album_{$route->id}", "{$route->path}(/<controller>(/<action>)(/<id>(-<name>)))<format>",$route_conditions)
         ->defaults( $settings +
           array (
             'node'       => $route->node,

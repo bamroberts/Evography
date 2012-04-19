@@ -105,7 +105,9 @@
        if (!is_object($sub)) {
        $sub=SpreedlySubscriber::create($this->user->id, $this->user->email, $this->user->name);
        $sub->activate_free_trial(12791);
+       $sub=SpreedlySubscriber::find($this->user->id);
        }
+       
        
        $this->account->set('user_id',$this->user->id);
        $this->account->set('active',$sub->active);

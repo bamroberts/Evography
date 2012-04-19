@@ -1,6 +1,14 @@
 <?php 
 class Controller_Site_Home extends Master_Site {
   protected $private_beta=true;
+  protected $offline=true;
+
+  function before(){
+    parent::before();
+    if ($this->offline && $this->request->query('unlock')!='lemoncurd') {
+        $this->request->redirect(Route::URL('admin'));
+    }
+  }
 
 	function action_index(){
 		$this->template->content=View::factory('site/home');
@@ -58,9 +66,9 @@ class Controller_Site_Home extends Master_Site {
 	   $fields = array('username','email','password');
 	   $columns=Arr::extract($user->list_columns(),$fields);
 	
-	   if( $post=$this->request->post() ) {
+	   if( $post=$this->request->post('user') ) {
 	     $user=ORM::factory('user');
-	   try {
+	  // try {
   	    //create user
   	     $user->set('type','client');
   	     $user->create_user($post,$fields);
@@ -87,10 +95,12 @@ class Controller_Site_Home extends Master_Site {
   	     //create initial album
   	     $album = Orm::factory('album');
   	     $album->set('user_id',$user->id)
-  	           ->set('name',ucwords($user->name)) 
+  	           ->set('name',ucwords($user->username)) 
   	           ->set('type','collection') 
   	           ->set('published',1);
-  	     $album->save();         
+  	     $album->save();
+  	     
+  	     $user->set('start_node',$album->id);
   	     
   	     //create default domain
   	     $domain=Orm::factory('domain');
@@ -98,7 +108,7 @@ class Controller_Site_Home extends Master_Site {
   	            ->set('name',"{$user->name}.evography.com")
   	            ->set('node_id',$album->id)
   	            ->set('system',1)
-  	            ->set('theme',1)
+  	            //->set('theme',1)//?? issue
   	            ->set('published',1);
          $domain->save();
           	     
@@ -118,10 +128,10 @@ class Controller_Site_Home extends Master_Site {
 	               
 	       //redirect to admin area to continue setting up account.
   	     $this->request->redirect('admin/user/welcome');
-  	   } catch(ORM_Validation_Exception $e) {
-	       $errors=$e->errors('models/user');
-  	     Hint::set(Hint::ERROR,'Please correct your details.');
-  	   }
+  	//   } catch(ORM_Validation_Exception $e) {
+	  //     $errors=$e->errors('models/user');
+  	//     Hint::set(Hint::ERROR,'Please correct your details.');
+  	//   }
 	   
 	   }
 }

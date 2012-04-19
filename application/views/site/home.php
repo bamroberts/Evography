@@ -78,7 +78,7 @@ p {color:#383838;}
     </li>
     <li class="mobile">
       <h2>Creative galleries</h2>
-      <?php echo Request::factory('http://alec-maxwell.evography.dev/bryony-and-luke-stala/main-album.part')->execute(); ?>
+      <?php //echo Request::factory('http://alec-maxwell.evography.com/bryony-and-luke-stala/main-album.part')->execute(); ?>
       <a class="btn large primary" href="">Check out all our different styles!</a> 
     </li>
   </ul>
@@ -86,7 +86,7 @@ p {color:#383838;}
 
 <div class="row">
   <div class="span16 box"><h2>Sample Galleries</h2>
-  <?php echo Request::factory('http://alec-maxwell.evography.dev/bryony-and-luke-stala/main-album.part')->execute(); ?>
+  <?php //echo Request::factory('http://alec-maxwell.evography.com/bryony-and-luke-stala/main-album.part')->execute(); ?>
   </div>
 </div>
 

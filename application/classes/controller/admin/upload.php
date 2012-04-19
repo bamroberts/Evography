@@ -31,6 +31,7 @@ class Controller_Admin_Upload extends Controller_Admin_Album_core {
         $user_id  = Auth::instance()->get_user();  
         
         $targetDir=     DOCROOT."images/uploads/{$user_id}/{$album_id}/";
+        if (!is_dir($targetDir)) {mkdir($targetDir, 0777, true);}
         
         $chunk = isset($_REQUEST["chunk"]) ? $_REQUEST["chunk"] : 0;
         $chunks = isset($_REQUEST["chunks"]) ? $_REQUEST["chunks"] : 0;
@@ -105,6 +106,9 @@ class Controller_Admin_Upload extends Controller_Admin_Album_core {
         $filepath=$targetDir . DIRECTORY_SEPARATOR . $fileName;
         
         $image=$this->save($filepath);
+        
+        
+        
         if ($return_file) return $image;
         
         
@@ -142,9 +146,14 @@ class Controller_Admin_Upload extends Controller_Admin_Album_core {
   	 //save a compressed copy
   	 $image->save($filepath);
   	 
-  	 
+  	 try{
   	 $meta=exif_read_data($filepath);
   	 $cam_data=$this->cam_data($meta);
+  	 //$date=date('Y-m-d H:i:s',time(  Arr::get($meta, 'DateTime') )) )
+  	 } catch(exception $e) {
+  	   $cam_data='';
+  	   $meta=array();
+  	 }
   	   
   	 $album = $this->node;
   	 $user_id  = Auth::instance()->get_user();
@@ -161,7 +170,7 @@ class Controller_Admin_Upload extends Controller_Admin_Album_core {
   	       ->set('add_date'   , date('Y-m-d H:i:s')               )
   	       ->set('meta'       , $cam_data                         )
   	       ->set('path'       , str_replace('\\','/',str_replace(DOCROOT,'',$filepath))  )
-  	       ->set('taken'      , date('Y-m-d H:i:s',time(  Arr::get($meta, 'DateTime') )) )
+  	       ->set('taken'      , date('Y-m-d H:i:s',time(  Arr::get($meta, 'DateTime',false) )) )
   	       ->set('order'      , $this->node->images->count_all() + 1 );
   	        
      if (Arr::get($meta, 'Orientation',1)) 
@@ -179,7 +188,11 @@ class Controller_Admin_Upload extends Controller_Admin_Album_core {
   	       
      $image->check();
      $image->save();
-
+     
+     //try to copy to s3 - what do we do if this fails???
+     
+     $s3 = new Amazon_S3;
+     $s3->upload($filepath, "{$image->filehash}.{$image->ext}", 'evography-original');
      return $image;  	
   	}
   	
