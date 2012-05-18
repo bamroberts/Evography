@@ -154,6 +154,7 @@ background:url(<?php echo url::image($node->cover,1000,1000,'fit'); ?>) no-repea
         ->js("mylibs/lightbox.js")    
         ->js("mylibs/pagination.js")  
         ->js("mylibs/slideshow.js")    
+        ->js("mylibs/polaroid.js")
 
         ->js("pageflip/js/swfobject.js")  
         ->js("pageflip/js/flippingbook.js")   

@@ -32,7 +32,7 @@ class Controller_Gallery_Album extends Controller_Gallery_Album_Master {
 	function action_grid(){
 	  $_REQUEST['current']['type']='grid';
 	  
-	  $_REQUEST['current']['limit']=($this->request->param('format')=='part')?21:Arr::get($_REQUEST['current'],'limit',42);
+	  $_REQUEST['current']['limit']=($this->request->param('format')=='part')?21:Arr::get($_REQUEST['current'],'limit',0);
 	  $setting=array(
 	    'preload'=>true,
 	  );
@@ -54,8 +54,8 @@ class Controller_Gallery_Album extends Controller_Gallery_Album_Master {
 	
   function action_polaroid(){
 	  $_REQUEST['current']['type']='polaroid';
-	  $_REQUEST['current']['limit']=($this->request->param('format')=='part')?40:Arr::get($_REQUEST['current'],'limit',80);
-	  $_REQUEST['current']['height']=($this->request->param('format')=='part')?300:Arr::get($_REQUEST['current'],'height',500);
+	  $_REQUEST['current']['limit']=($this->request->param('format')=='part')?60:Arr::get($_REQUEST['current'],'limit',0);
+	  $_REQUEST['current']['height']=($this->request->param('format')=='part')?500:Arr::get($_REQUEST['current'],'height',900);
 	  $js=array(
 	  'fade'=>array('speed'=>10000),
 	  'drag'=>array('rain'=>true), 

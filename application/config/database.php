@@ -46,7 +46,7 @@ $db = array
       'username'   => 'root',
       'password'   => 'break010',
       'persistent' => FALSE,
-      'database'   => 'gallery',
+      'database'   => 'db33049_evography',
     ),
     'table_prefix' => '',
     'charset'      => 'utf8',

@@ -1,4 +1,4 @@
-  <div data-slideshow="all" class="media-grid">  
+  <div data-slider="1" class="media-grid">  
   <?php foreach ($images as $key=>$image) : ?>
     <article data-page="<?php echo $key; ?>" style="float:left;">
       <a href="<?php echo Request::current()->url(array('controller'=>'image','id'=>$image->id)); ?>">

@@ -58,7 +58,9 @@
     </header> 
     
     <nav class="tabs">
+    <?php if ($user=Auth::instance()->get_user()) : ?>
         <?php echo $menu; ?>
+    <?php endif; ?>
     </nav>
      
     
