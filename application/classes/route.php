@@ -82,7 +82,7 @@ static function domain($domain=null) {
         //echo $domain->node_id;
         //Add default path for domain
         //options are duplicated as they need the first / removed
-        $route_options="(<controller>(/<action>)(/<id>(-<name>)))(page-<page>)(.<format>)";
+        $route_options="(index)(<controller>(/<action>)(/<id>(-<name>)))(/page-<page>)(.<format>)";
         $routes[$domain->node_id] = new Route("$route_options", $route_conditions);
         $routes[$domain->node_id]
            ->defaults( $settings +
@@ -94,7 +94,7 @@ static function domain($domain=null) {
     	        )
     	      );
     	  
-    	  $routes['not-found'] = new Route("<path>",array('path' => '.*'));
+    	 $routes['not-found'] = new Route("<path>",array('path' => '.*'));
         $routes['not-found']
           ->defaults( $settings +
               array (
@@ -103,9 +103,9 @@ static function domain($domain=null) {
                 'action'    => '404',
     	        )
     	      );
-    	  //    Route::set('static', '<path>', array('path' => '.*'))->defaults( $settings +
-        //      array (
-        //        'node'      => $domain->node_id,
+    	 //     Route::set('static', '<path>', array('path' => '.*'))->defaults( $settings +
+         //     array (
+         //       'node'      => $domain->node_id,
         //        'controller'=> 'static',
         //        'action'    => '404',
     	   //     )
