@@ -12,7 +12,7 @@
   <meta name="author" content="">
   <link href="<?php echo url::site(url::canonical()); ?>" rel="canonical">
   <!-- Mobile viewport optimized: j.mp/bplateviewport -->
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1">  
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
@@ -105,27 +105,127 @@ google.load("jqueryui", "1.8.16");
 
 body.lightbox-target img {max-height:50%;}
 
+section {position: relative;
+}
+.container, section {padding:0;}
+
+header, .padding   {padding: 15px 25px;}
+
+section.intro .fade-up {position:absolute; bottom:0; width:100%; box-sizing:border-box;}
+
+header {background-color:rgba(0,0,0,0.7);}
+
+.fade-up {
+	background: -moz-linear-gradient(top,  rgba(35,35,35,0) 0%, rgba(35,35,35,0.63) 38%, rgba(35,35,35,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(35,35,35,0)), color-stop(38%,rgba(35,35,35,0.63)), color-stop(100%,rgba(35,35,35,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  rgba(35,35,35,0) 0%,rgba(35,35,35,0.63) 38%,rgba(35,35,35,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  rgba(35,35,35,0) 0%,rgba(35,35,35,0.63) 38%,rgba(35,35,35,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  rgba(35,35,35,0) 0%,rgba(35,35,35,0.63) 38%,rgba(35,35,35,1) 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  rgba(35,35,35,0) 0%,rgba(35,35,35,0.63) 38%,rgba(35,35,35,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00232323', endColorstr='#232323',GradientType=0 ); /* IE6-9 */
+}
+.fade-down {
+	background: -moz-linear-gradient(top,  rgba(35,35,35,1) 0%, rgba(35,35,35,0.63) 62%, rgba(35,35,35,0) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(35,35,35,1)), color-stop(62%,rgba(35,35,35,0.63)), color-stop(100%,rgba(35,35,35,0))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  rgba(35,35,35,1) 0%,rgba(35,35,35,0.63) 62%,rgba(35,35,35,0) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  rgba(35,35,35,1) 0%,rgba(35,35,35,0.63) 62%,rgba(35,35,35,0) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  rgba(35,35,35,1) 0%,rgba(35,35,35,0.63) 62%,rgba(35,35,35,0) 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  rgba(35,35,35,1) 0%,rgba(35,35,35,0.63) 62%,rgba(35,35,35,0) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#232323', endColorstr='#00232323',GradientType=0 ); /* IE6-9 */
+}
+
+hr {margin:0}
+
+.container {
+	width: 940px;
+	width:auto;
+} 
 
 
+.hint {
+	font-size: 2em;
+	font-color:#dd9;
+	position:fixed;
+	bottom:10px;
+	right:10px;
+}
 
 
+section {
+	background:#fff url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7) no-repeat fixed center center;
+	background-size:100%;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	position:relative;
+}
 
+section:before {
+	box-sizing: border-box;
+	position:absolute;
+	content: " ";
+	display:block;
+	width:100%;
+	height:100%;
+	background: rgba(0,0,0,.7) url(/assets/images/ui/overlay/04.png);
+	opacity:0.3;
+}
+
+section.intro:before {
+	display:none;
+}
+
+section * {position:relative;}
+
+.loading:after {
+	/* Spinner */
+}
+
+.Slider {-webkit-backface-visibility: hidden;}
 </style>
 
 
 </head>
-<body id="<?php echo url::page_id(); ?>" class="<?php echo url::page_class(); ?>" style="<?php if(Access::permission($node) || $node->password->cover) : ?>
-background:url(<?php echo url::image($node->cover,1000,1000,'fit'); ?>) no-repeat fixed center center; background-size:100%
-<?php endif; ?>">
+<body id="<?php echo url::page_id(); ?>" class="<?php echo url::page_class(); ?>" style="<?php if(false && Access::permission($node) || $node->password->cover) : ?>background-image:url(<?php echo url::image($node->cover,1000,1000,'fit'); ?>);<?php endif; ?>">
   <a class="tabfocus hide" href="#main">jump to content (press enter)</a>
   <div class="container">
+<!--
     <header>
       <h1><a href="<?php echo URL::Site('/'); ?>"><?php echo $site->name; ?></a></h1>
       <?php echo $breadcrumbs; ?>
-	  </header>
+	</header>
+-->
   </div>
-  <div class="container"> 
-	<div id="main" role="main">
+  <div class="container <?php echo $node->type;?>"> 
+  <section class="intro" style="<?php if(Access::permission($node) || $node->password->cover) : ?>
+background:url(<?php echo url::image($node->cover,1000,1000,'fit'); ?>) no-repeat center center; 
+background-size:100%;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+<?php endif; ?>">
+	<header>
+      <h1><a href="<?php echo URL::Site('/'); ?>"><?php echo $site->name; ?></a></h1>
+      <?php echo $breadcrumbs; ?>
+	</header>
+	<hr />
+	<div class="padding fade-up">
+	    <?php echo facebook::like(Route::URL($node->id)); ?>
+	    <h2><?php echo $node->name; ?></h2>
+	    <?php if(Route::exists($node->parent->id) && $node->parent->type=='gallery') : ?>
+        	<?php echo Request::factory(Request::current()->url(array('controller'=>'menu','action'=>'index','format'=>'part')))->execute();?>
+        <?php endif; ?>
+	    
+	    <?php //echo Request::factory(Request::current()->url(array('controller'=>'menu','action'=>'index','format'=>'part')))->execute();?>
+	    <p><?php echo $node->desc; ?></p>
+	</div>
+  </section>  
+  
+
+	<!--
+<div id="main" role="main">
 	   <?php if(Route::exists($node->parent->id) && $node->parent->type=='gallery') : ?>
      <div class="well intro">
         <?php echo Request::factory(Request::current()->url(array('controller'=>'menu','action'=>'index','format'=>'part')))->execute();?>
@@ -133,6 +233,7 @@ background:url(<?php echo url::image($node->cover,1000,1000,'fit'); ?>) no-repea
      <?php endif; ?>
 	   <h2><?php echo $node->name; ?></h2>
 	   <p><?php echo $node->desc; ?></p>
+-->
 	       <?php echo $content; ?>
 	</div>
 	
@@ -140,6 +241,41 @@ background:url(<?php echo url::image($node->cover,1000,1000,'fit'); ?>) no-repea
 <footer>   
 	 &copy;<?php echo Date('Y'); ?> <strong><?php echo $site->name; ?></strong> All rights reserved. 
 </footer>
+<div class="hint">
+	Hint!
+</div>
+<script>
+	  	
+	  	$(document).ready(function() {
+	  		
+	  		hint();
+	 		setInterval(hint(),3000);
+	 		function hint(){
+		 		$('.hint')
+		 			.fadeIn(300)
+		 			.delay(300)
+		 			.fadeOut(300)
+		 			.fadeIn(300)
+		 			.delay(300)
+		 			.fadeOut(300);
+	 		}
+
+ 		});	
+ 		
+ 		
+ 		
+ 		//Open all site links using js
+ 		$("body").live("click", "a", function(e) {
+ 			console.log($(e.target).data('events'));
+	 		e.target.href.indexOf(location.hostname) && e.target.target != "_blank" && (window.location = e.target.href);
+   		});
+ 		
+ 		$(window).resize(function() {
+	  		 $('.container.gallery section').each(function() {$(this).css('min-height',$(window).height())});
+	  	});
+	  	$(window).resize()
+
+</script>
  <?php echo Assets::factory('script')
         //->css('core.css')
         //->css('theme/basic.css')
@@ -170,6 +306,7 @@ background:url(<?php echo url::image($node->cover,1000,1000,'fit'); ?>) no-repea
   <script>
     window._gaq = [['_setAccount','<?php echo $account->tracking_code; ?>'],['_trackPageview'],['_trackPageLoadTime']];
     Modernizr.load({
+      	
       load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'
     });
   </script>
