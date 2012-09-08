@@ -48,7 +48,7 @@ class Controller_Admin_Style extends Controller_Admin_Album_core {
   );
 
   function action_index(){
-    $this->template->content=View::factory('admin/style')
+    $this->template->content=$this->getView('style')//View::factory('admin/style')
       ->bind('styles',$styles)
       ->bind('options',$this->options)
       ->bind('album',$album)

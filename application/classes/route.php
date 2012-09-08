@@ -17,7 +17,7 @@ static function inject( $routes=array() ){
 static function domain($domain=null) {
     $domain=($domain)?$domain:$_SERVER['HTTP_HOST'];
     $cache="{$domain}_routes";
-//if ($routes=CASHE::get($cache)) {
+//if ($routes=CACHE::get($cache)) {
     $domain=ORM::factory('domain',array('name'=>$domain));
     
     if (!$domain->id) return;
@@ -79,7 +79,6 @@ static function domain($domain=null) {
     	  $query->next();    
         }
         
-        //echo $domain->node_id;
         //Add default path for domain
         //options are duplicated as they need the first / removed
         $route_options="(index)(<controller>(/<action>)(/<id>(-<name>)))(/page-<page>)(.<format>)";
@@ -94,7 +93,7 @@ static function domain($domain=null) {
     	        )
     	      );
     	  
-    	 $routes['not-found'] = new Route("<path>",array('path' => '.*'));
+    	$routes['not-found'] = new Route("<path>",array('path' => '.*'));
         $routes['not-found']
           ->defaults( $settings +
               array (
@@ -103,14 +102,7 @@ static function domain($domain=null) {
                 'action'    => '404',
     	        )
     	      );
-    	 //     Route::set('static', '<path>', array('path' => '.*'))->defaults( $settings +
-         //     array (
-         //       'node'      => $domain->node_id,
-        //        'controller'=> 'static',
-        //        'action'    => '404',
-    	   //     )
-    	   //   );
-     // Cashe::save($cache)  } 
+     // Cache::save($cache)  } 
      
      //inject routes
         Route::inject($routes);

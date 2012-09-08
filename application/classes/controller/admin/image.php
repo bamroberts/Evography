@@ -4,8 +4,8 @@ class Controller_Admin_Image extends Master_Admin {
   var $model='image';
   
   function action_index() {
-     if (!$this->request->param('id')) return $this->action_view();
-     $this->template->content = View::factory('pages/admin/image-details')
+     if (!$this->request->param('id')) return ;//$this->action_view();
+     $this->template->content = $this->getView('image-details')//View::factory('pages/admin/image-details')
         ->bind('image', $image);
      $image=ORM::factory('image',$this->request->param('id'));
   }

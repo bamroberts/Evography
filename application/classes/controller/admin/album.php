@@ -4,7 +4,7 @@ class Controller_Admin_Album extends Controller_Admin_Album_Core {
   
   public function action_index(){    
       if ($id=$this->request->param('id')){
-        $this->template->content = View::factory('/admin/album/summary')
+        $this->template->content = $this->getView('album/summary')//View::factory('/admin/album/summary')
             ->bind('album', $album);
             
         $album=Orm::factory($this->_model,$id);
@@ -12,7 +12,7 @@ class Controller_Admin_Album extends Controller_Admin_Album_Core {
         $collections=ORM::factory($this->_model,$this->id)
           ->get_descendants(false,'ASC',False,false,false,array(array('column'=>'type','operator'=>'=','value'=>$this->request->controller())));
     
-        $this->template->content=View::factory('/admin/blocks/collection')
+        $this->template->content=$this->getView('blocks/collection')//View::factory('/admin/blocks/collection')
           ->bind('collection',$collections);
       }    
   }
@@ -25,7 +25,7 @@ class Controller_Admin_Album extends Controller_Admin_Album_Core {
   
   public function action_images(){
     $images=$this->node->images->find_all();
-      $this->template->content = View::factory('admin/album/images')
+      $this->template->content = $this->getView('album/images')//View::factory('admin/album/images')
                               ->set('images',$images);
   }
   
@@ -35,7 +35,7 @@ class Controller_Admin_Album extends Controller_Admin_Album_Core {
   function after(){
   
     if ($this->auto_render) {  
-      $view=View::factory('admin/album')
+      $view=$this->getView('album')//View::factory('admin/album')
          ->set('content',$this->template->content)
          ->set('album',$this->node);
       $this->template->content = $view;
@@ -70,7 +70,7 @@ class Controller_Admin_Album extends Controller_Admin_Album_Core {
   		}	
   	}
   	
-  	$this->template->content = View::factory('pages/admin/organise')
+  	$this->template->content = $this->getView('organise')//View::factory('pages/admin/organise')
 			->bind('images', $images);
 	//actions		
   	if ($_REQUEST) {

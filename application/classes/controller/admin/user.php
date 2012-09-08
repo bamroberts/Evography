@@ -7,7 +7,7 @@ class Controller_Admin_User extends Master_Admin {
 
   function action_index(){
       
-      $this->template->content = View::factory('pages/admin/home')
+      $this->template->content = $this->getView('home')//View::factory('pages/admin/home')
           ->bind('actions',$actions)          
           ->bind('collections',$collections)
       ;
@@ -17,7 +17,7 @@ class Controller_Admin_User extends Master_Admin {
   }	
   
   function action_welcome() {
-      $this->template->content = View::factory('pages/admin/welcome')
+      $this->template->content = $this->getView('welcome')//View::factory('pages/admin/welcome')
             ->bind('step',$step)
             ->bind('content',$content);            //Get step
       
@@ -58,7 +58,7 @@ class Controller_Admin_User extends Master_Admin {
     $user->values($_POST, array('username', 'password','remember_me'));    
     $columns=Arr::extract($user->list_columns(),array('username','password','remember_me'));
     
-    $content = $this->template->content = View::factory('pages/admin/login')
+    $content = $this->template->content = $this->getView('login')//View::factory('pages/admin/login')
             ->bind('columns',$columns)
             ->bind('data',$user)
             ->bind('errors',$errors);      
@@ -103,7 +103,7 @@ class Controller_Admin_User extends Master_Admin {
   }
  
   public function action_options(){
-      $this->template->content = View::factory('pages/admin/edit')
+      $this->template->content = $this->getView('edit')//View::factory('pages/admin/edit')
      	  ->bind('columns',$columns)
         ->bind('data', $data)
         ->bind('errors', $errors);
@@ -115,7 +115,7 @@ class Controller_Admin_User extends Master_Admin {
   }
   
     public function action_details(){
-      $this->template->content = View::factory('admin/user-details')
+      $this->template->content = $this->getView('user-details')//View::factory('admin/user-details')
      	  ->bind('columns',$columns)
         ->bind('data', $data)
         ->bind('errors', $errors)

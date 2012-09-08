@@ -15,10 +15,10 @@ public function action_index(){
    }
    
    
-   $media =  $this->template->content=View::factory('/admin/blocks/collection')
+   $media =  $this->template->content=$this->getView('blocks/collection')//View::factory('/admin/blocks/collection')
       ->bind('collection',$children);
     
-   $this->template->content=View::factory('/admin/collection/summary')
+   $this->template->content=$this->getView('collection/summary')//View::factory('/admin/collection/summary')
       ->bind('collection',$collection)
       ->bind('media',$media)
       ->bind('empty', $empty);
@@ -30,7 +30,7 @@ public function action_index(){
   function after(){
   
     if ($this->auto_render) {  
-      $view=View::factory('admin/collection')
+      $view=$this->getView('collection')//View::factory('admin/collection')
          ->set('content',$this->template->content)
          ->set('collection',$this->node);
       $this->template->content = $view;
@@ -45,7 +45,7 @@ public function action_index(){
     $this->_fields[]='type'; 
     $data=ORM::factory($this->_model); 
     
-    $this->template->content = View::factory('admin/edit')
+    $this->template->content = $this->getView('edit')//View::factory('admin/edit')
    	  ->bind('columns',$columns)
       ->bind('data', $data)
       ->bind('errors', $errors);

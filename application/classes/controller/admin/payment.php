@@ -19,7 +19,7 @@ const INVOICE_DATE_TIME = "d M Y h:i:s";
   
   public function action_index(){
   //list payment options an current option
-    $this->template->content = View::factory('admin/payment')
+    $this->template->content = $this->getView('payment')//View::factory('admin/payment')
         ->bind('sub', $sub);
     
    // die();
@@ -40,7 +40,7 @@ const INVOICE_DATE_TIME = "d M Y h:i:s";
   
   public function action_history(){
   //list of payment history
-    $this->template->content = View::factory('admin/payment-history')
+    $this->template->content = $this->getView('payment-history')//View::factory('admin/payment-history')
         ->bind('sub', $sub);
     Spreedly::configure($this->site, $this->token);
     $sub=SpreedlySubscriber::find($this->user_id);
@@ -49,7 +49,7 @@ const INVOICE_DATE_TIME = "d M Y h:i:s";
   public function action_invoice(){
   $this->template->breadcrumb_part[]=HTML::Anchor($this->request->url(array('controller'=>'payment','action'=>'history','id'=>'')),'History');
   //details of a particular invoice
-    $this->template->content = View::factory('admin/payment-invoice')
+    $this->template->content = $this->getView('payment-invoice')//View::factory('admin/payment-invoice')
         ->bind('invoice', $invoice);
     Spreedly::configure($this->site, $this->token);
     $sub=SpreedlySubscriber::find($this->user_id);
@@ -62,7 +62,7 @@ const INVOICE_DATE_TIME = "d M Y h:i:s";
   
   public function action_plans(){
   //list payment options and current option
-    $this->template->content = View::factory('admin/payment-plans')
+    $this->template->content = $this->getView('payment-plans')//View::factory('admin/payment-plans')
         ->bind('sub', $sub)
         ->bind('plans', $plans);
     Spreedly::configure($this->site, $this->token);
@@ -76,7 +76,7 @@ const INVOICE_DATE_TIME = "d M Y h:i:s";
     if(!$plan_id){
       $this->fof();
     }
-    $this->template->content = View::factory('admin/payment-checkout')
+    $this->template->content = $this->getView('payment-checkout')//View::factory('admin/payment-checkout')
         ->bind('plan', $plan)
         ->bind('invoice', $invoice)
         ->bind('columns', $columns)

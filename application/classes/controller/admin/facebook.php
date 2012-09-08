@@ -59,7 +59,7 @@ public function action_export(){
     $data = Arr::extract($_POST, array('images'),false);
     
     
-    $this->template->content = View::factory('pages/admin/facebook-export')
+    $this->template->content = $this->getView('facebook-export')//View::factory('pages/admin/facebook-export')
    	  ->bind('columns',$columns)
       ->bind('data', $data)
       ->bind('errors', $errors)
@@ -193,7 +193,7 @@ if ($this->request->param('id')<1) {throw exception;}
     $data = Arr::extract($_POST, array('images'),false);
 
     
-    $this->template->content = View::factory('pages/admin/facebook-export')
+    $this->template->content = $this->getView('facebook-export')//View::factory('pages/admin/facebook-export')
    	  ->bind('columns',$columns)
       ->bind('data', $data)
       ->bind('errors', $errors)
@@ -266,7 +266,7 @@ if ($this->request->param('id')<1) {throw exception;}
       $columns['album']['options'][$album['id']]="{$album['name']} - ". Arr::get($album,'count',0)." images";
     }
   
-    $view = View::factory('admin/facebook/albums')
+    $view = $this->getView('facebook/albums')//View::factory('admin/facebook/albums')
       ->bind('columns',$columns)    
       ->bind('data',$post)
       ->bind('errors',$errors);
@@ -286,7 +286,7 @@ if ($this->request->param('id')<1) {throw exception;}
         foreach ($images['data'] as $key=>$image) {
           $columns['images']['options'][$key]=Arr::get($image,'picture',0);
         }
-        $view = View::factory('admin/facebook/images')
+        $view = $this->getView('facebook/images')//View::factory('admin/facebook/images')
           ->bind('album',$album_id)
           ->bind('columns',$columns)
           ->bind('data',$post)
@@ -362,7 +362,7 @@ if ($this->request->param('id')<1) {throw exception;}
     if( ! $facebook=Facebook::factory() ) {
       return $this->template->content = Facebook::login();
     }
-    $this->template->content = View::factory('admin/facebook/import')
+    $this->template->content = $this->getView('facebook/import')//View::factory('admin/facebook/import')
       ->set('user', $facebook->user() )
       ->set('albums',  $this->get_fb_albums() )
       ->set('images',  $this->get_fb_images() )
@@ -379,7 +379,7 @@ if ($this->request->param('id')<1) {throw exception;}
       return $this->template->content=Facebook::login('Connect to facebook');
    }
     
-   $this->template->content = View::factory('pages/admin/facebook-import')
+   $this->template->content = $this->getView('facebook-import')//View::factory('pages/admin/facebook-import')
    	  ->bind('columns',$columns)
       ->bind('data', $data)
       ->bind('errors', $errors)

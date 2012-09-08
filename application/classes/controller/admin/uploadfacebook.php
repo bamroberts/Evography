@@ -2,7 +2,7 @@
 class Controller_Admin_UploadFacebook extends Controller_Admin_Upload {
   protected $source='facebook';
     
-  protected $_model = array(
+  protected $model = array(
       'album'=>array(  
           'name'=>'Select a FB album',
           'formtype'=>'select',
@@ -37,7 +37,7 @@ class Controller_Admin_UploadFacebook extends Controller_Admin_Upload {
   }
   
   public function action_index(){
-    $this->template->content = View::factory('admin/facebook/import')
+    $this->template->content = $this->getView('facebook/import')//View::factory('admin/facebook/import')
       ->set('user'  ,  $this->facebook->user()    )
       ->set('albums',  $this->get_albums()        )
       ->set('images',  $this->get_album_images()  );
@@ -48,7 +48,7 @@ class Controller_Admin_UploadFacebook extends Controller_Admin_Upload {
   }
 
   public function get_albums(){
-    $columns=$this->_model;
+    $columns=$this->model;
     $albums = $this->facebook->get('/me/albums?limit=0');
     
     foreach ($albums['data'] as $key=>$album) {
@@ -57,7 +57,7 @@ class Controller_Admin_UploadFacebook extends Controller_Admin_Upload {
   
     $post=$this->request->initial()->post();
     
-    return View::factory('admin/facebook/albums')
+    return $this->getView('facebook/albums')//View::factory('admin/facebook/albums')
       ->bind('columns',$columns)    
       ->bind('data',$post)
       ->bind('errors',$errors);
@@ -68,7 +68,7 @@ class Controller_Admin_UploadFacebook extends Controller_Admin_Upload {
     //If no album is selected return 
     if ( ! $album_id = Arr::get($post,'album')) return;
     
-    $columns=$this->_model; 
+    $columns=$this->model; 
            
     $images = $this->facebook->get("/{$album_id}/photos/?fields=id,picture,images,from&limit=0");
     
@@ -101,7 +101,7 @@ class Controller_Admin_UploadFacebook extends Controller_Admin_Upload {
       }
     }
       
-    return View::factory('admin/facebook/images')
+    return $this->getView('facebook/images')//View::factory('admin/facebook/images')
           ->bind('album',$album_id  )
           ->bind('columns',$columns)
           ->bind('data',$post)

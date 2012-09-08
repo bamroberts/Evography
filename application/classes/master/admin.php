@@ -3,7 +3,9 @@
 
  class Master_Admin extends Master_Master
   {
-     public $template = 'admin/template';
+     public $base = 'admin';
+     public $theme = 'v2';
+     public $template = 'template';
       
       // Controls access for the whole controller, if not set to FALSE we will only allow user roles specified
       // Can be set to a string or an array, for example 'login' or array('login', 'admin')
@@ -17,13 +19,22 @@
      
      public $user_id=FALSE;
   
+	function getViewPath($page) {
+		if ($this->theme) {
+			return array(
+				"{$this->base}/{$this->theme}/$page", 
+				"{$this->base}/$page"
+			);
+		}
+		return "{$this->base}/$page";
+	}
+  
      /**
       * Initialize properties before running the controller methods (actions),
       * so they are available to our action.
       */
      public function before()
       {
-         
       
          // Run anything that need ot run before this.
          parent::before();
@@ -131,7 +142,8 @@
              
              $this->template->flash   		  = Hint::render();
              if (!$this->template->menu) $this->template->menu=$this->request->controller();
-             $this->template->menu= View::factory('admin/block/menu')->set('current',$this->template->menu);
+             $this->template->menu= $this->getView('blocks/menu')//View::factory('admin/blocks/menu')
+             								->set('current',$this->template->menu);
              
              
            }

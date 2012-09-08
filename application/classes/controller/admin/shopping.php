@@ -14,13 +14,13 @@ class Controller_Admin_Shopping extends Controller_Admin_Album_core {
       }
       $data[$price->category][]=$price;  
       }
-    $this->template->content = View::factory('admin/album/shopping')
+    $this->template->content = $this->getView('album/shopping')//View::factory('admin/album/shopping')
     ->bind('album',$album)
     ->bind('prices',$data);
   }
   
   function action_add(){
-    $this->template->content = View::factory('admin/album/shopping-add')
+    $this->template->content = $this->getView('album/shopping-add')//View::factory('admin/album/shopping-add')
     ->bind('existing',$existing)
     ->bind('catagories',$catagories)
     ->bind('data',$data)

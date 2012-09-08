@@ -5,7 +5,7 @@ class Controller_Admin_Upload extends Controller_Admin_Album_core {
     protected $keep_original = false;
   	
   	function action_index(){
-  	  $this->template->content = View::factory('admin/album/upload')
+  	  $this->template->content = $this->getView('album/upload')//View::factory('admin/album/upload')
       ->bind('facebook', $facebook);
       
       $facebook = Request::factory($this->request->url(array('controller'=>'uploadFacebook')))->execute();

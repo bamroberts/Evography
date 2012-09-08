@@ -2,7 +2,7 @@
 
 class Controller_Admin_Password extends Controller_Admin_Album_core {
   function action_index(){
-    $this->template->content=View::factory('admin/password')
+    $this->template->content=$this->getView('password')//View::factory('admin/password')
       ->bind('password',$record)
       ->bind('album',$album)
       ->bind('current',$current)

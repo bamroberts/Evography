@@ -3,7 +3,7 @@
 class Controller_Admin_Domains extends Master_Admin {
   
   public function action_index($edit=false){
-    $this->template->content = View::factory('admin/domains')
+    $this->template->content = $this->getView('domains')//View::factory('admin/domains')
         ->bind('domains', $domains)
         ->bind('columns', $columns)
         ->bind('data', $data)

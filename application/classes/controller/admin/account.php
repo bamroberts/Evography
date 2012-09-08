@@ -24,7 +24,7 @@ class Controller_Admin_Account extends Master_Admin {
   function after(){
   
     if ($this->auto_render) {  
-      $view=View::factory('admin/account')
+      $view=$this->getView('account')
          ->set('content',$this->template->content)
          ;
       $this->template->content = $view;

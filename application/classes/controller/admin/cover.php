@@ -8,7 +8,7 @@ class Controller_Admin_Cover extends Controller_Admin_Upload {
     
           $start_node=ORM::factory('album',$this->start_node);
 
-    $this->template->content = View::factory('admin/collection/cover')
+    $this->template->content = $this->getView('collection/cover')//View::factory('admin/collection/cover')
       ->set('inherit',$start_node->get_descendants(true))
       ->set('albums',$this->node->get_descendants(false))    
       ->bind('album_selected',$album_selected)

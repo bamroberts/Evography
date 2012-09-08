@@ -3,9 +3,15 @@
 
  class Master_Gallery extends Master_Master
   {
-     public $template = 'themes/default/template';
-     public $theme = 'Default';
+     public $base = '';
+     public $theme = 'default';
+     public $template = 'template';
+    
      //public $template = 'themes/alecmaxwell.co.uk/template';
+
+     function getViewPath($page) {
+		return "{$this->base}/{$this->theme}/{$page}";
+	}
 
      /**
       * Initialize properties before running the controller methods (actions),
@@ -13,6 +19,8 @@
       */
      public function before()
       {
+      	 Theme::setBase('themes');
+      
          // Run anything that need ot run before this.
          parent::before();
          $this->session = Session::instance();
@@ -52,9 +60,8 @@
            //only bother flushing template if we are going to render it.
            if($this->auto_render){
              if (Request::user_agent('mobile')) {$this->theme = 'default';}
-			       $this->template = View::factory("themes/{$this->theme}/template");
-			       
-			     }
+			 $this->template = $this->getTemplate();     
+			 }
          }
          
          $this->init_template();

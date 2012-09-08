@@ -6,7 +6,6 @@
      public  $internal=false;
      public  $is_ajax=false;
      
-     public  $template = 'templates/default';
      
      /**
       * Initialize properties before running the controller methods (actions),
@@ -14,6 +13,8 @@
       */
      public function before()
       {
+      
+      	 
          // Run anything that need ot run before this.
          parent::before();
          

@@ -3,5 +3,6 @@
 
  class Master_Site extends Master_Master
   {
-    public  $template = 'site/template';
+    public $base = 'site';
+    public $template = 'template';
   }

@@ -2,7 +2,7 @@
 
 class Controller_Admin_Watermark extends Controller_Admin_Album_core {
   function action_index(){
-    $this->template->content=View::factory('admin/watermark')
+    $this->template->content=$this->getView('watermark')//View::factory('admin/watermark')
       ->bind('watermark',$record)
       ->bind('default',$default)
       ->bind('current',$current)

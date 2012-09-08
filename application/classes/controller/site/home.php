@@ -1,7 +1,7 @@
 <?php 
 class Controller_Site_Home extends Master_Site {
   protected $private_beta=true;
-  protected $offline=true;
+  protected $offline=false;
 
   function before(){
     parent::before();

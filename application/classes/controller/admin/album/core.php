@@ -94,7 +94,7 @@ class Controller_Admin_Album_core extends Master_Admin {
  
    
  function action_edit(){    
-     $this->template->content = View::factory('admin/edit')
+     $this->template->content = $this->getView('edit')//('admin/edit')
    	  ->bind('columns',$columns)
       ->bind('data', $data)
       ->bind('errors', $errors);

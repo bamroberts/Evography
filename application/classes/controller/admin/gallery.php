@@ -13,7 +13,7 @@ function action_index(){
   	
   	
   	foreach ($album->children as $child){
-  	  $section[]=View::factory('/admin/blocks/gallery-section')
+  	  $section[]=$this->getView('blocks/gallery-section')//View::factory('/admin/blocks/gallery-section')
   	    ->set('details', $child);
   	}
 
@@ -23,7 +23,7 @@ function action_index(){
     }
   	
   	
-  	$this->template->content=View::factory('/admin/gallery')
+  	$this->template->content=$this->getView('gallery')//View::factory('/admin/gallery')
   	    ->bind('gallery' , $album)
   	    ->bind('sections', $section)
   	    ->bind('empty'   , $empty)
