@@ -1,0 +1,31 @@
+
+  #body {}
+  
+	#intro p, #intro h2 {
+		filter: Shadow(Color=#000000, 
+                 Direction=135, 
+                 Strength=3);
+    }
+  #intro {
+    background:transparent url(/images/chrome/ie/intro_bg.png) no-repeat 0 0 !important;
+    }
+		
+	#nav {height:65px; border:1px solid #ccc;width:938px;
+	}
+	
+	#content h3{
+		background-position:0 -28px;
+	  height:36px;
+}
+	
+	li.image a span {
+		opacity:0.3;
+		filter: alpha(opacity = 30);
+    background-color:#808080;
+		}
+		
+	 li.image a:hover span {
+	 	opacity:0;
+		filter: alpha(opacity = 0);
+
+	 	}

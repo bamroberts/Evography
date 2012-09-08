@@ -1,0 +1,15 @@
+.gallery .intro {
+  position: relative;
+}
+.gallery .intro .facebook-like {
+  position: absolute;
+  right: 0;
+  border: none;
+  overflow: hidden;
+  height: 35px;
+}
+.gallery .guestbook blockquote {
+  width: 40%;
+  margin: 3%;
+  float: left;
+}

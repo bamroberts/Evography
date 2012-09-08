@@ -1,0 +1,67 @@
+.private:after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: url(/assets/images/padlock.jpg) #ffffff no-repeat center center;
+  position: absolute;
+  top: 0;
+  opacity: 0.5;
+}
+.collection .grid a, .collection .list a {
+  width: 204px;
+  height: 204px;
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+.collection .grid a span, .collection .list a span {
+  position: absolute;
+  top: 0;
+  display: block;
+  width: 98%;
+  padding: 10px 10px;
+  z-index: 100;
+  margin-left: -4px;
+}
+.collection .grid a span *, .collection .list a span * {
+  display: block;
+  text-decoration: none;
+}
+.collection .grid a large, .collection .list a large {
+  font-size: 20px;
+}
+.collection .grid a small, .collection .list a small {
+  display: none;
+  font-size: 12px;
+  margin-top: 10px;
+}
+.collection .grid a:hover span, .collection .list a:hover span {
+  height: 100%;
+}
+.collection .grid a:hover span small, .collection .list a:hover span small {
+  display: block;
+}
+.collection .grid a:hover span small.base, .collection .list a:hover span small.base {
+  position: absolute;
+  bottom: 0;
+}
+.collection .list a {
+  width: 97%;
+  height: 250px;
+}
+.collection .list a ul {
+  position: absolute;
+  right: 0px;
+  bottom: 10px;
+  margin: 0;
+  width: 192px;
+  z-index: 00;
+}
+.collection .list a ul li {
+  float: left;
+  margin: 3px;
+}
+.collection .list a img {
+  width: 100%;
+}

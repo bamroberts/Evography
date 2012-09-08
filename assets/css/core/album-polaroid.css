@@ -1,0 +1,30 @@
+.polaroid {
+  overflow: visible;
+  width: 100%;
+  min-height: 100px;
+  position: relative;
+}
+.polaroid a {
+  margin: 0;
+  width: 104px;
+  width: 104px;
+  overflow: hidden;
+  text-decoration: none;
+  position: absolute;
+  background-color: #eee;
+  padding: 5px 5px 8px 5px;
+}
+.polaroid a span {
+  width: 100px;
+  height: 100px;
+  background-color: #333;
+  display: block;
+  border: 1px solid #999;
+  padding: 1px;
+}
+.polaroid p {
+  color: #999;
+  text-align: center;
+  margin: 3px 0 0 0;
+  font-size: 11px;
+}

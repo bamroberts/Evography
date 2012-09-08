@@ -39,7 +39,7 @@ system/
 modules/
 cart/
 images/
-assets/
+assets/vendor/
 application/logs/
 application/cache/
 

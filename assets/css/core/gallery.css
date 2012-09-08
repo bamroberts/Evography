@@ -1,0 +1,8 @@
+.gallery .intro {
+  position: relative;
+}
+.gallery .guestbook blockquote {
+  width: 40%;
+  margin: 3%;
+  float: left;
+}

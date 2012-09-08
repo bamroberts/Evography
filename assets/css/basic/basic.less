@@ -1,0 +1,89 @@
+/*!
+ * Bootstrap @VERSION
+ *
+ * Copyright 2011 Twitter, Inc
+ * Licensed under the Apache License v2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Designed and built with all the love in the world @twitter by @mdo and @fat.
+ * Date: @DATE
+ */
+
+@import "variables.less"; 
+@import "../_general/bootstrap.less"; 
+@import "../core/core.less"; 
+
+//@import "variables"
+//@import "core" //display widgets - ie. images, album, js-plugin layouts
+//@import "structure" // layout files, site base, forms
+//@import "theme" //colours, buttons, text
+
+
+
+header h1 {margin-bottom:0;}
+
+nav,.nav {
+  .clearfix();
+  ul {
+    list-style:none;
+    margin:0;
+    
+    li {
+      float:left;
+      padding:6px; 
+    }  
+  }
+  
+  .breadcrumbs {
+    font-size:12px;
+    
+    li {
+      &:after,
+      &::after {
+        content: "\00BB";
+        
+      } 
+    }
+  }
+}
+
+.container,  body > footer {
+  padding:15px 25px;
+  .box-shadow();
+  border:1px solid #999;
+  #translucent >  .background(@white, 0.8);
+}
+
+.pallet {
+  * {width:100px; height:100px;display:block; float:left;}
+  .baseColor {background-color:@baseColor; }
+  .complement {background-color:@complement;}
+  
+  .split1 {background-color:@split1;}
+  .split2 {background-color:@split2;}
+  
+  .triad1 {background-color:@triad1;}
+  .triad2 {background-color:@triad2;}
+  
+  .tetra1 {background-color:@tetra1;}
+  .tetra2 {background-color:@tetra2;}
+  
+  .analog1 {background-color:@analog1;}
+  .analog2 {background-color:@analog2;}
+       
+}
+
+.QOverlay {
+	background-color: #000000;
+	z-index: 9999;
+}
+
+.QLoader {
+	background-color: #CCCCCC;
+	height: 1px;
+}
+
+.collection span {
+  #translucent.background(#fff,0.7);
+}
+

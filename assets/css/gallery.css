@@ -1,0 +1,96 @@
+/* gallery.scss */
+/* _form */
+form {
+  border: 1px solid white;
+  margin: 1em 0; }
+  form fieldset {
+    border-width: 0px;
+    margin-top: 0.5em;
+    padding: 0.5em 1.5em; }
+    form fieldset legend {
+      margin: 1em 0;
+      padding: 0 .5em;
+      background: transparent;
+      font-size: 1.3em;
+      font-weight: bold; }
+    form fieldset label {
+      display: block;
+      position: relative;
+      font-weight: bold; }
+      form fieldset label:after, form fieldset label::after {
+        content: ":"; }
+      form fieldset label span {
+        color: red;
+        position: absolute;
+        top: -3px;
+        left: -5px; }
+    form fieldset div input,
+    form fieldset div textarea,
+    form fieldset div select {
+      color: #333;
+      display: inline-block;
+      font-family: "HelveticaNeue-Light","Helvetica Neue",Helvetica,Arial,sans-serif;
+      font-size: 14px;
+      padding: 10px 5px;
+      width: 480px;
+      font-weight: bold;
+      border-width: 1px;
+      border-style: solid;
+      border-top-color: #555;
+      border-left-color: #555;
+      border-bottom-color: #ccc;
+      border-right-color: #ccc;
+      border-radius: 5px;
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) inset;
+      -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) inset;
+      -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) inset; }
+      form fieldset div input:focus,
+      form fieldset div textarea:focus,
+      form fieldset div select:focus {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) inset, 0 0 5px #3375b6;
+        -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) inset, 0 0 5px #3375b6;
+        -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) inset, 0 0 5px #3375b6;
+        border-color: #3375B6;
+        background-color: white;
+        color: black; }
+    form fieldset div select {
+      height: 40px;
+      padding: 8px;
+      width: 502px; }
+    form fieldset div.input {
+      margin-bottom: .5em;
+      padding: 0;
+      display: block;
+      position: relative; }
+      form fieldset div.input p {
+        font-weight: bold;
+        display: inline;
+        position: relative;
+        top: -10px;
+        left: 10px; }
+    form fieldset div.radio label {
+      display: inline;
+      width: auto; }
+    form fieldset div.radio li {
+      list-style: none; }
+      form fieldset div.radio li label {
+        font-weight: normal;
+        margin: 0 0.5em; }
+    form fieldset div.checkbox label {
+      display: inline;
+      width: auto;
+      margin-right: 0px; }
+      form fieldset div.checkbox label.helper {
+        margin: 0 0.5em;
+        font-weight: normal; }
+    form fieldset div.radio input, form fieldset div.checkbox input {
+      display: inline;
+      width: auto;
+      width: inherit; }
+    form fieldset .error,
+    form fieldset .error label,
+    form fieldset .error p,
+    form fieldset .error input {
+      color: #bb1b1b; }

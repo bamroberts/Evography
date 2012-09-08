@@ -1,0 +1,73 @@
+.private:after { 
+  content:""; 
+  width:100%; 
+  height:100%; 
+  display:block; 
+  background:url(/assets/images/padlock.jpg) #fff no-repeat center center; 
+  position:absolute; 
+  top:0; 
+  opacity:0.5; }
+
+.collection {
+   .grid,
+   .list {
+  
+    a {
+      width:204px; 
+      height:204px; 
+      position: relative; 
+      display: block; 
+      overflow: hidden;
+      
+      
+      span { 
+        position: absolute;
+        top:0; 
+        display: block;
+        width: 98%; 
+        padding:10px 10px;  
+        z-index:100; 
+        margin-left:-4px; 
+        
+      
+        * {
+          display: block;
+          text-decoration: none;
+        } 
+      }
+      large {font-size:20px;}
+      small {display:none; font-size:12px; margin-top:10px;}   
+    
+      &:hover{
+        span {
+          height:100%;
+          
+          small {
+            display: block; 
+            
+          &.base {position: absolute;bottom:0;}
+          }
+        }
+      }
+    }
+  }
+  .list {
+    a {
+      width:97%; 
+      height:250px;
+      ul {
+        position:absolute; 
+        right:0px; 
+        bottom:10px; 
+        margin:0;
+        width:192px; 
+        z-index:00;
+        li {
+          float:left; 
+          margin:3px;
+        }
+      }
+      img {width:100%}
+    }
+  }
+}

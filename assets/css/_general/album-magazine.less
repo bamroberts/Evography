@@ -1,0 +1,129 @@
+.magazine {
+    .image {
+      text-align:center; 
+      border:0px solid #ccc; 
+      padding:5px; 
+      margin:4px 0.5%;  
+      -moz-box-sizing:border-box; 
+      -webkit-box-sizing:border-box; 
+      box-sizing: border-box; 
+      vertical-align: middle; 
+      position:relative;
+      float:left; 
+      width:99%;
+     }
+    
+    img {width:100%}
+    
+    //.quarter {width:24%;float:left;}
+    //.third {width:32%;float:left;}
+    //.half {width:49%;float:left;}
+    //.threequarter {width:72%; float:left;}
+    //.twothird {width:64%;float:left;}
+    //.end {overflow:hidden;}
+    div {overflow:hidden;}
+        
+    .layout-lll {
+      .image-1{}
+      .image-2,
+      .image-3{width:49%;}
+    }
+    .layout-pll {
+      .image-1{width:42%;}
+      .image-2,
+      .image-3{width:51%;}
+    }
+    .layout-ppl {
+      .image-1,
+      .image-2{width:24%;}
+      .image-3{width:49%;}
+    }
+    .layout-ppp {
+      .image-1{width:66%;}
+      .image-2,
+      .image-3{width:32%;}
+    }
+    .layout-lpp {
+      .image-1{width:99%;}
+      .image-2,
+      .image-3{width:49%;}
+    }
+    .layout-llp {
+      .image-1{}
+      .image-2{width:66%;}
+      .image-3{width:32%;}
+    }
+    .layout-lpl {
+      .image-1{}
+      .image-2{width:37%;}
+      .image-3{width:61%;}
+    }
+    .layout-plp {
+      .image-1{width:24%;}
+      .image-2{width:49%;}
+      .image-3{width:24%;}
+    }
+    .layout-ll,
+    .layout-pp {
+      .image-1,
+      .image-2 {width:49%;}    
+    }
+    
+    .layout-lp {
+      .image-1 {width:66%;}
+      .image-2 {width:32%;}
+    }
+    
+    .layout-pl {
+      .image-1 {width:32%;}
+      .image-2 {width:64%;}
+    }
+    
+    .layout-p,
+    .layout-l {
+      .image-1 {}
+    }
+    
+    a {position: relative;}
+    a span {
+      position: absolute; 
+      display: none; 
+      top:0;
+      width:80%; 
+      padding:30px 10%; 
+      background-color: rgba(100%,100%,100%,0.5); 
+      text-decoration: none;
+    }
+    a span large {
+      font-size:30px; 
+      color:white;
+      display: block; 
+      margin-bottom:20px;
+    }
+    a span small {
+      display: block; 
+      text-align: right; 
+      color:red
+    }
+    a:hover span {display: block; }
+    
+    
+}
+
+
+      
+     
+
+    
+      
+   
+   
+   
+   /* Portrait */
+  @media screen and (max-width: 320px) {
+	    article {width:100% !important; }
+	}
+	/* Landscape */
+	@media screen and (min-width: 321px) and (max-width: 480px) {
+	    article { width:100% !important; }
+	} 

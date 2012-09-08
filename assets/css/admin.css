@@ -1,0 +1,816 @@
+/* admin.scss */
+/*------------------------------------*\
+	RESET
+\*------------------------------------*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0; }
+
+article, aside, details, figcaption, figure, footer,
+header, hgroup, menu, nav, section {
+  display: block; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+fieldset, img {
+  border: 0; }
+
+address, caption, cite, dfn, th, var {
+  font-style: normal;
+  font-weight: normal; }
+
+caption, th {
+  text-align: left; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 100%;
+  font-weight: normal; }
+
+q:before, q:after {
+  content: ''; }
+
+abbr, acronym {
+  border: 0; }
+
+/*--- CLEARFIX ---*/
+/*
+Fix clearing issues as per: http://nicolasgallagher.com/micro-clearfix-hack/
+*/
+.clearfix,
+.cf,
+.grids {
+  zoom: 1; }
+
+.clearfix:before,
+.clearfix:after,
+.cf:before,
+.grids:before,
+.cf:after,
+.grids:after {
+  content: "";
+  display: table; }
+
+.clearfix:after,
+.cf:after,
+.grids:after {
+  clear: both; }
+
+/*------------------------------------*\
+	TYPE
+\*------------------------------------*/
+/*--- HEADINGS ---*/
+h1 {
+  font-size: 2em;
+  /* 32px */
+  margin-bottom: 0.75em;
+  /* 24px */
+  line-height: 1.5;
+  /* 48px */ }
+
+h2 {
+  font-size: 1.5em;
+  /* 24px */
+  margin-bottom: 1em;
+  /* 24px */
+  line-height: 1;
+  /* 24px */ }
+
+h3 {
+  font-size: 1.25em;
+  /* 20px */
+  margin-bottom: 1.2em;
+  /* 24px */
+  line-height: 1.2;
+  /* 24px */ }
+
+h4 {
+  font-size: 1.125em;
+  /* 18px */
+  margin-bottom: 1.333em;
+  /* 24px */
+  line-height: 1.333;
+  /* 24px */ }
+
+h5 {
+  font-weight: bold; }
+
+h5,
+h6 {
+  font-size: 1em;
+  /* 16px */
+  margin-bottom: 1.5em;
+  /* 24px */
+  line-height: 1.5;
+  /* 24px */ }
+
+/*--- PARAGRAPHS ---*/
+p,
+address {
+  margin-bottom: 1.5em; }
+
+/*--- LINKS ---*/
+/*
+Say no to negative hovers: http://csswizardry.com/2011/05/on-negative-hovers/
+A negative hover is one whose appearance is subtracted from on hover rather than added to.
+*/
+a {
+  text-decoration: none; }
+
+a:visited {
+  opacity: 0.8;
+  /* A bit basic, but it’s a bare minumum... */ }
+
+a:hover {
+  text-decoration: underline; }
+
+a:active,
+a:focus {
+  /* Give clicked links a depressed effect. */
+  position: relative;
+  top: 1px; }
+
+/*--- LISTS ---*/
+ul,
+ol {
+  margin: 0 0 1.5em 60px; }
+
+ul ul,
+ol ol,
+ul ol,
+ol ul {
+  /* Let’s take care of lists in lists */
+  margin: 0 0 0 60px; }
+
+/*
+A numbered list is NOT the same as an ordered one.
+Use this class when you want a list to be numbered but it has no order.
+See http://jsfiddle.net/csswizardry/sdrth/
+*/
+ul.numbered {
+  list-style: decimal outside; }
+
+dl {
+  margin-bottom: 1.5em; }
+
+dt {
+  font-weight: bold; }
+
+dt:after {
+  content: ":"; }
+
+dt::after {
+  content: ":"; }
+
+dd {
+  margin-left: 60px; }
+
+/*--- QUOTES ---*/
+blockquote {
+  text-indent: -0.4em;
+  /* Hang that punctuation */ }
+
+blockquote b,
+blockquote .source {
+  /* Mark the source up with either a <b> or another element of your choice with a class of source. */
+  display: block;
+  text-indent: 0; }
+
+/*--- GENERAL ---*/
+q,
+i,
+em,
+cite {
+  font-style: italic;
+  font-weight: inherit; }
+
+b,
+strong {
+  font-weight: bold;
+  font-style: inherit; }
+
+mark {
+  background: #ffc; }
+
+s,
+del {
+  text-decoration: line-through; }
+
+small {
+  font-size: 0.75em;
+  line-height: 1; }
+
+/*--- CODE ---*/
+pre,
+code {
+  font-family: monospace;
+  font-size: 1em; }
+
+pre {
+  overflow: auto;
+  margin-bottom: 1.5em;
+  line-height: 24px;
+  /* Having to define explicit pixel values :( */ }
+
+code {
+  line-height: 1; }
+
+/*------------------------------------*\
+	IMAGES
+\*------------------------------------*/
+img {
+  max-width: 100%;
+  height: auto;
+  /* Give it some text styles to offset alt text */
+  font-style: italic;
+  color: #c00; }
+
+img.left {
+  margin: 0 20px 0 0; }
+
+img.right {
+  margin: 0 0 0 20px; }
+
+/*--- FLASH/VIDEO ---*/
+object,
+embed,
+video {
+  max-width: 100%; }
+
+/*
+Nice UI touch for placeholders. To get placeholders working cross-browser see @dan_bentley’s jQuery plugin: https://github.com/danbentley/placeholder
+*/
+[placeholder] {
+  cursor: pointer; }
+
+[placeholder]:active,
+[placeholder]:focus {
+  cursor: text; }
+
+.check-list {
+  width: 100%;
+  overflow: hidden;
+  list-style: none;
+  margin: 0 0 1.5em 0; }
+
+.check-list li {
+  width: 25%;
+  float: left; }
+
+.check-label {
+  display: inline; }
+
+.check-label:after {
+  content: normal; }
+
+.check-label::after {
+  content: normal; }
+
+.button {
+  cursor: pointer; }
+
+fieldset > :last-child {
+  /* Remove the margin from the last element in the fieldset--this makes our padding more consistent. */
+  margin: 0; }
+
+/*------------------------------------*\
+	TABLES
+\*------------------------------------*/
+/*
+Unfortunately, and somewhat obviously, tables don’t fit the baseline all too well. Perhaps in a later version...
+*/
+table {
+  margin-bottom: 1.5em;
+  width: 100%;
+  max-width: 100%; }
+
+thead tr:last-of-type th {
+  /* Thicker border on the table-headers of the last row in the table head */
+  border-bottom-width: 2px; }
+
+tbody th {
+  /* Thicker right border on table-headers in the table body */
+  border-right-width: 2px; }
+
+th:empty {
+  /* Hide the borders on any empty table-headers */
+  border: none; }
+
+th, td {
+  vertical-align: top;
+  padding: 0.75em;
+  border: 1px solid #ccc; }
+
+th {
+  font-weight: bold;
+  text-align: center; }
+
+table [colspan] {
+  /* This looks lovely, trust me... */
+  text-align: center; }
+
+table [rowspan] {
+  /* ...as does this. */
+  vertical-align: middle; }
+
+/*
+Assuming IE has an 'implied' colspan of one on cells without an explicit colspan attribute, fix/undo it.
+See http://jsfiddle.net/csswizardry/UJJay/
+*/
+[colspan="1"] {
+  text-align: left; }
+
+[rowspan="1"] {
+  vertical-align: top; }
+
+tbody tr:nth-of-type(odd) {
+  background: rgba(0, 0, 0, 0.05); }
+
+tfoot {
+  text-align: center; }
+
+tfoot td {
+  border-top-width: 2px; }
+
+/* _text.scss */
+/*------------------------------------*\
+	MAIN
+\*------------------------------------*/
+html {
+  overflow-y: scroll;
+  /* Force scrollbars 100% of the time */
+  font-size: 100%;
+  /* Use 16px as per http://www.informationarchitects.jp/en/100e2r/ and http://www.wilsonminer.com/posts/2008/oct/20/relative-readability/ */
+  font-family: Calibri, "Helvetica Neue", Arial, sans-serif;
+  /* Swap these two lines around to switch between serif and sans */
+  font-family: Cambria, Georgia, "Times New Roman", serif;
+  /* Swap these two lines around to switch between serif and sans */
+  line-height: 1.5;
+  background: url(../img/css/baseline.gif) 0 4px white;
+  color: #333; }
+
+body {
+  min-height: 100%;
+  background: url(../img/css/grid.png) top center repeat-y; }
+
+/*
+Apply this class to the body element where possible, as per: http://csswizardry.com/2011/01/using-the-body-element-as-a-wrapper/
+Otherwise, apply it to other elements where necessary.
+*/
+.wrapper {
+  width: 940px;
+  padding: 10px;
+  margin: 0 auto; }
+
+/*------------------------------------*\
+	MESSAGES
+\*------------------------------------*/
+/*
+Unfortunately feedback messages don’t fit the baseline all too well. Perhaps in a later version...
+*/
+ul.messages {
+  margin: 0; }
+
+.messages li {
+  font-weight: normal;
+  display: block;
+  padding: 10px 10px 10px 36px;
+  border: 1px solid #ccc;
+  margin: 0;
+  color: #333;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+  -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset; }
+
+/* With multiple errors it’s nice to group them. */
+.messages li {
+  list-style: decimal outside;
+  /* It’s also handy to number them. However, they might not necessarily be in a particular order, so we spoof it by putting numbers on an unordered list */
+  padding: 10px 10px 10px 56px; }
+
+.messages .error {
+  color: #D8000C;
+  border-color: #D8000C;
+  background: url(../img/css/icons/error.png) 10px center no-repeat #ffbaba; }
+
+.messages .success {
+  color: #4F8A10;
+  border-color: #4F8A10;
+  background: url(../img/css/icons/success.png) 10px center no-repeat #dff2bf; }
+
+.messages .info {
+  color: #00529B;
+  border-color: #00529B;
+  background: url(../img/css/icons/info.png) 10px center no-repeat #feefb3; }
+
+.messages .warning {
+  color: #9F6000;
+  border-color: #9F6000;
+  background: url(../img/css/icons/warning.png) 10px center no-repeat #fef8c4; }
+
+/*------------------------------------*\
+	MISC
+\*------------------------------------*/
+hr {
+  margin: 0 0 1.5em 0; }
+
+.accessibility {
+  /* Hide content off-screen without hiding from screen-readers. N.B. This is not suited to RTL languages */
+  position: absolute;
+  left: -99999px; }
+
+.more-link:after {
+  /* Too many people use &raquo; in their markup to signify progression/movement, that ain’t cool. Let’s insert that using content:""; */
+  content: " \00BB"; }
+
+.more-link::after {
+  content: " \00BB"; }
+
+/*------------------------------------*\
+	CLASSES
+\*------------------------------------*/
+/*
+Some not-too-pretty and insemantic classes to do odd jobs.
+*/
+.left {
+  float: left; }
+
+.right {
+  float: right; }
+
+.clear {
+  clear: both;
+  float: none; }
+
+.text-left {
+  text-align: left; }
+
+.text-right {
+  text-align: right; }
+
+.text-center,
+.text-centre {
+  text-align: center; }
+
+.block {
+  display: block; }
+
+.inline-block {
+  display: inline-block; }
+
+.inline {
+  display: inline; }
+
+.hide {
+  display: none; }
+
+/* - From inuit.css
+Here we are using an attribute selector to detect the string ‘grid-’ in an element’s class.
+This works by assuming that anything we call grid-<n> we also want to be a grid item. It means less code and less for you to remember!
+
+Ensure any grid item’s FIRST class is a grid-<n> class. e.g.
+VALID: class="grid-4 text-centre"
+INVALID: class="left grid-4"
+*/
+/*should be set in parent */
+/*.grids {width: $width+0px;}*/
+[class^="grid-"] {
+  float: left;
+  margin: 0 20px 0 0; }
+
+.grids [class^="grid-"] {
+  margin: 0 0 0 20px; }
+
+.grids {
+  margin-left: 20px; }
+
+.grid-1 {
+  width: 40px; }
+
+.grids .pad-1 {
+  margin-left: 60px; }
+
+.grid-2 {
+  width: 100px; }
+
+.grids .pad-2 {
+  margin-left: 120px; }
+
+.grid-3 {
+  width: 160px; }
+
+.grids .pad-3 {
+  margin-left: 180px; }
+
+.grid-4 {
+  width: 220px; }
+
+.grids .pad-4 {
+  margin-left: 240px; }
+
+.grid-5 {
+  width: 280px; }
+
+.grids .pad-5 {
+  margin-left: 300px; }
+
+.grid-6 {
+  width: 340px; }
+
+.grids .pad-6 {
+  margin-left: 360px; }
+
+.grid-7 {
+  width: 400px; }
+
+.grids .pad-7 {
+  margin-left: 420px; }
+
+.grid-8 {
+  width: 460px; }
+
+.grids .pad-8 {
+  margin-left: 480px; }
+
+.grid-9 {
+  width: 520px; }
+
+.grids .pad-9 {
+  margin-left: 540px; }
+
+.grid-10 {
+  width: 580px; }
+
+.grids .pad-10 {
+  margin-left: 600px; }
+
+.grid-11 {
+  width: 640px; }
+
+.grids .pad-11 {
+  margin-left: 660px; }
+
+.grid-12 {
+  width: 700px; }
+
+.grids .pad-12 {
+  margin-left: 720px; }
+
+.grid-13 {
+  width: 760px; }
+
+.grids .pad-13 {
+  margin-left: 780px; }
+
+.grid-14 {
+  width: 820px; }
+
+.grids .pad-14 {
+  margin-left: 840px; }
+
+.grid-15 {
+  width: 880px; }
+
+.grids .pad-15 {
+  margin-left: 900px; }
+
+.grid-16 {
+  width: 940px; }
+
+.grids .pad-16 {
+  margin-left: 960px; }
+
+.grid-16 {
+  margin: 0; }
+
+body {
+  color: #333333; }
+
+a {
+  color: #31a2ff; }
+  a span {
+    font-weight: bold; }
+  a:hover {
+    text-decoration: underline;
+    color: #008bfd; }
+
+img {
+  background-color: white;
+  border: 1px solid #333333;
+  padding: 2px; }
+
+#content {
+  background-color: #111;
+  color: #ccc; }
+
+form .actions, form legend {
+  background-color: white;
+  color: #333333;
+  padding: 0.5em 1.5em; }
+
+form legend {
+  font-size: 1.5em; }
+
+.sections li {
+  font-size: 4em;
+  padding: 10px;
+  margin: 10px;
+  background-color: #333; }
+  .sections li div {
+    font-size: 0.25em; }
+  .sections li h4 {
+    background-color: #666;
+    margin: -10px -10px 10px -10px; }
+
+.input_radio_type li {
+  float: left;
+  padding-left: 3px; }
+
+.admin.gallery.add .radio_type li,
+.admin.gallery.edit .radio_type li {
+  float: left; }
+  .admin.gallery.add .radio_type li label:after,
+  .admin.gallery.edit .radio_type li label:after {
+    content: ''; }
+
+.admin.payment.plans #content .plan {
+  float: left;
+  padding: 10px;
+  background-color: white;
+  border: 1px solid #ccc;
+  color: #333333;
+  margin: 10px 5px; }
+  .admin.payment.plans #content .plan.active {
+    background-color: #008bfd; }
+  .admin.payment.plans #content .plan a {
+    float: right; }
+
+/* _form */
+form {
+  border: 1px solid white;
+  margin: 1em 0; }
+  form fieldset {
+    border-width: 0px;
+    margin-top: 0.5em;
+    padding: 0.5em 1.5em; }
+    form fieldset legend {
+      margin: 1em 0;
+      padding: 0 .5em;
+      background: transparent;
+      font-size: 1.3em;
+      font-weight: bold; }
+    form fieldset label {
+      display: block;
+      position: relative;
+      font-weight: bold; }
+      form fieldset label:after, form fieldset label::after {
+        content: ":"; }
+      form fieldset label span {
+        color: red;
+        position: absolute;
+        top: -3px;
+        left: -5px; }
+    form fieldset div input,
+    form fieldset div textarea,
+    form fieldset div select {
+      color: #333;
+      display: inline-block;
+      font-family: "HelveticaNeue-Light","Helvetica Neue",Helvetica,Arial,sans-serif;
+      font-size: 14px;
+      padding: 10px 5px;
+      width: 480px;
+      font-weight: bold;
+      border-width: 1px;
+      border-style: solid;
+      border-top-color: #555;
+      border-left-color: #555;
+      border-bottom-color: #ccc;
+      border-right-color: #ccc;
+      border-radius: 5px;
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) inset;
+      -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) inset;
+      -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) inset; }
+      form fieldset div input:focus,
+      form fieldset div textarea:focus,
+      form fieldset div select:focus {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) inset, 0 0 5px #3375b6;
+        -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) inset, 0 0 5px #3375b6;
+        -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) inset, 0 0 5px #3375b6;
+        border-color: #3375B6;
+        background-color: white;
+        color: black; }
+    form fieldset div select {
+      height: 40px;
+      padding: 8px;
+      width: 502px; }
+    form fieldset div.input {
+      margin-bottom: .5em;
+      padding: 0;
+      display: block;
+      position: relative; }
+      form fieldset div.input p {
+        font-weight: bold;
+        display: inline;
+        position: relative;
+        top: -10px;
+        left: 10px; }
+    form fieldset div.radio label {
+      display: inline;
+      width: auto; }
+    form fieldset div.radio li {
+      list-style: none; }
+      form fieldset div.radio li label {
+        font-weight: normal;
+        margin: 0 0.5em; }
+    form fieldset div.checkbox label {
+      display: inline;
+      width: auto;
+      margin-right: 0px; }
+      form fieldset div.checkbox label.helper {
+        margin: 0 0.5em;
+        font-weight: normal; }
+    form fieldset div.radio input, form fieldset div.checkbox input {
+      display: inline;
+      width: auto;
+      width: inherit; }
+    form fieldset .error,
+    form fieldset .error label,
+    form fieldset .error p,
+    form fieldset .error input {
+      color: #bb1b1b; }
+
+/*Buttons   */
+button,
+a.button {
+  text-decoration: none;
+  display: inline-block;
+  padding: 6px 8px;
+  background: url(/assets/images/ui/button_alpha.png) repeat-x center white;
+  border: 1px solid #D3D3D3;
+  border-bottom: 1px solid #9f9f9f;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  color: #333;
+  cursor: pointer;
+  margin: 10px 10px 10px 0;
+  font-size: 1em; }
+  button.default,
+  a.button.default {
+    font-weight: bold; }
+
+a.button {
+  padding: 7px 8px 4px; }
+
+button:hover,
+a.button:hover,
+button.hover,
+a.button.hover {
+  background-color: #e6e6e6;
+  color: black;
+  text-decoration: none; }
+
+button:active,
+a.button:active {
+  position: relative;
+  top: 2px; }
+
+a.button.default,
+button.default {
+  /*background-color:$color; */ }
+  a.button.default:hover,
+  button.default:hover {
+    border-color: #698fae;
+    border-bottom-color: #2c4152;
+    background-color: #7ec5ff;
+    background-color: rgba(126, 197, 255, 0.8); }
+
+a.button.warn,
+button.warn {
+  /*background-color:$color; */ }
+  a.button.warn:hover,
+  button.warn:hover {
+    border-color: #a56d6d;
+    border-bottom-color: #4b2e2e;
+    background-color: #ff7979;
+    background-color: rgba(255, 121, 121, 0.8); }

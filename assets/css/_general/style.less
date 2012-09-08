@@ -1,0 +1,62 @@
+section {
+  background-color: @white;
+  border: 1px solid #eee;
+  border: 1px solid rgba(0,0,0,.05);
+  .border-radius(4px);
+  .box-shadow(inset 0 1px 1px rgba(0,0,0,.05));
+}
+
+.private:after { 
+  content:""; 
+  width:100%; 
+  height:100%; 
+  display:block; 
+  background:url(/assets/images/padlock.jpg) #fff no-repeat center center; 
+  position:absolute; 
+  top:0; 
+  opacity:0.5; }
+
+.collection {
+   .grid,
+   .list {
+  
+    a {
+      background-color:#333;       
+      span { 
+        border:2px solid transparent; 
+        .border-radius(4px 4px 0 0);
+        #translucent > .background(#ffffff, 0.8); 
+      }
+      large {font-size:20px;}
+      small {display:none; font-size:12px; margin-top:10px;}   
+    
+      &:hover{
+        span {
+          .border-radius(4px);
+          
+        }
+      }
+    }
+  }
+}
+
+
+.polaroid {
+  a {
+    background-color: #eee;
+    padding:5px 5px 8px 5px;
+    
+    /* CSS3 Box Shadow */
+    .box-shadow(2px 2px 3px #333333);
+  }
+  
+  a span {
+    background-color:#333;
+	  border:1px solid #999;
+	}
+	  
+  p {
+	   color:#999;
+	   margin:3px 0 0 0;
+  }
+}

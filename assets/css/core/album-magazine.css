@@ -1,0 +1,120 @@
+.magazine .image {
+  text-align: center;
+  padding: 5px;
+  margin: 4px 0.5%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  vertical-align: middle;
+  position: relative;
+  float: left;
+  width: 99%;
+}
+.magazine img {
+  width: 100%;
+}
+.magazine div {
+  overflow: hidden;
+}
+.magazine .layout-lll .image-2, .magazine .layout-lll .image-3 {
+  width: 49%;
+}
+.magazine .layout-pll .image-1 {
+  width: 42%;
+}
+.magazine .layout-pll .image-2, .magazine .layout-pll .image-3 {
+  width: 51%;
+}
+.magazine .layout-ppl .image-1, .magazine .layout-ppl .image-2 {
+  width: 24%;
+}
+.magazine .layout-ppl .image-3 {
+  width: 49%;
+}
+.magazine .layout-ppp .image-1 {
+  width: 66%;
+}
+.magazine .layout-ppp .image-2, .magazine .layout-ppp .image-3 {
+  width: 32%;
+}
+.magazine .layout-lpp .image-1 {
+  width: 99%;
+}
+.magazine .layout-lpp .image-2, .magazine .layout-lpp .image-3 {
+  width: 49%;
+}
+.magazine .layout-llp .image-2 {
+  width: 66%;
+}
+.magazine .layout-llp .image-3 {
+  width: 32%;
+}
+.magazine .layout-lpl .image-2 {
+  width: 37%;
+}
+.magazine .layout-lpl .image-3 {
+  width: 61%;
+}
+.magazine .layout-plp .image-1 {
+  width: 24%;
+}
+.magazine .layout-plp .image-2 {
+  width: 49%;
+}
+.magazine .layout-plp .image-3 {
+  width: 24%;
+}
+.magazine .layout-ll .image-1,
+.magazine .layout-pp .image-1,
+.magazine .layout-ll .image-2,
+.magazine .layout-pp .image-2 {
+  width: 49%;
+}
+.magazine .layout-lp .image-1 {
+  width: 66%;
+}
+.magazine .layout-lp .image-2 {
+  width: 32%;
+}
+.magazine .layout-pl .image-1 {
+  width: 32%;
+}
+.magazine .layout-pl .image-2 {
+  width: 64%;
+}
+.magazine a {
+  position: relative;
+}
+.magazine a span {
+  position: absolute;
+  display: none;
+  top: 0;
+  width: 80%;
+  padding: 30px 10%;
+  text-decoration: none;
+}
+.magazine a span large {
+  font-size: 30px;
+  color: white;
+  display: block;
+  margin-bottom: 20px;
+}
+.magazine a span small {
+  display: block;
+  text-align: right;
+}
+.magazine a:hover span {
+  display: block;
+}
+/* Portrait */
+@media screen and (max-width: 320px) {
+  .image {
+    width: 100% !important;
+  }
+}
+/* Landscape */
+@media screen and (min-width: 321px) and (max-width: 480px) {
+  .image {
+    width: 100% !important;
+  }
+}
