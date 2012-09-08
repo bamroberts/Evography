@@ -1,5 +1,6 @@
 <form method="post" enctype="multipart/form-data" >
   <h3>Access to albums</h3>
+<?php if($album->parent) : ?>
 <input type="radio" name="current" value="inherit" id="current_inherit"  <?php echo $current=='inherit'?'checked':false; ?> /> 
 <?php $parent_pass = $album->parent->password; ?>
 <label for="current_inherit">Inherit from <?php echo ($parent_pass->id) ? "<strong>{$parent_pass->album->name}</strong>" : "default"; ?></label>
@@ -12,8 +13,9 @@
   <?php if($parent_pass->id) : ?>
      <a href="<?php echo Request::current()->url(array('id'=>$parent_pass->id)); ?>">edit default</a>
   <?php endif; ?> 
-</fieldset>
+  </fieldset>
 <hr />
+<?php endif; ?>
 <input type="radio" name="current" value="off" id="current_off" <?php echo $current=='off'?'checked':false; ?>/> <label for="current_off">Open access</label>
 <p>Anybody can access this album</p>
 <hr />
