@@ -182,7 +182,7 @@ section * {position:relative;}
 	/* Spinner */
 }
 
-.Slider {-webkit-backface-visibility: hidden;}
+.slider * {-webkit-backface-visibility: hidden;}
 </style>
 
 
@@ -249,7 +249,7 @@ background-size: cover;
 	  	$(document).ready(function() {
 	  		
 	  		hint();
-	 		setInterval(hint(),3000);
+	 		var timer = setInterval(function(){hint()},30000);
 	 		function hint(){
 		 		$('.hint')
 		 			.fadeIn(300)
@@ -265,11 +265,17 @@ background-size: cover;
  		
  		
  		//Open all site links using js
- 		$("body").live("click", "a", function(e) {
- 			console.log($(e.target).data('events'));
-	 		e.target.href.indexOf(location.hostname) && e.target.target != "_blank" && (window.location = e.target.href);
+ 		/*
+$("body a").live("click", function(e) {
+ 			e.preventDefault();
+ 			$target = $(e.currentTarget)
+ 			console.log($(e.target).data('events')); return;
+ 			if(e.target.data('events') && events.click) return;
+ 			console.log('js-link');
+	 		$target.attr('href').indexOf(location.hostname) && $target.attr('target') != "_blank" && (window.location = $target.attr('href'));
    		});
  		
+*/
  		$(window).resize(function() {
 	  		 $('.container.gallery section').each(function() {$(this).css('min-height',$(window).height())});
 	  	});
@@ -281,8 +287,8 @@ background-size: cover;
         //->css('theme/basic.css')
         //->css('style/basic.css')
        // ->js("libs/modernizr-1.7.min.js", null)
-        ->js("libs/jquery-css-transform.js",null)
-        ->js("libs/jquery-animate-css-rotate-scale.js")
+        //->js("libs/jquery-css-transform.js",null)
+        //->js("libs/jquery-animate-css-rotate-scale.js")
         
         ->js("mylibs/general.js")    
         ->js("mylibs/close.js")    
@@ -291,12 +297,16 @@ background-size: cover;
         ->js("mylibs/pagination.js")  
         ->js("mylibs/slideshow.js")    
         ->js("mylibs/polaroid.js")
+        ->js("libs/jquery.transit.js") 
 
         ->js("pageflip/js/swfobject.js")  
         ->js("pageflip/js/flippingbook.js")   
         ->js("slideshowify/js/jquery.slideshowify.js")   
         ->js("queryLoader/js/queryLoader.js") 
           
+         
+        
+        
         ->js("plugins.js") 
         ->js("script.js")->render();
     ?>
